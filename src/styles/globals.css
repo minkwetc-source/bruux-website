@@ -1,0 +1,163 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    background-color: #0a0a0a;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-bg-primary text-text-primary font-body antialiased;
+    font-feature-settings: "cv11", "ss01", "ss03";
+  }
+
+  /* Bebas Neue headings — uppercase + tight line-height par défaut */
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading uppercase tracking-wide;
+    line-height: 1;
+  }
+
+  /* Focus ring en or BRUUX */
+  :focus-visible {
+    outline: 2px solid #c4a35a;
+    outline-offset: 2px;
+  }
+
+  /* Sélection */
+  ::selection {
+    background: #c4a35a;
+    color: #0a0a0a;
+  }
+
+  /* Scrollbar personnalisée — fine et sombre */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0a0a0a;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #1e1e1e;
+    border-radius: 0;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #333333;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #1e1e1e #0a0a0a;
+  }
+}
+
+@layer components {
+  .container-bruux {
+    @apply mx-auto w-full max-w-container px-6 md:px-10 lg:px-20;
+  }
+
+  .label-gold {
+    @apply font-ui text-xs font-semibold uppercase text-accent tracking-label;
+  }
+
+  .label-muted {
+    @apply font-ui text-xs font-semibold uppercase text-text-secondary tracking-label;
+  }
+
+  /* Bouton primary — or, bords droits, tracking BRUUX */
+  .btn-primary {
+    @apply inline-flex items-center justify-center bg-accent px-8 py-3.5 font-body text-xs font-semibold uppercase tracking-button text-bg-primary transition-all duration-300 ease-out-cubic hover:bg-accent-hover hover:scale-[1.02];
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center border border-border-medium bg-transparent px-8 py-3.5 font-body text-xs font-semibold uppercase tracking-button text-text-primary transition-all duration-300 ease-out-cubic hover:border-white hover:scale-[1.02];
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center font-body text-xs font-semibold uppercase tracking-button text-text-secondary transition-colors duration-200 hover:text-accent;
+  }
+}
+
+@layer utilities {
+  /* Lenis smooth scroll — styles requis */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  .lenis.lenis-scrolling iframe {
+    pointer-events: none;
+  }
+
+  /* Glow or subtil en fond radial */
+  .bg-gold-glow {
+    background: radial-gradient(
+      circle at center,
+      rgba(196, 163, 90, 0.08) 0%,
+      transparent 70%
+    );
+  }
+
+  /* Traitement image BRUUX — légère désaturation */
+  .img-bruux {
+    filter: saturate(0.9);
+    transition: filter 400ms ease;
+  }
+
+  .img-bruux:hover {
+    filter: saturate(1) brightness(1.05);
+  }
+
+  /* Cache le scrollbar mais garde le scroll fonctionnel */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Cache le curseur natif quand le CursorFollower est actif */
+  body.cursor-none,
+  body.cursor-none * {
+    cursor: none !important;
+  }
+}
+
+/* Respect du prefers-reduced-motion : nuke les transitions/animations CSS
+   qui passeraient à travers les guards JS (hover scales, transitions, etc.) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
