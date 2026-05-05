@@ -21,7 +21,7 @@ export const FALLBACK_EVENTS: EventRow[] = [
     price: "5 000 FCFA",
     status: "upcoming",
     whatsapp_link:
-      "https://wa.me/241055008?text=Salut%20BRUUX%20%21%20Je%20souhaite%20r%C3%A9server%20pour%20Night%20Class%20%235",
+      "https://wa.me/24105500807?text=Salut%20BRUUX%20%21%20Je%20souhaite%20r%C3%A9server%20pour%20Night%20Class%20%235",
     created_at: "2026-04-01T00:00:00.000Z",
   },
   {
@@ -38,7 +38,7 @@ export const FALLBACK_EVENTS: EventRow[] = [
     price: "3 000 FCFA",
     status: "upcoming",
     whatsapp_link:
-      "https://wa.me/241055008?text=Salut%20BRUUX%20%21%20Je%20souhaite%20r%C3%A9server%20pour%20Pool%20Party%20Summer",
+      "https://wa.me/24105500807?text=Salut%20BRUUX%20%21%20Je%20souhaite%20r%C3%A9server%20pour%20Pool%20Party%20Summer",
     created_at: "2026-04-01T00:00:00.000Z",
   },
   {
@@ -54,7 +54,7 @@ export const FALLBACK_EVENTS: EventRow[] = [
     image_url: null,
     price: "5 000 FCFA",
     status: "completed",
-    whatsapp_link: "https://wa.me/241055008",
+    whatsapp_link: "https://wa.me/24105500807",
     created_at: "2026-02-15T00:00:00.000Z",
   },
   {
@@ -70,7 +70,7 @@ export const FALLBACK_EVENTS: EventRow[] = [
     image_url: null,
     price: "3 000 FCFA",
     status: "completed",
-    whatsapp_link: "https://wa.me/241055008",
+    whatsapp_link: "https://wa.me/24105500807",
     created_at: "2026-02-01T00:00:00.000Z",
   },
   {
@@ -87,7 +87,7 @@ export const FALLBACK_EVENTS: EventRow[] = [
     price: "8 000 FCFA",
     status: "upcoming",
     whatsapp_link:
-      "https://wa.me/241055008?text=Salut%20BRUUX%20%21%20Je%20souhaite%20r%C3%A9server%20pour%20Night%20Class%20Sp%C3%A9ciale",
+      "https://wa.me/24105500807?text=Salut%20BRUUX%20%21%20Je%20souhaite%20r%C3%A9server%20pour%20Night%20Class%20Sp%C3%A9ciale",
     created_at: "2026-04-01T00:00:00.000Z",
   },
 ];

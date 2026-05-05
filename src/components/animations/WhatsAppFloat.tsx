@@ -5,7 +5,7 @@ import { WhatsAppIcon } from "@/components/ui/icons";
 import { whatsappLink } from "@/lib/utils";
 
 // Numéro ticketing BRUUX (cf. docs/INFOS-BRUUX.md §3).
-const DEFAULT_PHONE = "241055008";
+const DEFAULT_PHONE = "24105500807";
 const DEFAULT_MESSAGE = "Bonjour BRUUX, j'aimerais en savoir plus.";
 
 type Props = {

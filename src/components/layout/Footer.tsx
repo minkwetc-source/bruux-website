@@ -19,7 +19,7 @@ const SOCIALS = [
     Icon: TikTokIcon,
   },
   {
-    href: whatsappLink("241055008"),
+    href: whatsappLink("24105500807"),
     label: "WhatsApp",
     Icon: WhatsAppIcon,
   },
