@@ -74,6 +74,7 @@ export type MemberRow = {
   section: MemberSection | null;
   photo_url: string | null;
   instagram: string | null;
+  tiktok: string | null;
   display_order: number;
   created_at: string;
 };
@@ -188,6 +189,7 @@ export type Database = {
           section?: MemberSection | null;
           photo_url?: string | null;
           instagram?: string | null;
+          tiktok?: string | null;
           display_order?: number;
           created_at?: string;
         };
@@ -198,6 +200,7 @@ export type Database = {
           section?: MemberSection | null;
           photo_url?: string | null;
           instagram?: string | null;
+          tiktok?: string | null;
           display_order?: number;
           created_at?: string;
         };

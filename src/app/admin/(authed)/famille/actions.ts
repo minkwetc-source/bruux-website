@@ -28,6 +28,7 @@ function parseMember(formData: FormData) {
   const role = emptyToNull(formData.get("role"));
   const photo_url = emptyToNull(formData.get("photo_url"));
   const instagram = emptyToNull(formData.get("instagram"));
+  const tiktok = emptyToNull(formData.get("tiktok"));
 
   const sectionRaw = String(formData.get("section") ?? "");
   const section = (SECTIONS as string[]).includes(sectionRaw)
@@ -44,7 +45,15 @@ function parseMember(formData: FormData) {
 
   return {
     error: null,
-    payload: { name, role, photo_url, instagram, section, display_order },
+    payload: {
+      name,
+      role,
+      photo_url,
+      instagram,
+      tiktok,
+      section,
+      display_order,
+    },
   };
 }
 

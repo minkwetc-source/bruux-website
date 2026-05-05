@@ -95,15 +95,27 @@ export function MemberForm({ member, onSuccess }: Props) {
         </div>
       </div>
 
-      <div>
-        <FieldLabel htmlFor="instagram">Instagram</FieldLabel>
-        <AdminInput
-          id="instagram"
-          name="instagram"
-          type="text"
-          defaultValue={member?.instagram ?? ""}
-          placeholder="@adn_simon"
-        />
+      <div className="grid gap-5 md:grid-cols-2">
+        <div>
+          <FieldLabel htmlFor="instagram">Instagram</FieldLabel>
+          <AdminInput
+            id="instagram"
+            name="instagram"
+            type="text"
+            defaultValue={member?.instagram ?? ""}
+            placeholder="@adn_simon"
+          />
+        </div>
+        <div>
+          <FieldLabel htmlFor="tiktok">TikTok</FieldLabel>
+          <AdminInput
+            id="tiktok"
+            name="tiktok"
+            type="text"
+            defaultValue={member?.tiktok ?? ""}
+            placeholder="@adn_simon"
+          />
+        </div>
       </div>
 
       <div>

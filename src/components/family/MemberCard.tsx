@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Instagram } from "lucide-react";
 import type { MemberRow } from "@/lib/supabase/types";
+import { TikTokIcon } from "@/components/ui/icons";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -16,6 +17,10 @@ const PLACEHOLDER_GRADIENTS = [
   "from-[#221a1a] to-[#0a0a0a]",
   "from-[#1a1a22] to-[#0a0a0a]",
 ];
+
+function stripAt(handle: string): string {
+  return handle.replace(/^@/, "");
+}
 
 export function MemberCard({ member, index }: Props) {
   const isPlaceholder = !member.photo_url;
@@ -87,16 +92,32 @@ export function MemberCard({ member, index }: Props) {
           {member.role}
         </p>
       )}
-      {member.instagram && (
-        <a
-          href={`https://instagram.com/${member.instagram.replace(/^@/, "")}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-3 inline-flex items-center gap-1.5 font-body text-xs text-text-secondary transition-colors hover:text-accent"
-        >
-          <Instagram size={13} />
-          {member.instagram}
-        </a>
+
+      {(member.instagram || member.tiktok) && (
+        <div className="mt-3 flex items-center justify-center gap-4">
+          {member.instagram && (
+            <a
+              href={`https://instagram.com/${stripAt(member.instagram)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Instagram de ${member.name}`}
+              className="text-text-secondary transition-colors hover:text-accent"
+            >
+              <Instagram size={16} />
+            </a>
+          )}
+          {member.tiktok && (
+            <a
+              href={`https://tiktok.com/@${stripAt(member.tiktok)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`TikTok de ${member.name}`}
+              className="text-text-secondary transition-colors hover:text-accent"
+            >
+              <TikTokIcon className="h-4 w-4" />
+            </a>
+          )}
+        </div>
       )}
     </motion.article>
   );
