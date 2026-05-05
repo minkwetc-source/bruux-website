@@ -40,7 +40,7 @@ BRUUX vise à :
 | Instagram (influence) | @brux.house_ | <https://instagram.com/brux.house>_ | Compte influence house |
 | TikTok | @brux.evnt | <https://tiktok.com/@brux.evnt> | 1166 followers, 23.1K J'aime |
 | WhatsApp (1) | 074.97.81.69 | <https://wa.me/24174978169> | Numéro principal |
-| WhatsApp (2) | 065.46.72.24 | <https://wa.me/24165467224> | Numéro secondaire |
+| WhatsApp (2) | 055.00.08 | <https://wa.me/241055008> | Numéro ticketing |
 
 **Comptes liés :**
 
@@ -131,7 +131,7 @@ BRUUX fonctionne avec une Direction Générale centrale, appuyée par des divisi
 - Transport par bus organisé (ramassage à différents points de Libreville)
 - Points de ramassage connus : Charbonnages, Alibandeng à la pompe, Okala Auberge, Cité des Ailes, Gigi, Avorbam
 - Dispositif de sécurité renforcé (agents de sécurité, entrée strictement réservée aux personnes autorisées)
-- Tickets : via WhatsApp (065.46.72.24), transfert AM ou MOOV Money
+- Tickets : via WhatsApp (055.00.08), transfert AM ou MOOV Money
 - DJ résident/invité : DJ Wayne [À CONFIRMER si récurrent]
 
 **Partenariats événements :**

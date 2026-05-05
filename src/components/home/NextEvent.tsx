@@ -17,7 +17,7 @@ const NEXT_EVENT = {
   description:
     "La 5e édition de la Night Class BRUUX. DJ résident, scénographie immersive, transport organisé depuis les principaux quartiers.",
   ticketWhatsapp:
-    "https://wa.me/24165467224?text=Salut%20BRUUX%2C%20je%20souhaite%20r%C3%A9server%20pour%20Night%20Class%20%235",
+    "https://wa.me/241055008?text=Salut%20BRUUX%2C%20je%20souhaite%20r%C3%A9server%20pour%20Night%20Class%20%235",
 };
 
 type TimeLeft = { d: number; h: number; m: number; s: number };
