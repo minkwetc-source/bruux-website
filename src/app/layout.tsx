@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Bebas_Neue, Inter, DM_Sans } from "next/font/google";
 import "@/styles/globals.css";
 import { PublicChrome } from "@/components/layout/PublicChrome";
+import { Analytics } from "@vercel/analytics/next";
 
 // NOTE(fonts): temporarily using next/font/google (which self-hosts fonts at build
 // time — no external <link> tag). Swap to next/font/local once .woff2 files land
@@ -105,6 +106,7 @@ export default function RootLayout({
     >
       <body className="bg-bg-primary text-text-primary font-body antialiased">
         <PublicChrome>{children}</PublicChrome>
+        <Analytics />
       </body>
     </html>
   );
