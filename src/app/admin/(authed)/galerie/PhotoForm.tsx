@@ -1,13 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFormState } from "react-dom";
-import {
-  AdminInput,
-  AdminSelect,
-  FieldLabel,
-  SubmitButton,
-} from "../ui";
+import { AdminInput, AdminSelect, FieldLabel, SubmitButton } from "../ui";
+import { ImageUploader } from "@/components/admin/ImageUploader";
 import { createPhoto, type PhotoActionState } from "./actions";
 
 const initialState: PhotoActionState = { ok: false, error: null };
@@ -15,10 +11,13 @@ const initialState: PhotoActionState = { ok: false, error: null };
 export function PhotoForm({ onSuccess }: { onSuccess: () => void }) {
   const formRef = useRef<HTMLFormElement>(null);
   const [state, action] = useFormState(createPhoto, initialState);
+  // Bump to remount the uploader (clear thumbnails) after a successful submit.
+  const [uploaderKey, setUploaderKey] = useState(0);
 
   useEffect(() => {
     if (state.ok) {
       formRef.current?.reset();
+      setUploaderKey((k) => k + 1);
       onSuccess();
     }
   }, [state.ok, onSuccess]);
@@ -26,19 +25,18 @@ export function PhotoForm({ onSuccess }: { onSuccess: () => void }) {
   return (
     <form ref={formRef} action={action} className="space-y-5">
       <div>
-        <FieldLabel htmlFor="image_url" required>
-          URL de l&apos;image
-        </FieldLabel>
-        <AdminInput
-          id="image_url"
-          name="image_url"
-          type="url"
-          required
-          placeholder="https://res.cloudinary.com/… ou « placeholder »"
+        <FieldLabel htmlFor="image_urls">Photos</FieldLabel>
+        <ImageUploader
+          key={uploaderKey}
+          folder="bruux/galerie"
+          name="image_urls"
+          multiple
+          maxFiles={20}
+          onUpload={() => {}}
         />
         <p className="mt-1.5 font-body text-xs text-text-tertiary">
-          Astuce : entre <code className="bg-bg-elevated px-1 text-accent">placeholder</code> pour
-          afficher un dégradé BRUUX en attendant la vraie image.
+          Jusqu&apos;à 20 photos d&apos;un coup. Les métadonnées ci-dessous
+          s&apos;appliquent à tout le lot.
         </p>
       </div>
 
@@ -90,7 +88,7 @@ export function PhotoForm({ onSuccess }: { onSuccess: () => void }) {
       )}
 
       <div className="flex justify-end gap-3 border-t border-border-subtle pt-5">
-        <SubmitButton>Ajouter la photo</SubmitButton>
+        <SubmitButton>Ajouter les photos</SubmitButton>
       </div>
     </form>
   );

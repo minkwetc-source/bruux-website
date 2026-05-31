@@ -22,13 +22,46 @@ function emptyToNull(v: FormDataEntryValue | null): string | null {
   return s.length === 0 ? null : s;
 }
 
+/**
+ * Lit les URLs uploadées : champ « image_urls » (JSON array, upload multiple)
+ * avec repli sur « image_url » (URL unique). Dédupliqué, vides retirés.
+ */
+function parseImageUrls(
+  multi: FormDataEntryValue | null,
+  single: FormDataEntryValue | null,
+): string[] {
+  const urls: string[] = [];
+
+  const raw = String(multi ?? "").trim();
+  if (raw) {
+    try {
+      const parsed: unknown = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        for (const u of parsed) {
+          if (typeof u === "string" && u.trim()) urls.push(u.trim());
+        }
+      }
+    } catch {
+      /* champ malformé — ignoré */
+    }
+  }
+
+  const one = String(single ?? "").trim();
+  if (one) urls.push(one);
+
+  return Array.from(new Set(urls));
+}
+
 export async function createPhoto(
   _prev: PhotoActionState,
   formData: FormData,
 ): Promise<PhotoActionState> {
   await requireAdmin();
 
-  const image_url = String(formData.get("image_url") ?? "").trim();
+  const image_urls = parseImageUrls(
+    formData.get("image_urls"),
+    formData.get("image_url"),
+  );
   const title = emptyToNull(formData.get("title"));
   const session_name = emptyToNull(formData.get("session_name"));
   const session_date = emptyToNull(formData.get("session_date"));
@@ -38,18 +71,21 @@ export async function createPhoto(
     ? (catRaw as PhotoCategory)
     : null;
 
-  if (!image_url) {
-    return { ok: false, error: "L'URL de l'image est requise." };
+  if (image_urls.length === 0) {
+    return { ok: false, error: "Ajoute au moins une image." };
   }
 
-  const supabase = createServerClient();
-  const { error } = await supabase.from("photos").insert({
+  // Métadonnées partagées par toutes les photos du lot.
+  const rows = image_urls.map((image_url) => ({
     image_url,
     title,
     category,
     session_name,
     session_date,
-  });
+  }));
+
+  const supabase = createServerClient();
+  const { error } = await supabase.from("photos").insert(rows);
 
   if (error) return { ok: false, error: error.message };
 

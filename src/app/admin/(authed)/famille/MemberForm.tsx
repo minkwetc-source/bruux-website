@@ -8,6 +8,7 @@ import {
   FieldLabel,
   SubmitButton,
 } from "../ui";
+import { ImageUploader } from "@/components/admin/ImageUploader";
 import {
   createMember,
   updateMember,
@@ -119,13 +120,13 @@ export function MemberForm({ member, onSuccess }: Props) {
       </div>
 
       <div>
-        <FieldLabel htmlFor="photo_url">Photo de profil (URL)</FieldLabel>
-        <AdminInput
-          id="photo_url"
+        <FieldLabel htmlFor="photo_url">Photo de profil</FieldLabel>
+        <ImageUploader
+          folder="bruux/famille"
           name="photo_url"
-          type="url"
-          defaultValue={member?.photo_url ?? ""}
-          placeholder="https://res.cloudinary.com/…"
+          shape="circle"
+          initialUrls={member?.photo_url ? [member.photo_url] : []}
+          onUpload={() => {}}
         />
       </div>
 

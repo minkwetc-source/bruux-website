@@ -16,12 +16,30 @@ const CATEGORY_LABELS: Record<PhotoCategory, string> = {
   portraits: "Portraits",
 };
 
+const CATEGORY_ORDER: PhotoCategory[] = [
+  "sessions",
+  "evenements",
+  "brux-house",
+  "portraits",
+];
+
+type Filter = PhotoCategory | "all";
+
 type Props = {
   photos: PhotoRow[];
 };
 
 export function GalleryManager({ photos }: Props) {
   const [open, setOpen] = useState(false);
+  const [filter, setFilter] = useState<Filter>("all");
+
+  const filtered =
+    filter === "all" ? photos : photos.filter((p) => p.category === filter);
+
+  const tabs: { key: Filter; label: string }[] = [
+    { key: "all", label: "Tous" },
+    ...CATEGORY_ORDER.map((c) => ({ key: c, label: CATEGORY_LABELS[c] })),
+  ];
 
   const handleDelete = (
     e: React.FormEvent<HTMLFormElement>,
@@ -34,7 +52,8 @@ export function GalleryManager({ photos }: Props) {
     <>
       <div className="mb-6 flex items-center justify-between">
         <p className="font-ui text-[11px] font-semibold uppercase tracking-label text-text-secondary">
-          {photos.length} photo{photos.length > 1 ? "s" : ""}
+          {filtered.length} photo{filtered.length > 1 ? "s" : ""}
+          {filter !== "all" && ` · ${CATEGORY_LABELS[filter]}`}
         </p>
         <AdminButton onClick={() => setOpen(true)}>
           <Plus size={14} />
@@ -42,18 +61,47 @@ export function GalleryManager({ photos }: Props) {
         </AdminButton>
       </div>
 
-      {photos.length === 0 ? (
+      <div className="mb-6 flex flex-wrap gap-2">
+        {tabs.map((tab) => {
+          const active = filter === tab.key;
+          const count =
+            tab.key === "all"
+              ? photos.length
+              : photos.filter((p) => p.category === tab.key).length;
+          return (
+            <button
+              key={tab.key}
+              type="button"
+              onClick={() => setFilter(tab.key)}
+              className={`inline-flex items-center gap-1.5 border px-3 py-1.5 font-ui text-[10px] font-semibold uppercase tracking-label transition-colors ${
+                active
+                  ? "border-accent-border bg-accent-subtle text-accent"
+                  : "border-border-subtle bg-bg-surface text-text-secondary hover:border-border-medium hover:text-text-primary"
+              }`}
+            >
+              {tab.label}
+              <span className="font-body text-[10px] text-text-tertiary">
+                {count}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      {filtered.length === 0 ? (
         <div className="border border-border-subtle bg-bg-surface px-8 py-16 text-center">
           <p className="font-heading text-xl uppercase tracking-wide text-text-primary">
-            Aucune photo.
+            {filter === "all" ? "Aucune photo." : "Aucune photo ici."}
           </p>
           <p className="mt-2 font-body text-sm text-text-secondary">
-            Ajoute la première — elle apparaîtra immédiatement sur /galerie.
+            {filter === "all"
+              ? "Ajoute la première — elle apparaîtra immédiatement sur /galerie."
+              : "Aucune photo dans cette catégorie pour le moment."}
           </p>
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-          {photos.map((p) => (
+          {filtered.map((p) => (
             <PhotoCell key={p.id} photo={p} onDelete={handleDelete} />
           ))}
         </div>

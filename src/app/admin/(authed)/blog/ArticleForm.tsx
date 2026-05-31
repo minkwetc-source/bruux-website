@@ -10,6 +10,7 @@ import {
   SubmitButton,
 } from "../ui";
 import { MarkdownEditor } from "./MarkdownEditor";
+import { ImageUploader } from "@/components/admin/ImageUploader";
 import {
   createArticle,
   updateArticle,
@@ -114,13 +115,12 @@ export function ArticleForm({ article, onSuccess }: Props) {
       </div>
 
       <div>
-        <FieldLabel htmlFor="cover_image">Image de couverture (URL)</FieldLabel>
-        <AdminInput
-          id="cover_image"
+        <FieldLabel htmlFor="cover_image">Image de couverture</FieldLabel>
+        <ImageUploader
+          folder="bruux/blog"
           name="cover_image"
-          type="url"
-          defaultValue={article?.cover_image ?? ""}
-          placeholder="https://res.cloudinary.com/…"
+          initialUrls={article?.cover_image ? [article.cover_image] : []}
+          onUpload={() => {}}
         />
       </div>
 

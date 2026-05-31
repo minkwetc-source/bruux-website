@@ -9,6 +9,7 @@ import {
   FieldLabel,
   SubmitButton,
 } from "../ui";
+import { ImageUploader } from "@/components/admin/ImageUploader";
 import {
   createEvent,
   updateEvent,
@@ -155,13 +156,12 @@ export function EventForm({ event, onSuccess }: Props) {
       </div>
 
       <div>
-        <FieldLabel htmlFor="image_url">Image (URL Cloudinary)</FieldLabel>
-        <AdminInput
-          id="image_url"
+        <FieldLabel htmlFor="image_url">Affiche / visuel</FieldLabel>
+        <ImageUploader
+          folder="bruux/events"
           name="image_url"
-          type="url"
-          defaultValue={event?.image_url ?? ""}
-          placeholder="https://res.cloudinary.com/…"
+          initialUrls={event?.image_url ? [event.image_url] : []}
+          onUpload={() => {}}
         />
       </div>
 
