@@ -301,6 +301,58 @@
     .modal-gallery { grid-template-columns: 1fr; }
     .brands-grid { grid-template-columns: 1fr; }
   }
+
+  /* ── HERO · Direction C : typo cinétique ── */
+  .hero-ticker {
+    position: absolute; top: 3.5rem; left: 0; right: 0; z-index: 2;
+    overflow: hidden; white-space: nowrap;
+    padding: 0.55rem 0;
+    border-top: 1px solid rgba(201,168,76,0.12);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    background: rgba(15,13,12,0.55);
+  }
+  .hero-ticker-track { display: inline-block; animation: ticker-scroll 36s linear infinite; }
+  .hero-ticker-track span { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.28em; color: rgba(250,247,242,0.5); padding: 0 1.3rem; text-transform: uppercase; }
+  .hero-ticker-track span.t-gold { color: var(--gold); }
+
+  .hero-pretitle { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.32em; color: var(--gold); text-transform: uppercase; margin-bottom: 1.6rem; }
+  .hero-word {
+    font-family: 'Playfair Display', serif; font-weight: 400;
+    font-size: clamp(3rem, 11vw, 8rem); line-height: 1.05; letter-spacing: -0.02em;
+    min-height: 1.1em; display: flex; align-items: center; justify-content: center; text-align: center;
+  }
+  .hero-word .kw { display: inline-block; }
+  .kw-animate { animation: kw-in 0.5s ease; }
+  @keyframes kw-in {
+    from { opacity: 0; transform: translateY(14px) skewX(-4deg); }
+    to   { opacity: 1; transform: translateY(0) skewX(0); }
+  }
+  .hero-subline { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.28em; color: rgba(250,247,242,0.4); text-transform: uppercase; margin: 1.4rem 0 2.4rem; }
+
+  /* ── CATALOGUE · Direction C : runway horizontal ── */
+  .runway-head { display: flex; align-items: center; justify-content: space-between; margin-top: 2.5rem; margin-bottom: 1rem; }
+  .runway-hint { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; color: rgba(250,247,242,0.4); text-transform: uppercase; }
+  .runway-counter { font-family: 'DM Mono', monospace; font-size: 0.85rem; letter-spacing: 0.12em; color: var(--gold); }
+  .runway-track { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 0.5rem; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .runway-track::-webkit-scrollbar { display: none; }
+  .runway-card { flex: 0 0 clamp(220px, 26vw, 300px); scroll-snap-align: center; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 0.8rem; }
+  .runway-visual { height: clamp(300px, 40vw, 420px); background-size: cover; background-position: center; position: relative; overflow: hidden; transition: transform .5s ease; }
+  .runway-visual::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,8,7,0.6) 0%, transparent 55%); }
+  .runway-card:hover .runway-visual { transform: scale(1.06); }
+  .runway-card:focus-visible { outline: 1px solid var(--gold); outline-offset: 3px; }
+  .runway-meta { display: flex; flex-direction: column; gap: 0.3rem; }
+  .runway-row { display: flex; align-items: baseline; justify-content: space-between; gap: 0.8rem; }
+  .runway-name { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 400; }
+  .runway-num { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: rgba(201,168,76,0.5); }
+  .runway-cat { font-family: 'DM Mono', monospace; font-size: 0.66rem; letter-spacing: 0.12em; color: var(--gold); text-transform: uppercase; }
+  .runway-progress { height: 2px; background: rgba(201,168,76,0.12); margin-top: 0.4rem; }
+  .runway-progress-fill { height: 100%; width: 11%; background: var(--gold); transition: width .12s linear; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-ticker-track { animation: none; }
+    .kw-animate { animation: none; }
+    .runway-card:hover .runway-visual { transform: none; }
+  }
 </style>
 </head>
 <body>
@@ -317,35 +369,23 @@
   <a href="#inscription" class="nav-cta">Prendre ma place</a>
 </nav>
 
-<!-- HERO -->
+<!-- HERO — Direction C : typo cinétique -->
 <section class="hero">
-  <p class="hero-date">4 Juillet 2026 · Nzeng Ayong · Libreville, Gabon</p>
-  <h1 class="hero-title">Défilé de<br><em>Marques</em></h1>
-  <p class="hero-subtitle">9 marques gabonaises · 1 soir · 100% made in Gabon</p>
-  <p class="hero-location">Mode · Danse · Live — <strong>Nzeng Ayong</strong></p>
+  <div class="hero-ticker" aria-hidden="true">
+    <div class="hero-ticker-track">
+      <span>MODE</span><span>·</span><span>DANSE</span><span>·</span><span>LIVE</span><span>·</span><span class="t-gold">NZENG AYONG</span><span>·</span><span>9 MARQUES</span><span>·</span><span>4 JUILLET 2026</span><span>·</span><span>100% MADE IN GABON</span><span>·</span>
+      <span>MODE</span><span>·</span><span>DANSE</span><span>·</span><span>LIVE</span><span>·</span><span class="t-gold">NZENG AYONG</span><span>·</span><span>9 MARQUES</span><span>·</span><span>4 JUILLET 2026</span><span>·</span><span>100% MADE IN GABON</span><span>·</span>
+    </div>
+  </div>
+
+  <p class="hero-pretitle">Défilé de marques — 4 juillet</p>
+  <h1 class="hero-word"><span class="kw" id="hero-word">Défilé de Marques</span></h1>
+  <p class="hero-subline">9 marques gabonaises · 1 soir · Nzeng Ayong</p>
   <div class="hero-actions">
     <a href="#tickets" class="btn-primary">Choisir mon ticket</a>
-    <a href="#programme" class="btn-ghost">Voir le programme</a>
+    <a href="#programme" class="btn-ghost">Le programme</a>
   </div>
 </section>
-
-<!-- TICKER -->
-<div class="ticker-wrap">
-  <div class="ticker">
-    <span>BRUUX DÉFILÉ</span><span>·</span><span>4 JUILLET</span><span>·</span>
-    <span>NZENG AYONG</span><span>·</span><span>INCOMPRIS 241</span><span>·</span>
-    <span>FALLAMAN.CO</span><span>·</span><span>OYIN STUDIO</span><span>·</span>
-    <span>ATELIER HELL BVA</span><span>·</span><span>AMRICHE RUKS</span><span>·</span>
-    <span>SHAMS</span><span>·</span><span>PARVA MUNDI</span><span>·</span>
-    <span>HABILLE TOI</span><span>·</span><span>NDOSSLOVE CRÉATION</span><span>·</span>
-    <span>BRUUX DÉFILÉ</span><span>·</span><span>4 JUILLET</span><span>·</span>
-    <span>NZENG AYONG</span><span>·</span><span>INCOMPRIS 241</span><span>·</span>
-    <span>FALLAMAN.CO</span><span>·</span><span>OYIN STUDIO</span><span>·</span>
-    <span>ATELIER HELL BVA</span><span>·</span><span>AMRICHE RUKS</span><span>·</span>
-    <span>SHAMS</span><span>·</span><span>PARVA MUNDI</span><span>·</span>
-    <span>HABILLE TOI</span><span>·</span><span>NDOSSLOVE CRÉATION</span><span>·</span>
-  </div>
-</div>
 
 <!-- TICKETS -->
 <section id="tickets">
@@ -611,95 +651,91 @@
   <div class="section-inner">
     <p class="section-label">Les créateurs</p>
     <h2 class="section-title">9 marques<br>gabonaises</h2>
-    <p style="color:rgba(250,247,242,0.45); font-size:.9rem; max-width:56ch; margin-bottom:0;">Neuf créateurs. Une scène. Chaque marque présente sa vision, son style, son identité — 100% made in Gabon. Cliquez sur une marque pour voir leur catalogue.</p>
-    <div class="brands-grid" style="margin-top:2.5rem">
+    <p style="color:rgba(250,247,242,0.45); font-size:.9rem; max-width:56ch; margin-bottom:0;">Neuf créateurs. Une scène. Chaque marque présente sa vision, son style, son identité — 100% made in Gabon. Fais défiler et clique sur une marque pour découvrir sa fiche.</p>
+    <div class="runway-head">
+      <span class="runway-hint">Fais défiler →</span>
+      <span class="runway-counter"><span id="runway-current">01</span> / 09</span>
+    </div>
 
-      <div class="brand-card" onclick="openBrand('incompris241')">
-        <div class="brand-color-bar" style="background:#7c3aed"></div>
-        <span class="brand-order">01</span>
-        <div class="brand-name">Incompris 241</div>
-        <div class="brand-tag">Streetwear · TikTok</div>
-      </div>
+    <div class="runway-track" id="runway-track">
 
-      <div class="brand-card" onclick="openBrand('fallaman')">
-        <div class="brand-color-bar" style="background:#d97706"></div>
-        <span class="brand-order">02</span>
-        <div class="brand-name">Fallaman.co</div>
-        <div class="brand-tag">Prêt-à-Porter · Instagram</div>
-      </div>
+      <a class="runway-card" href="/defile/incompris-241" aria-label="Incompris 241 — voir la fiche">
+        <div class="runway-visual" style="background-image:linear-gradient(140deg,#1a0533,#3b1060)"></div>
+        <div class="runway-meta">
+          <div class="runway-row"><span class="runway-name">Incompris 241</span><span class="runway-num">01</span></div>
+          <div class="runway-cat">Streetwear · TikTok</div>
+        </div>
+      </a>
 
-      <div class="brand-card" onclick="openBrand('oyinstudio')">
-        <div class="brand-color-bar" style="background:#059669"></div>
-        <span class="brand-order">03</span>
-        <div class="brand-name">Oyin Studio</div>
-        <div class="brand-tag">Artisanal · Instagram</div>
-      </div>
+      <a class="runway-card" href="/defile/fallaman-co" aria-label="Fallaman.co — voir la fiche">
+        <div class="runway-visual" style="background-image:linear-gradient(140deg,#431407,#78350f)"></div>
+        <div class="runway-meta">
+          <div class="runway-row"><span class="runway-name">Fallaman.co</span><span class="runway-num">02</span></div>
+          <div class="runway-cat">Prêt-à-Porter · Instagram</div>
+        </div>
+      </a>
 
-      <div class="brand-card" onclick="openBrand('atelierhell')">
-        <div class="brand-color-bar" style="background:#dc2626"></div>
-        <span class="brand-order">04</span>
-        <div class="brand-name">Atelier Hell BVA</div>
-        <div class="brand-tag">Haute Couture · Instagram</div>
-      </div>
+      <a class="runway-card" href="/defile/oyin-studio" aria-label="Oyin Studio — voir la fiche">
+        <div class="runway-visual" style="background-image:linear-gradient(140deg,#1c2820,#2d4a3e)"></div>
+        <div class="runway-meta">
+          <div class="runway-row"><span class="runway-name">Oyin Studio</span><span class="runway-num">03</span></div>
+          <div class="runway-cat">Artisanal · Instagram</div>
+        </div>
+      </a>
 
-      <div class="brand-card" onclick="openBrand('amricheruks')">
-        <div class="brand-color-bar" style="background:#2563eb"></div>
-        <span class="brand-order">05</span>
-        <div class="brand-name">Amriche Ruks</div>
-        <div class="brand-tag">Mode Urbaine · TikTok</div>
-      </div>
+      <a class="runway-card" href="/defile/atelier-hell-bva" aria-label="Atelier Hell BVA — voir la fiche">
+        <div class="runway-visual" style="background-image:linear-gradient(140deg,#300a0a,#5c1a1a)"></div>
+        <div class="runway-meta">
+          <div class="runway-row"><span class="runway-name">Atelier Hell BVA</span><span class="runway-num">04</span></div>
+          <div class="runway-cat">Haute Couture · Instagram</div>
+        </div>
+      </a>
 
-      <div class="brand-card" onclick="openBrand('shams')">
-        <div class="brand-color-bar" style="background:#f59e0b"></div>
-        <span class="brand-order">06</span>
-        <div class="brand-name">Shams</div>
-        <div class="brand-tag">Mode Féminine · Instagram</div>
-      </div>
+      <a class="runway-card" href="/defile/amriche-ruks" aria-label="Amriche Ruks — voir la fiche">
+        <div class="runway-visual" style="background-image:linear-gradient(140deg,#0c1445,#1e3a8a)"></div>
+        <div class="runway-meta">
+          <div class="runway-row"><span class="runway-name">Amriche Ruks</span><span class="runway-num">05</span></div>
+          <div class="runway-cat">Mode Urbaine · TikTok</div>
+        </div>
+      </a>
 
-      <div class="brand-card" onclick="openBrand('parvamundi')">
-        <div class="brand-color-bar" style="background:#16a34a"></div>
-        <span class="brand-order">07</span>
-        <div class="brand-name">Parva Mundi</div>
-        <div class="brand-tag">Slow Fashion · Instagram</div>
-      </div>
+      <a class="runway-card" href="/defile/shams" aria-label="Shams — voir la fiche">
+        <div class="runway-visual" style="background-image:linear-gradient(140deg,#3d2000,#78350f)"></div>
+        <div class="runway-meta">
+          <div class="runway-row"><span class="runway-name">Shams</span><span class="runway-num">06</span></div>
+          <div class="runway-cat">Mode Féminine · Instagram</div>
+        </div>
+      </a>
 
-      <div class="brand-card" onclick="openBrand('habilletoi')">
-        <div class="brand-color-bar" style="background:#db2777"></div>
-        <span class="brand-order">08</span>
-        <div class="brand-name">Habille Toi</div>
-        <div class="brand-tag">Prêt-à-Porter · Instagram</div>
-      </div>
+      <a class="runway-card" href="/defile/parva-mundi" aria-label="Parva Mundi — voir la fiche">
+        <div class="runway-visual" style="background-image:linear-gradient(140deg,#14260d,#1a4314)"></div>
+        <div class="runway-meta">
+          <div class="runway-row"><span class="runway-name">Parva Mundi</span><span class="runway-num">07</span></div>
+          <div class="runway-cat">Slow Fashion · Instagram</div>
+        </div>
+      </a>
 
-      <div class="brand-card" onclick="openBrand('ndosslove')">
-        <div class="brand-color-bar" style="background:#9333ea"></div>
-        <span class="brand-order">09</span>
-        <div class="brand-name">Ndosslove Création</div>
-        <div class="brand-tag">Création Gabonaise · Instagram</div>
-      </div>
+      <a class="runway-card" href="/defile/habille-toi" aria-label="Habille Toi — voir la fiche">
+        <div class="runway-visual" style="background-image:linear-gradient(140deg,#2a1530,#4a1d5c)"></div>
+        <div class="runway-meta">
+          <div class="runway-row"><span class="runway-name">Habille Toi</span><span class="runway-num">08</span></div>
+          <div class="runway-cat">Prêt-à-Porter · Instagram</div>
+        </div>
+      </a>
+
+      <a class="runway-card" href="/defile/ndosslove-creation" aria-label="Ndosslove Création — voir la fiche">
+        <div class="runway-visual" style="background-image:linear-gradient(140deg,#2d1b45,#4c1d95)"></div>
+        <div class="runway-meta">
+          <div class="runway-row"><span class="runway-name">Ndosslove Création</span><span class="runway-num">09</span></div>
+          <div class="runway-cat">Création Gabonaise · Instagram</div>
+        </div>
+      </a>
 
     </div>
+
+    <div class="runway-progress"><div class="runway-progress-fill" id="runway-fill"></div></div>
   </div>
 </section>
-
-<!-- BRAND CATALOGUE MODAL -->
-<div class="brand-modal-overlay" id="brand-modal" onclick="handleModalClick(event)">
-  <div class="brand-modal-inner" id="modal-inner">
-    <div class="modal-header">
-      <div class="modal-header-left">
-        <div class="modal-brand-tag" id="modal-tag"></div>
-        <div class="modal-brand-name" id="modal-name"></div>
-      </div>
-      <button class="modal-close" onclick="closeBrandModal()">✕ Fermer</button>
-    </div>
-    <div class="modal-gallery" id="modal-gallery"></div>
-    <div class="modal-footer">
-      <a class="modal-social-link" id="modal-link" href="#" target="_blank" rel="noopener">
-        <span id="modal-platform-icon"></span> Voir le profil <span id="modal-platform"></span>
-      </a>
-      <div class="modal-platform" id="modal-handle"></div>
-    </div>
-  </div>
-</div>
 
 <!-- PROGRAMME -->
 <section id="programme">
@@ -1047,153 +1083,50 @@ function confirmPaid() {
 }
 
 // ──────────────────────────────────────────────
-//  BRAND CATALOGUE
+//  HERO · mot cinétique (Direction C)
 // ──────────────────────────────────────────────
-const BRANDS = {
-  incompris241: {
-    name: 'Incompris 241',
-    tag: 'Streetwear Gabonais',
-    platform: 'TikTok',
-    handle: '@finessefromgabon',
-    url: 'https://www.tiktok.com/@finessefromgabon',
-    accent: '#7c3aed',
-    colors: [['#1a0533','#3b1060'],['#2d1b69','#1e1b4b'],['#0f0d0c','#2a1b45']],
-    looks: ['Drop Urbain', 'Pièce Signature', 'Look Scène']
-  },
-  fallaman: {
-    name: 'Fallaman.co',
-    tag: 'Mode Contemporaine',
-    platform: 'Instagram',
-    handle: '@fallaman.co',
-    url: 'https://www.instagram.com/fallaman.co',
-    accent: '#d97706',
-    colors: [['#431407','#78350f'],['#92400e','#3d1a0a'],['#7c2d12','#451a03']],
-    looks: ['Collection Phare', 'Éditorial', 'Look Défilé']
-  },
-  oyinstudio: {
-    name: 'Oyin Studio',
-    tag: 'Créations Artisanales',
-    platform: 'Instagram',
-    handle: '@oyinstudio',
-    url: 'https://www.instagram.com/oyinstudio',
-    accent: '#059669',
-    colors: [['#1c2820','#2d4a3e'],['#14532d','#166534'],['#1a3a2a','#0f2a1e']],
-    looks: ['Look Atelier', 'Collection Terre', 'Pièce Artisanale']
-  },
-  atelierhell: {
-    name: 'Atelier Hell BVA',
-    tag: 'Art & Haute Couture',
-    platform: 'Instagram',
-    handle: '@atelierhellbvart',
-    url: 'https://www.instagram.com/atelierhellbvart',
-    accent: '#dc2626',
-    colors: [['#300a0a','#5c1a1a'],['#450a0a','#2a0a0a'],['#7f1d1d','#300a0a']],
-    looks: ['Œuvre Couture', 'Collection Art', 'Look Signature']
-  },
-  amricheruks: {
-    name: 'Amriche Ruks',
-    tag: 'Mode Urbaine',
-    platform: 'TikTok',
-    handle: '@amricherukspam',
-    url: 'https://www.tiktok.com/@amricherukspam',
-    accent: '#2563eb',
-    colors: [['#0c1445','#1e3a8a'],['#1d4ed8','#1e3a8a'],['#0c1445','#172554']],
-    looks: ['Drop Actuel', 'Look Fort', 'Style Urban']
-  },
-  shams: {
-    name: 'Shams',
-    tag: 'Mode Féminine',
-    platform: 'Instagram',
-    handle: '@chez_shams__',
-    url: 'https://www.instagram.com/chez_shams__',
-    accent: '#f59e0b',
-    colors: [['#3d2000','#78350f'],['#92400e','#451a03'],['#6b2d00','#2d1200']],
-    looks: ['Pièce Lumière', 'Éditorial Soleil', 'Look Collection']
-  },
-  parvamundi: {
-    name: 'Parva Mundi',
-    tag: 'Slow Fashion',
-    platform: 'Instagram',
-    handle: '@parvmun',
-    url: 'https://www.instagram.com/parvmun',
-    accent: '#16a34a',
-    colors: [['#14260d','#1a4314'],['#166534','#14532d'],['#052e16','#1a3a12']],
-    looks: ['Look Organique', 'Collection Durable', 'Pièce Slow']
-  },
-  habilletoi: {
-    name: 'Habille Toi',
-    tag: 'Prêt-à-Porter',
-    platform: 'Instagram',
-    handle: '@habille__toi',
-    url: 'https://www.instagram.com/habille__toi',
-    accent: '#db2777',
-    colors: [['#2a1530','#4a1d5c'],['#831843','#500724'],['#3b0764','#1e0a36']],
-    looks: ['Look Élégant', 'Collection Chic', 'Pièce Couture']
-  },
-  ndosslove: {
-    name: 'Ndosslove Création',
-    tag: 'Création Gabonaise',
-    platform: 'Instagram',
-    handle: '@ndosslove.creation',
-    url: 'https://www.instagram.com/ndosslove.creation',
-    accent: '#9333ea',
-    colors: [['#2d1b45','#4c1d95'],['#5b21b6','#3b0764'],['#1e0a36','#2e1065']],
-    looks: ['Signature Collection', 'Look Principal', 'Création Exclusive']
+(function () {
+  var el = document.getElementById('hero-word');
+  if (!el) return;
+  var words = ['Défilé de Marques', 'Incompris 241', 'Fallaman.co', 'Oyin Studio', 'Atelier Hell BVA', 'Amriche Ruks', 'Shams', 'Parva Mundi', 'Habille Toi', 'Ndosslove Création'];
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return; // accessibilité : mot figé "Défilé de Marques"
+  var i = 0;
+  setInterval(function () {
+    i = (i + 1) % words.length;
+    el.textContent = words[i];
+    el.classList.remove('kw-animate');
+    void el.offsetWidth; // force un reflow pour relancer l'animation
+    el.classList.add('kw-animate');
+  }, 1900);
+})();
+
+// ──────────────────────────────────────────────
+//  CATALOGUE · runway horizontal (Direction C)
+// ──────────────────────────────────────────────
+(function () {
+  var track = document.getElementById('runway-track');
+  if (!track) return;
+  var fill = document.getElementById('runway-fill');
+  var cur = document.getElementById('runway-current');
+  var cards = track.querySelectorAll('.runway-card');
+  function update() {
+    var max = track.scrollWidth - track.clientWidth;
+    var ratio = max > 0 ? track.scrollLeft / max : 0;
+    if (fill) fill.style.width = (Math.max(0.04, ratio) * 100) + '%';
+    var center = track.scrollLeft + track.clientWidth / 2;
+    var best = Infinity, idx = 0;
+    cards.forEach(function (c, n) {
+      var cc = c.offsetLeft + c.offsetWidth / 2;
+      var d = Math.abs(cc - center);
+      if (d < best) { best = d; idx = n; }
+    });
+    if (cur) cur.textContent = String(idx + 1).padStart(2, '0');
   }
-};
-
-function openBrand(id) {
-  const b = BRANDS[id];
-  if (!b) return;
-
-  document.getElementById('modal-tag').textContent  = b.tag;
-  document.getElementById('modal-name').textContent = b.name;
-  document.getElementById('modal-link').href        = b.url;
-  document.getElementById('modal-platform').textContent = b.platform;
-  document.getElementById('modal-platform-icon').textContent = b.platform === 'TikTok' ? '♪' : '◈';
-  document.getElementById('modal-handle').textContent = b.handle;
-
-  // Build gallery panels
-  const gallery = document.getElementById('modal-gallery');
-  gallery.innerHTML = b.looks.map((look, i) => {
-    const [c1, c2] = b.colors[i] || b.colors[0];
-    const angles = [135, 160, 120];
-    return `
-      <div class="modal-look" style="background: linear-gradient(${angles[i]}deg, ${c1} 0%, ${c2} 100%);">
-        <!-- Remplacer le background par une vraie image : style="background-image:url('photo.jpg'); background-size:cover; background-position:center;" -->
-        <div class="modal-look-overlay"></div>
-        <!-- Accent shape -->
-        <svg style="position:absolute;top:0;right:0;opacity:0.07;pointer-events:none" width="120" height="120" viewBox="0 0 120 120">
-          <circle cx="100" cy="20" r="60" fill="${b.accent}"/>
-        </svg>
-        <!-- Brand initial watermark -->
-        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);font-family:'Playfair Display',serif;font-size:clamp(3rem,8vw,5rem);font-style:italic;color:${b.accent};opacity:0.12;user-select:none;pointer-events:none;white-space:nowrap;">
-          ${b.name.charAt(0)}
-        </div>
-        <div class="modal-look-content">
-          <div class="modal-look-label">Look ${String(i+1).padStart(2,'0')}</div>
-          <div class="modal-look-title">${look}</div>
-        </div>
-      </div>`;
-  }).join('');
-
-  document.getElementById('brand-modal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeBrandModal() {
-  document.getElementById('brand-modal').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function handleModalClick(e) {
-  if (e.target === document.getElementById('brand-modal')) closeBrandModal();
-}
-
-// Close modal on Escape
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeBrandModal();
-});
+  track.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
 </script>
 
 </body>

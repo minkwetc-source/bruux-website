@@ -19,6 +19,9 @@ const nextConfig = {
     return [
       { source: "/defile", destination: "/defile/index.html" },
       { source: "/defile/admin", destination: "/defile/admin.html" },
+      // Fiche marque : /defile/<slug> → page éditoriale (lit le slug côté client).
+      // Placé après /defile/admin pour ne pas l'intercepter.
+      { source: "/defile/:slug", destination: "/defile/marque.html" },
     ];
   },
 };
