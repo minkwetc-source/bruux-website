@@ -27,6 +27,10 @@ export type MemberSection =
   | "influenceurs"
   | "section-a";
 
+// Billetterie Défilé 4 Juillet
+export type TicketType = "standard" | "vip" | "prestige";
+export type InviteStatut = "en_attente" | "paye" | "scanne";
+
 export type EventRow = {
   id: string;
   title: string;
@@ -83,6 +87,19 @@ export type SubscriberRow = {
   id: string;
   email: string;
   subscribed_at: string;
+};
+
+export type InviteRow = {
+  id: string;
+  nom: string;
+  telephone: string;
+  ticket_type: TicketType;
+  montant: number;
+  statut: InviteStatut;
+  scanne: boolean;
+  scanne_at: string | null;
+  qr_sent: boolean;
+  created_at: string;
 };
 
 export type AdminUserRow = {
@@ -230,6 +247,34 @@ export type Database = {
         Update: {
           user_id?: string;
           display_name?: string | null;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      invites: {
+        Row: InviteRow;
+        Insert: {
+          id: string;
+          nom: string;
+          telephone: string;
+          ticket_type: TicketType;
+          montant: number;
+          statut?: InviteStatut;
+          scanne?: boolean;
+          scanne_at?: string | null;
+          qr_sent?: boolean;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          nom?: string;
+          telephone?: string;
+          ticket_type?: TicketType;
+          montant?: number;
+          statut?: InviteStatut;
+          scanne?: boolean;
+          scanne_at?: string | null;
+          qr_sent?: boolean;
           created_at?: string;
         };
         Relationships: [];
