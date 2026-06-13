@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRUUX — Défilé de Marques · 4 Juillet</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:      #0f0d0c;
+    --cream:    #faf7f2;
+    --gold:     #c9a84c;
+    --gold-lt:  #e8d49a;
+    --warm:     #e8e2d8;
+    --muted:    #7a7470;
+    --accent:   #1a1310;
+    --green:    #3a7d44;
+    --green-lt: #d4edda;
+    --red:      #b83232;
+    --red-lt:   #f5d0d0;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--ink);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 2.5rem;
+    background: rgba(15,13,12,0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 1rem; letter-spacing: 0.35em; color: var(--gold); }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a { color: var(--cream); opacity: 0.6; text-decoration: none; font-size: 0.8rem; letter-spacing: 0.1em; transition: opacity .2s; }
+  .nav-links a:hover { opacity: 1; }
+  .nav-cta { background: var(--gold); color: var(--ink); border: none; padding: 0.5rem 1.4rem; font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.8rem; letter-spacing: 0.08em; cursor: pointer; transition: background .2s; text-decoration: none; }
+  .nav-cta:hover { background: var(--gold-lt); }
+
+  /* ── HERO ── */
+  .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 7rem 2rem 4rem; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 55% at 50% 40%, rgba(201,168,76,0.08) 0%, transparent 68%); pointer-events: none; }
+  .hero-date { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.35em; color: var(--gold); margin-bottom: 1.8rem; text-transform: uppercase; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(3.2rem, 9vw, 8rem); font-weight: 400; line-height: 0.93; letter-spacing: -0.02em; margin-bottom: 0.6rem; }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-subtitle { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.3em; color: rgba(250,247,242,0.4); margin-bottom: 1.2rem; text-transform: uppercase; }
+  .hero-location { font-size: 0.88rem; color: rgba(250,247,242,0.5); margin-bottom: 3rem; letter-spacing: 0.05em; }
+  .hero-location strong { color: var(--gold); font-weight: 500; }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+  .btn-primary { background: var(--gold); color: var(--ink); padding: 0.85rem 2.2rem; border: none; font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.85rem; letter-spacing: 0.1em; cursor: pointer; transition: all .2s; text-decoration: none; display: inline-block; }
+  .btn-primary:hover { background: var(--gold-lt); transform: translateY(-1px); }
+  .btn-ghost { background: transparent; color: var(--cream); padding: 0.85rem 2.2rem; border: 1px solid rgba(250,247,242,0.2); font-family: 'DM Sans', sans-serif; font-weight: 400; font-size: 0.85rem; letter-spacing: 0.1em; cursor: pointer; transition: all .2s; text-decoration: none; display: inline-block; }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ── TICKER ── */
+  .ticker-wrap { background: var(--gold); overflow: hidden; padding: 0.6rem 0; white-space: nowrap; }
+  .ticker { display: inline-block; animation: ticker-scroll 42s linear infinite; }
+  .ticker span { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.28em; color: var(--ink); padding: 0 2.5rem; text-transform: uppercase; }
+  @keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* ── SECTIONS ── */
+  section { padding: 5rem 2rem; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.3em; color: var(--gold); margin-bottom: 0.8rem; text-transform: uppercase; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem, 4.5vw, 3rem); font-weight: 400; line-height: 1.15; margin-bottom: 1.5rem; }
+
+  /* ── TICKET VARIANT TOGGLE ── */
+  .variant-toggle { display: flex; margin-bottom: 2rem; border: 1px solid rgba(201,168,76,0.2); width: fit-content; }
+  .variant-btn { background: transparent; border: none; color: rgba(250,247,242,0.4); padding: 0.5rem 1.2rem; font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: all .2s; border-right: 1px solid rgba(201,168,76,0.15); }
+  .variant-btn:last-child { border-right: none; }
+  .variant-btn.active { background: rgba(201,168,76,0.1); color: var(--gold); }
+  .variant-btn:hover:not(.active) { color: rgba(250,247,242,0.7); }
+
+  /* ── TICKETS ── */
+  #tickets { background: var(--accent); }
+
+  /* Variant A (default) - card grid */
+  .tickets-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px; background: rgba(201,168,76,0.12);
+  }
+  .ticket-card {
+    background: var(--ink); padding: 2.5rem 2rem;
+    display: flex; flex-direction: column; gap: 1.2rem;
+    position: relative; overflow: hidden; transition: background .25s;
+  }
+  .ticket-card:hover { background: rgba(201,168,76,0.04); }
+  .ticket-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .ticket-green::before { background: #3a7d44; }
+  .ticket-red::before   { background: #b83232; }
+  .ticket-gold::before  { background: var(--gold); }
+  .ticket-badge { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; padding: 0.3rem 0.8rem; align-self: flex-start; text-transform: uppercase; }
+  .badge-green { background: rgba(58,125,68,0.15); color: #5ab168; border: 1px solid rgba(58,125,68,0.3); }
+  .badge-red   { background: rgba(184,50,50,0.15); color: #d96060; border: 1px solid rgba(184,50,50,0.3); }
+  .badge-gold  { background: rgba(201,168,76,0.12); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
+  .ticket-name { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 400; }
+  .ticket-price { font-family: 'DM Mono', monospace; font-size: 1.4rem; letter-spacing: 0.05em; }
+  .price-green { color: #5ab168; }
+  .price-red   { color: #d96060; }
+  .price-gold  { color: var(--gold); }
+  .ticket-perks { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .ticket-perks li { font-size: 0.82rem; color: rgba(250,247,242,0.55); display: flex; align-items: flex-start; gap: 0.5rem; }
+  .ticket-perks li::before { content: '—'; color: rgba(201,168,76,0.4); flex-shrink: 0; }
+
+  /* Variant B: horizontal rows */
+  .tickets-grid.v-b { grid-template-columns: 1fr; }
+  .tickets-grid.v-b .ticket-card { flex-direction: row; align-items: center; padding: 1.8rem 2.5rem; gap: 2.5rem; }
+  .tickets-grid.v-b .ticket-card::before { width: 4px; height: auto; top: 0; bottom: 0; left: 0; right: auto; }
+  .tickets-grid.v-b .ticket-info { flex: 1; display: flex; flex-direction: column; gap: 0.6rem; }
+  .tickets-grid.v-b .ticket-perks { flex-direction: row; flex-wrap: wrap; gap: 0.4rem; }
+  .tickets-grid.v-b .ticket-perks li { background: rgba(250,247,242,0.04); padding: 0.2rem 0.65rem; font-size: 0.75rem; border: none; }
+  .tickets-grid.v-b .ticket-perks li::before { display: none; }
+  .tickets-grid.v-b .ticket-price-col { text-align: right; flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem; }
+  .tickets-grid.v-b .ticket-price { font-size: 1.7rem; }
+  .tickets-grid.v-b .ticket-badge { align-self: flex-end; }
+
+  /* Variant C: minimal / price-focus */
+  .tickets-grid.v-c { grid-template-columns: repeat(3, 1fr); }
+  .tickets-grid.v-c .ticket-card { padding: 0; overflow: visible; gap: 0; }
+  .tickets-grid.v-c .ticket-card::before { display: none; }
+  .tickets-grid.v-c .ticket-price-header { padding: 2rem 1.8rem 1.5rem; border-bottom: 1px solid rgba(250,247,242,0.05); }
+  .tickets-grid.v-c .ticket-price { font-size: 2rem; }
+  .tickets-grid.v-c .ticket-name { font-size: 1rem; color: rgba(250,247,242,0.6); margin-top: 0.4rem; font-family: 'DM Sans', sans-serif; font-weight: 300; }
+  .tickets-grid.v-c .ticket-body { padding: 1.5rem 1.8rem; display: flex; flex-direction: column; gap: 1rem; }
+
+  /* ── TOMBOLA NOTE ── */
+  .tombola-note {
+    margin-top: 2rem;
+    border: 1px dashed rgba(201,168,76,0.2);
+    padding: 1.2rem 1.8rem;
+    display: flex; align-items: center; gap: 1.5rem;
+    background: rgba(201,168,76,0.02);
+  }
+  .tombola-note-icon { font-size: 1.4rem; opacity: 0.4; flex-shrink: 0; }
+  .tombola-note-text { font-size: 0.8rem; color: rgba(250,247,242,0.4); line-height: 1.7; }
+  .tombola-note-text strong { color: rgba(201,168,76,0.65); font-weight: 500; }
+
+  /* ── INSCRIPTION ── */
+  #inscription { background: #0c0a09; }
+  .insc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .insc-text p { color: rgba(250,247,242,0.55); font-size: 0.92rem; line-height: 1.75; margin-bottom: 2rem; }
+  .insc-form { display: flex; flex-direction: column; gap: 1rem; }
+  .field { display: flex; flex-direction: column; gap: 0.4rem; }
+  .field label { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; }
+  .field input, .field select { background: rgba(250,247,242,0.04); border: 1px solid rgba(250,247,242,0.1); padding: 0.75rem 1rem; color: var(--cream); font-family: 'DM Sans', sans-serif; font-size: 0.88rem; outline: none; transition: border-color .2s; -webkit-appearance: none; }
+  .field input:focus, .field select:focus { border-color: var(--gold); }
+  .field select option { background: #1a1310; }
+
+  /* Payment method toggle */
+  .payment-methods { display: flex; gap: 0; }
+  .pm-btn { flex: 1; padding: 0.75rem; background: rgba(250,247,242,0.04); border: 1px solid rgba(250,247,242,0.1); color: rgba(250,247,242,0.5); font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: all .2s; }
+  .pm-btn:first-child { border-right: none; }
+  .pm-btn.pm-active { background: rgba(201,168,76,0.1); border-color: rgba(201,168,76,0.3); color: var(--gold); }
+  .pm-btn:hover:not(.pm-active) { color: rgba(250,247,242,0.8); }
+
+  /* Payment info box */
+  .payment-info-box { display: none; border: 1px solid rgba(201,168,76,0.2); padding: 1.2rem 1.4rem; background: rgba(201,168,76,0.03); }
+  .payment-info-box.visible { display: block; }
+  .pib-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 0.6rem; }
+  .pib-number { font-family: 'DM Mono', monospace; font-size: 1.05rem; color: var(--cream); margin-bottom: 0.5rem; }
+  .pib-instruction { font-size: 0.78rem; color: rgba(250,247,242,0.45); line-height: 1.65; }
+  .pib-total { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: var(--gold); margin-top: 0.7rem; padding-top: 0.7rem; border-top: 1px solid rgba(201,168,76,0.12); }
+  .pib-note { font-size: 0.72rem; color: rgba(250,247,242,0.3); margin-top: 0.3rem; }
+
+  /* QR panel */
+  .qr-panel { border: 1px solid rgba(201,168,76,0.2); padding: 2.5rem; text-align: center; position: relative; display: flex; flex-direction: column; align-items: center; gap: 1.2rem; }
+  .qr-panel::before { content: 'TON ACCÈS NUMÉRIQUE'; font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.28em; color: var(--gold); position: absolute; top: -0.5rem; background: #0c0a09; padding: 0 1rem; }
+  .qr-box { width: 150px; height: 150px; background: white; display: flex; align-items: center; justify-content: center; }
+  .qr-caption { font-size: 0.8rem; color: rgba(250,247,242,0.45); line-height: 1.65; max-width: 24ch; }
+  .qr-caption strong { color: var(--gold); display: block; font-weight: 500; margin-bottom: 0.3rem; }
+  .qr-live { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; color: var(--gold); background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.25); padding: 0.35rem 1rem; }
+  .dot-live { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; animation: blink 1.8s ease-in-out infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+  /* ── MARQUES ── */
+  #marques { background: var(--ink); }
+  .brands-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; margin-top: 2.5rem; background: rgba(201,168,76,0.12); }
+  .brand-card { background: var(--ink); padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 0.7rem; cursor: pointer; transition: background .2s; text-align: center; position: relative; overflow: hidden; }
+  .brand-card:hover { background: rgba(201,168,76,0.05); }
+  .brand-card::after { content: 'Voir catalogue →'; font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; color: var(--gold); opacity: 0; transition: opacity .2s; display: block; margin-top: 0.3rem; }
+  .brand-card:hover::after { opacity: 1; }
+  .brand-color-bar { height: 3px; position: absolute; top: 0; left: 0; right: 0; }
+  .brand-order { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; color: rgba(201,168,76,0.35); }
+  .brand-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 400; line-height: 1.3; }
+  .brand-tag { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.05em; }
+
+  /* ── BRAND CATALOGUE MODAL ── */
+  .brand-modal-overlay { position: fixed; inset: 0; z-index: 300; background: rgba(8,6,5,0.94); display: none; align-items: center; justify-content: center; padding: 1.5rem; backdrop-filter: blur(10px); }
+  .brand-modal-overlay.open { display: flex; }
+  .brand-modal-inner { background: var(--ink); border: 1px solid rgba(201,168,76,0.18); max-width: 800px; width: 100%; max-height: 92vh; overflow-y: auto; position: relative; }
+  .modal-header { padding: 2rem 2.5rem 1.5rem; border-bottom: 1px solid rgba(201,168,76,0.08); display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; }
+  .modal-header-left { display: flex; flex-direction: column; gap: 0.3rem; }
+  .modal-brand-tag { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.28em; color: var(--gold); text-transform: uppercase; }
+  .modal-brand-name { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 400; font-style: italic; line-height: 1.1; }
+  .modal-close { background: none; border: 1px solid rgba(250,247,242,0.1); color: rgba(250,247,242,0.4); font-size: 1rem; cursor: pointer; padding: 0.4rem 0.8rem; transition: all .2s; flex-shrink: 0; }
+  .modal-close:hover { border-color: var(--gold); color: var(--gold); }
+  .modal-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: rgba(201,168,76,0.08); }
+  .modal-look { aspect-ratio: 3/4; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.2rem; position: relative; overflow: hidden; }
+  .modal-look-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,8,7,0.75) 0%, transparent 55%); z-index: 1; }
+  .modal-look-content { position: relative; z-index: 2; }
+  .modal-look-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.2em; color: rgba(250,247,242,0.5); text-transform: uppercase; margin-bottom: 0.3rem; }
+  .modal-look-title { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-style: italic; color: rgba(250,247,242,0.9); text-shadow: 0 2px 12px rgba(0,0,0,0.6); }
+  .modal-footer { padding: 1.4rem 2.5rem; border-top: 1px solid rgba(201,168,76,0.08); display: flex; align-items: center; justify-content: space-between; }
+  .modal-social-link { display: inline-flex; align-items: center; gap: 0.6rem; font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; color: var(--gold); text-decoration: none; border: 1px solid rgba(201,168,76,0.25); padding: 0.5rem 1.2rem; transition: all .2s; }
+  .modal-social-link:hover { background: rgba(201,168,76,0.08); }
+  .modal-platform { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--muted); letter-spacing: 0.1em; }
+
+  /* ── PROGRAMME ── */
+  #programme { background: var(--accent); }
+  .prog-list { margin-top: 2.5rem; }
+  .prog-item { display: grid; grid-template-columns: 5.5rem 2px 1fr auto; gap: 0 2rem; align-items: start; padding: 1.6rem 0; border-bottom: 1px solid rgba(250,247,242,0.06); transition: background .2s; }
+  .prog-item:first-child { border-top: 1px solid rgba(250,247,242,0.06); }
+  .prog-time { font-family: 'DM Mono', monospace; font-size: 0.82rem; color: var(--gold); padding-top: 0.1rem; }
+  .prog-line { background: rgba(201,168,76,0.18); align-self: stretch; }
+  .prog-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 400; margin-bottom: 0.25rem; }
+  .prog-desc { font-size: 0.8rem; color: rgba(250,247,242,0.4); line-height: 1.6; }
+  .prog-tag { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; padding: 0.25rem 0.65rem; border: 1px solid rgba(201,168,76,0.25); color: var(--gold); align-self: flex-start; white-space: nowrap; }
+
+  /* ── PARTENAIRES ── */
+  #partenaires { background: #0c0a09; }
+  .partners-row { display: flex; flex-wrap: wrap; gap: 1.5px; margin-top: 2.5rem; background: rgba(201,168,76,0.12); }
+  .partner-card { background: var(--ink); flex: 1; min-width: 180px; padding: 2rem 1.5rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1rem; transition: background .2s; }
+  .partner-card:hover { background: rgba(201,168,76,0.03); }
+  .partner-logo-mark { width: 60px; height: 60px; border: 1px solid rgba(201,168,76,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .partner-name { font-family: 'Playfair Display', serif; font-size: 1rem; }
+  .partner-role { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.05em; }
+
+  /* Partnership tiers section */
+  .partner-tiers { margin-top: 3.5rem; }
+  .partner-tiers-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.28em; color: var(--gold); text-transform: uppercase; margin-bottom: 1.5rem; }
+  .tiers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; background: rgba(201,168,76,0.08); }
+  .tier-card { background: var(--ink); padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 0.8rem; }
+  .tier-medal { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.18em; padding: 0.28rem 0.75rem; display: inline-block; text-transform: uppercase; align-self: flex-start; }
+  .tier-name { font-family: 'Playfair Display', serif; font-size: 1.4rem; }
+  .tier-price { font-family: 'DM Mono', monospace; font-size: 1rem; }
+  .tier-perks { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+  .tier-perks li { font-size: 0.78rem; color: rgba(250,247,242,0.48); display: flex; gap: 0.5rem; }
+  .tier-perks li::before { content: '—'; color: rgba(201,168,76,0.3); flex-shrink: 0; }
+  .tier-bronze .tier-medal { background: rgba(160,100,40,0.12); color: #cd7f32; border: 1px solid rgba(160,100,40,0.25); }
+  .tier-bronze .tier-price { color: #cd7f32; }
+  .tier-silver .tier-medal { background: rgba(150,150,160,0.1); color: #b0b0bb; border: 1px solid rgba(150,150,160,0.22); }
+  .tier-silver .tier-price { color: #b0b0bb; }
+  .tier-gold-p .tier-medal { background: rgba(201,168,76,0.12); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
+  .tier-gold-p .tier-price { color: var(--gold); }
+
+  /* Tombola block */
+  .tombola-block { margin-top: 3rem; border: 1px solid rgba(201,168,76,0.2); padding: 2rem 2.5rem; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; align-items: center; }
+  .tombola-stat { text-align: center; }
+  .tombola-num { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--gold); font-weight: 700; }
+  .tombola-label { font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; }
+  .tombola-separate-note { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; color: rgba(250,247,242,0.3); text-transform: uppercase; text-align: center; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(201,168,76,0.08); }
+
+  /* ── INFOS ── */
+  #infos { background: var(--gold); }
+  #infos .section-label { color: rgba(15,13,12,0.5); }
+  #infos .section-title { color: var(--ink); }
+  .infos-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5px; margin-top: 2.5rem; background: rgba(15,13,12,0.15); }
+  .info-card { background: var(--gold); padding: 1.8rem 2rem; }
+  .info-key { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.25em; color: rgba(15,13,12,0.5); text-transform: uppercase; margin-bottom: 0.6rem; }
+  .info-val { font-size: 1rem; color: var(--ink); font-weight: 500; }
+  .info-sub { font-size: 0.78rem; color: rgba(15,13,12,0.55); margin-top: 0.3rem; }
+
+  /* ── FOOTER ── */
+  footer { background: #060504; padding: 2.5rem 2rem; text-align: center; }
+  .footer-logo { font-family: 'DM Mono', monospace; font-size: 0.9rem; letter-spacing: 0.4em; color: var(--gold); margin-bottom: 0.8rem; }
+  .footer-line { font-size: 0.75rem; color: rgba(250,247,242,0.2); }
+  .footer-tech { margin-top: 1.2rem; font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.18em; color: rgba(250,247,242,0.15); }
+  .footer-tech span { color: rgba(201,168,76,0.4); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .tickets-grid, .tickets-grid.v-c { grid-template-columns: 1fr; }
+    .tickets-grid.v-b .ticket-card { flex-direction: column; }
+    .tickets-grid.v-b .ticket-price-col { text-align: left; align-items: flex-start; }
+    .brands-grid { grid-template-columns: repeat(2, 1fr); }
+    .insc-grid { grid-template-columns: 1fr; }
+    .partners-row { flex-wrap: wrap; }
+    .tombola-block { grid-template-columns: 1fr; }
+    .infos-grid { grid-template-columns: 1fr; }
+    .prog-tag { display: none; }
+    .nav-links { display: none; }
+    .tiers-grid { grid-template-columns: 1fr; }
+    .modal-gallery { grid-template-columns: repeat(2, 1fr); }
+    .modal-brand-name { font-size: 1.6rem; }
+    .modal-header { padding: 1.5rem; }
+    .modal-footer { padding: 1.2rem 1.5rem; flex-wrap: wrap; gap: 0.8rem; }
+  }
+  @media (max-width: 480px) {
+    .variant-toggle { flex-wrap: wrap; width: 100%; }
+    .modal-gallery { grid-template-columns: 1fr; }
+    .brands-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── HERO · Direction C : typo cinétique ── */
+  .hero-ticker {
+    position: absolute; top: 3.5rem; left: 0; right: 0; z-index: 2;
+    overflow: hidden; white-space: nowrap;
+    padding: 0.55rem 0;
+    border-top: 1px solid rgba(201,168,76,0.12);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    background: rgba(15,13,12,0.55);
+  }
+  .hero-ticker-track { display: inline-block; animation: ticker-scroll 36s linear infinite; }
+  .hero-ticker-track span { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.28em; color: rgba(250,247,242,0.5); padding: 0 1.3rem; text-transform: uppercase; }
+  .hero-ticker-track span.t-gold { color: var(--gold); }
+
+  .hero-pretitle { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.32em; color: var(--gold); text-transform: uppercase; margin-bottom: 1.6rem; }
+  .hero-word {
+    font-family: 'Playfair Display', serif; font-weight: 400;
+    font-size: clamp(3rem, 11vw, 8rem); line-height: 1.05; letter-spacing: -0.02em;
+    min-height: 1.1em; display: flex; align-items: center; justify-content: center; text-align: center;
+  }
+  .hero-word .kw { display: inline-block; }
+  .kw-animate { animation: kw-in 0.5s ease; }
+  @keyframes kw-in {
+    from { opacity: 0; transform: translateY(14px) skewX(-4deg); }
+    to   { opacity: 1; transform: translateY(0) skewX(0); }
+  }
+  .hero-subline { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.28em; color: rgba(250,247,242,0.4); text-transform: uppercase; margin: 1.4rem 0 2.4rem; }
+
+  /* ── CATALOGUE · Direction C : runway horizontal ── */
+  .runway-head { display: flex; align-items: center; justify-content: space-between; margin-top: 2.5rem; margin-bottom: 1rem; }
+  .runway-hint { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; color: rgba(250,247,242,0.4); text-transform: uppercase; }
+  .runway-counter { font-family: 'DM Mono', monospace; font-size: 0.85rem; letter-spacing: 0.12em; color: var(--gold); }
+  .runway-track { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 0.5rem; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .runway-track::-webkit-scrollbar { display: none; }
+  .runway-card { flex: 0 0 clamp(220px, 26vw, 300px); scroll-snap-align: center; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 0.8rem; }
+  .runway-visual { height: clamp(300px, 40vw, 420px); background-size: cover; background-position: center; position: relative; overflow: hidden; transition: transform .5s ease; }
+  .runway-visual::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,8,7,0.6) 0%, transparent 55%); }
+  .runway-card:hover .runway-visual { transform: scale(1.06); }
+  .runway-card:focus-visible { outline: 1px solid var(--gold); outline-offset: 3px; }
+  .runway-meta { display: flex; flex-direction: column; gap: 0.3rem; }
+  .runway-row { display: flex; align-items: baseline; justify-content: space-between; gap: 0.8rem; }
+  .runway-name { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 400; }
+  .runway-num { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: rgba(201,168,76,0.5); }
+  .runway-cat { font-family: 'DM Mono', monospace; font-size: 0.66rem; letter-spacing: 0.12em; color: var(--gold); text-transform: uppercase; }
+  .runway-progress { height: 2px; background: rgba(201,168,76,0.12); margin-top: 0.4rem; }
+  .runway-progress-fill { height: 100%; width: 11%; background: var(--gold); transition: width .12s linear; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-ticker-track { animation: none; }
+    .kw-animate { animation: none; }
+    .runway-card:hover .runway-visual { transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">BRUUX.</div>
+  <div class="nav-links">
+    <a href="#tickets">Tickets</a>
+    <a href="#marques">Marques</a>
+    <a href="#programme">Programme</a>
+    <a href="#partenaires">Partenaires</a>
+  </div>
+  <a href="#inscription" class="nav-cta">Prendre ma place</a>
+</nav>
+
+<!-- HERO — Direction C : typo cinétique -->
+<section class="hero">
+  <div class="hero-ticker" aria-hidden="true">
+    <div class="hero-ticker-track">
+      <span>MODE</span><span>·</span><span>DANSE</span><span>·</span><span>LIVE</span><span>·</span><span class="t-gold">NZENG AYONG</span><span>·</span><span>10 MARQUES</span><span>·</span><span>4 JUILLET 2026</span><span>·</span><span>100% MADE IN GABON</span><span>·</span>
+      <span>MODE</span><span>·</span><span>DANSE</span><span>·</span><span>LIVE</span><span>·</span><span class="t-gold">NZENG AYONG</span><span>·</span><span>10 MARQUES</span><span>·</span><span>4 JUILLET 2026</span><span>·</span><span>100% MADE IN GABON</span><span>·</span>
+    </div>
+  </div>
+
+  <p class="hero-pretitle">Défilé de marques — 4 juillet</p>
+  <h1 class="hero-word"><span class="kw" id="hero-word">Défilé de Marques</span></h1>
+  <p class="hero-subline">10 marques gabonaises · 1 soir · Nzeng Ayong</p>
+  <div class="hero-actions">
+    <a href="#tickets" class="btn-primary">Choisir mon ticket</a>
+    <a href="#programme" class="btn-ghost">Le programme</a>
+  </div>
+</section>
+
+<!-- TICKETS -->
+<section id="tickets">
+  <div class="section-inner">
+    <p class="section-label">Accès & Tarifs</p>
+    <h2 class="section-title">Choisis<br>ton ticket</h2>
+
+    <div class="variant-toggle">
+      <button class="variant-btn active" onclick="setVariant('a', this)">Vue A</button>
+      <button class="variant-btn" onclick="setVariant('b', this)">Vue B</button>
+      <button class="variant-btn" onclick="setVariant('c', this)">Vue C</button>
+    </div>
+
+    <div class="tickets-grid" id="tickets-grid">
+
+      <!-- Standard -->
+      <div class="ticket-card ticket-green">
+        <span class="ticket-badge badge-green">● Standard</span>
+        <div class="ticket-info">
+          <div class="ticket-name">Ticket Standard</div>
+          <div class="ticket-price price-green">5 000 FCFA</div>
+          <ul class="ticket-perks">
+            <li>Accès au défilé</li>
+            <li>Place assise standard</li>
+            <li>Accès aux animations de l'événement</li>
+            <li>Participation aux photos de fin</li>
+          </ul>
+        </div>
+        <div class="ticket-price-col" style="display:none">
+          <span class="ticket-badge badge-green">● Standard</span>
+          <div class="ticket-price price-green">5 000 FCFA</div>
+        </div>
+        <div class="ticket-price-header" style="display:none">
+          <div class="ticket-price price-green">5 000 FCFA</div>
+          <div class="ticket-name">Standard</div>
+        </div>
+        <div class="ticket-body" style="display:none">
+          <ul class="ticket-perks">
+            <li>Accès au défilé</li>
+            <li>Place assise standard</li>
+            <li>Animations de l'événement</li>
+            <li>Photos de fin d'événement</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- VIP -->
+      <div class="ticket-card ticket-red">
+        <span class="ticket-badge badge-red">● VIP</span>
+        <div class="ticket-info">
+          <div class="ticket-name">Ticket VIP</div>
+          <div class="ticket-price price-red">30 000 FCFA</div>
+          <ul class="ticket-perks">
+            <li>Accès au défilé</li>
+            <li>Place réservée au premier rang</li>
+            <li>Boisson offerte</li>
+            <li>Accès prioritaire à l'entrée</li>
+            <li>Photo avec les créateurs et mannequins</li>
+          </ul>
+        </div>
+        <div class="ticket-price-col" style="display:none">
+          <span class="ticket-badge badge-red">● VIP</span>
+          <div class="ticket-price price-red">30 000 FCFA</div>
+        </div>
+        <div class="ticket-price-header" style="display:none">
+          <div class="ticket-price price-red">30 000 FCFA</div>
+          <div class="ticket-name">VIP</div>
+        </div>
+        <div class="ticket-body" style="display:none">
+          <ul class="ticket-perks">
+            <li>Premier rang réservé</li>
+            <li>Boisson offerte</li>
+            <li>Accès prioritaire</li>
+            <li>Photo créateurs & mannequins</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Prestige -->
+      <div class="ticket-card ticket-gold">
+        <span class="ticket-badge badge-gold">● Prestige</span>
+        <div class="ticket-info">
+          <div class="ticket-name">Ticket Prestige</div>
+          <div class="ticket-price price-gold">40 000 FCFA</div>
+          <ul class="ticket-perks">
+            <li>Tous les avantages VIP</li>
+            <li>Cadeau souvenir de l'événement</li>
+            <li>Accès à l'espace Prestige</li>
+            <li>Cocktail offert</li>
+            <li>Échanges privilégiés avec les marques</li>
+          </ul>
+        </div>
+        <div class="ticket-price-col" style="display:none">
+          <span class="ticket-badge badge-gold">● Prestige</span>
+          <div class="ticket-price price-gold">40 000 FCFA</div>
+        </div>
+        <div class="ticket-price-header" style="display:none">
+          <div class="ticket-price price-gold">40 000 FCFA</div>
+          <div class="ticket-name">Prestige</div>
+        </div>
+        <div class="ticket-body" style="display:none">
+          <ul class="ticket-perks">
+            <li>Avantages VIP complets</li>
+            <li>Cadeau souvenir</li>
+            <li>Espace Prestige exclusif</li>
+            <li>Cocktail offert</li>
+            <li>Échanges avec les marques</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Tombola note - séparée des billets -->
+    <div class="tombola-note">
+      <div class="tombola-note-icon">🎟</div>
+      <div class="tombola-note-text">
+        <strong>Les tickets tombola ne sont inclus dans aucun billet.</strong>
+        Ils s'achètent séparément sur place le soir de l'événement — 1 500 FCFA / ticket.
+        Tirage en direct en fin de soirée.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- INSCRIPTION -->
+<section id="inscription">
+  <div class="section-inner">
+    <div class="insc-grid">
+      <div class="insc-text">
+        <p class="section-label">Inscription</p>
+        <h2 class="section-title">Réserve<br>ta place</h2>
+        <p>Remplis le formulaire et choisis ton ticket. Tu recevras un montant exact et un code à envoyer par Airtel ou Moov Money. Une fois ton paiement validé par notre équipe, ton QR code unique t'est envoyé sur WhatsApp. À l'entrée, un simple scan — c'est tout.</p>
+        <div class="insc-form" id="form-panel">
+
+          <div class="field">
+            <label>Nom complet</label>
+            <input type="text" id="f-nom" placeholder="Prénom Nom">
+          </div>
+
+          <div class="field">
+            <label>WhatsApp</label>
+            <input type="tel" id="f-tel" placeholder="+241 · · ·">
+          </div>
+
+          <div class="field">
+            <label>Type de ticket</label>
+            <select id="f-ticket" onchange="updatePayment()">
+              <option value="">— Sélectionner —</option>
+              <option value="standard">Ticket Standard · 5 000 FCFA</option>
+              <option value="vip">Ticket VIP · 30 000 FCFA</option>
+              <option value="prestige">Ticket Prestige · 40 000 FCFA</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Mode de paiement</label>
+            <div class="payment-methods">
+              <button class="pm-btn" id="pm-airtel" onclick="selectPayment('airtel')">📱 Airtel Money</button>
+              <button class="pm-btn" id="pm-moov" onclick="selectPayment('moov')">📲 Moov Money</button>
+            </div>
+          </div>
+
+          <div class="payment-redirect-note" id="pib-total" style="border:1px solid rgba(201,168,76,0.2); padding:1rem 1.2rem; background:rgba(201,168,76,0.03); font-size:0.8rem; color:rgba(250,247,242,0.55); line-height:1.6;">
+            Paiement par Airtel Money ou Moov Money. Après validation par notre
+            équipe, ton QR code unique arrive sur WhatsApp.
+            <strong id="pib-amount" style="color:var(--gold); font-family:'DM Mono',monospace; display:block; margin-top:0.5rem;">Montant : —</strong>
+          </div>
+
+          <button class="btn-primary" id="btn-submit" style="margin-top:.5rem" onclick="generateQR()">Réserver ma place →</button>
+          <div id="form-error" style="display:none; color:#dc2626; font-family:'DM Mono',monospace; font-size:0.75rem; margin-top:0.75rem;"></div>
+        </div>
+
+        <!-- INSTRUCTIONS DE PAIEMENT (affichées après l'inscription) -->
+        <div class="insc-form" id="pay-panel" style="display:none">
+          <div style="font-family:'DM Mono',monospace; font-size:0.62rem; letter-spacing:0.2em; color:var(--gold); text-transform:uppercase;">Dernière étape · Paiement</div>
+
+          <div style="border:1px solid rgba(201,168,76,0.25); padding:1.6rem 1.4rem; background:rgba(201,168,76,0.04); display:flex; flex-direction:column; gap:1.1rem;">
+            <div>
+              <div style="font-family:'DM Mono',monospace; font-size:0.6rem; letter-spacing:0.2em; color:rgba(250,247,242,0.45); text-transform:uppercase; margin-bottom:0.3rem;">Montant exact à envoyer</div>
+              <div id="pay-amount" style="font-family:'Playfair Display',serif; font-size:2rem; color:var(--gold);">—</div>
+              <div style="font-size:0.72rem; color:rgba(250,247,242,0.4); margin-top:0.2rem;">⚠ Envoie le montant <strong>exact</strong> — il nous sert à identifier ton paiement.</div>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:0.5rem;">
+              <div style="display:flex; justify-content:space-between; gap:1rem; border-top:1px solid rgba(201,168,76,0.12); padding-top:0.7rem;">
+                <span style="font-family:'DM Mono',monospace; font-size:0.7rem; color:rgba(250,247,242,0.5);">📱 Airtel Money</span>
+                <span id="pay-airtel" style="font-family:'DM Mono',monospace; font-size:0.85rem; color:var(--cream);">—</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; gap:1rem;">
+                <span style="font-family:'DM Mono',monospace; font-size:0.7rem; color:rgba(250,247,242,0.5);">📲 Moov Money</span>
+                <span id="pay-moov" style="font-family:'DM Mono',monospace; font-size:0.85rem; color:var(--cream);">—</span>
+              </div>
+            </div>
+
+            <div style="border-top:1px solid rgba(201,168,76,0.12); padding-top:0.8rem;">
+              <div style="font-family:'DM Mono',monospace; font-size:0.6rem; letter-spacing:0.2em; color:rgba(250,247,242,0.45); text-transform:uppercase; margin-bottom:0.3rem;">Code à mettre dans le motif</div>
+              <div id="pay-code" style="font-family:'DM Mono',monospace; font-size:1.3rem; letter-spacing:0.15em; color:var(--gold);">—</div>
+            </div>
+          </div>
+
+          <p style="font-size:0.82rem; color:rgba(250,247,242,0.55); line-height:1.7;">Envoie le montant exact à l'un des deux numéros en indiquant le code <strong style="color:var(--gold)">ci-dessus</strong> dans le motif du transfert. Clique ensuite sur le bouton.</p>
+
+          <button class="btn-primary" id="btn-paid" style="margin-top:.2rem" onclick="confirmPaid()">J'ai effectué le paiement →</button>
+        </div>
+
+        <!-- MERCI (après clic « J'ai effectué le paiement ») -->
+        <div class="insc-form" id="thanks-panel" style="display:none">
+          <div style="border:1px solid rgba(201,168,76,0.25); padding:2rem 1.6rem; background:rgba(201,168,76,0.04); text-align:center; display:flex; flex-direction:column; gap:1rem; align-items:center;">
+            <div style="width:54px; height:54px; border-radius:50%; border:2px solid var(--gold); display:flex; align-items:center; justify-content:center; font-size:1.6rem; color:var(--gold);">✓</div>
+            <div style="font-family:'Playfair Display',serif; font-size:1.5rem;">Réservation enregistrée</div>
+            <p style="font-size:0.86rem; color:rgba(250,247,242,0.55); line-height:1.7; max-width:34ch;">Merci ! Dès que nous confirmons ton paiement, ton <strong style="color:var(--gold)">QR code</strong> t'est envoyé sur <strong>WhatsApp</strong>. Garde ton code <strong id="thanks-code" style="font-family:'DM Mono',monospace; color:var(--gold)"></strong> précieusement.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="qr-panel">
+        <div class="qr-box">
+          <svg width="120" height="120" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="8" width="38" height="38" fill="none" stroke="#0f0d0c" stroke-width="6"/>
+            <rect x="18" y="18" width="18" height="18" fill="#0f0d0c"/>
+            <rect x="84" y="8" width="38" height="38" fill="none" stroke="#0f0d0c" stroke-width="6"/>
+            <rect x="94" y="18" width="18" height="18" fill="#0f0d0c"/>
+            <rect x="8" y="84" width="38" height="38" fill="none" stroke="#0f0d0c" stroke-width="6"/>
+            <rect x="18" y="94" width="18" height="18" fill="#0f0d0c"/>
+            <rect x="56" y="8" width="8" height="8" fill="#0f0d0c"/>
+            <rect x="68" y="8" width="8" height="8" fill="#0f0d0c"/>
+            <rect x="56" y="20" width="8" height="8" fill="#0f0d0c"/>
+            <rect x="80" y="20" width="8" height="8" fill="#0f0d0c"/>
+            <rect x="8" y="56" width="8" height="8" fill="#0f0d0c"/>
+            <rect x="20" y="56" width="8" height="8" fill="#0f0d0c"/>
+            <rect x="44" y="56" width="8" height="8" fill="#0f0d0c"/>
+            <rect x="56" y="56" width="8" height="8" fill="#0f0d0c"/>
+            <rect x="80" y="56" width="8" height="8" fill="#0f0d0c"/>
+            <rect x="104" y="56" width="8" height="8" fill="#0f0d0c"/>
+            <rect x="116" y="56" width="8" height="8" fill="#0f0d0c"/>
+            <rect x="56" y="68" width="8" height="8" fill="#0f0d0c"/>
+            <rect x="92" y="68" width="8" height="8" fill="#0f0d0c"/>
+            <rect x="68" y="80" width="8" height="8" fill="#0f0d0c"/>
+            <rect x="92" y="80" width="8" height="8" fill="#0f0d0c"/>
+            <rect x="116" y="80" width="8" height="8" fill="#0f0d0c"/>
+            <rect x="56" y="92" width="8" height="8" fill="#0f0d0c"/>
+            <rect x="80" y="92" width="8" height="8" fill="#0f0d0c"/>
+            <rect x="104" y="104" width="8" height="8" fill="#0f0d0c"/>
+            <rect x="68" y="116" width="8" height="8" fill="#0f0d0c"/>
+            <rect x="92" y="104" width="8" height="8" fill="#0f0d0c"/>
+            <rect x="116" y="116" width="8" height="8" fill="#0f0d0c"/>
+          </svg>
+        </div>
+        <p class="qr-caption">
+          <strong>QR unique par invité</strong>
+          Reçu sur WhatsApp après inscription. Scanné à l'entrée en moins de 2 secondes.
+        </p>
+        <div class="qr-live"><span class="dot-live"></span>SYSTÈME ACTIF</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUES -->
+<section id="marques">
+  <div class="section-inner">
+    <p class="section-label">Les créateurs</p>
+    <h2 class="section-title">10 marques<br>gabonaises</h2>
+    <p style="color:rgba(250,247,242,0.45); font-size:.9rem; max-width:56ch; margin-bottom:0;">Dix créateurs. Une scène. Chaque marque présente sa vision, son style, son identité — 100% made in Gabon. Fais défiler et clique sur une marque pour découvrir sa fiche.</p>
+    <div class="runway-head">
+      <span class="runway-hint">Fais défiler →</span>
+      <span class="runway-counter"><span id="runway-current">01</span> / 10</span>
+    </div>
+
+    <div class="runway-track" id="runway-track">
+
+      <a class="runway-card" href="/defile/finesse-from-gabon" aria-label="Finesse From Gabon — voir la fiche">
+        <div class="runway-visual" style="background-image:url('/defile/photos/finessefromgabon/look1.jpg'), linear-gradient(140deg,#1a0533,#3b1060)"></div>
+        <div class="runway-meta">
+          <div class="runway-row"><span class="runway-name">Finesse From Gabon</span><span class="runway-num">01</span></div>
+          <div class="runway-cat">Streetwear · TikTok</div>
+        </div>
+      </a>
+
+      <a class="runway-card" href="/defile/fallaman-co" aria-label="Fallaman.co — voir la fiche">
+        <div class="runway-visual" style="background-image:url('/defile/photos/fallaman/look1.jpg'), linear-gradient(140deg,#431407,#78350f)"></div>
+        <div class="runway-meta">
+          <div class="runway-row"><span class="runway-name">Fallaman.co</span><span class="runway-num">02</span></div>
+          <div class="runway-cat">Prêt-à-Porter · Instagram</div>
+        </div>
+      </a>
+
+      <a class="runway-card" href="/defile/oyin-studio" aria-label="Oyin Studio — voir la fiche">
+        <div class="runway-visual" style="background-image:url('/defile/photos/oyinstudio/look1.jpg'), linear-gradient(140deg,#1c2820,#2d4a3e)"></div>
+        <div class="runway-meta">
+          <div class="runway-row"><span class="runway-name">Oyin Studio</span><span class="runway-num">03</span></div>
+          <div class="runway-cat">Artisanal · Instagram</div>
+        </div>
+      </a>
+
+      <a class="runway-card" href="/defile/atelier-hell-bva" aria-label="Atelier Hell BVA — voir la fiche">
+        <div class="runway-visual" style="background-image:url('/defile/photos/atelierhell/look1.jpg'), linear-gradient(140deg,#300a0a,#5c1a1a)"></div>
+        <div class="runway-meta">
+          <div class="runway-row"><span class="runway-name">Atelier Hell BVA</span><span class="runway-num">04</span></div>
+          <div class="runway-cat">Haute Couture · Instagram</div>
+        </div>
+      </a>
+
+      <a class="runway-card" href="/defile/amriche-ruks" aria-label="Amriche Ruks — voir la fiche">
+        <div class="runway-visual" style="background-image:url('/defile/photos/amricheruks/look1.jpg'), linear-gradient(140deg,#0c1445,#1e3a8a)"></div>
+        <div class="runway-meta">
+          <div class="runway-row"><span class="runway-name">Amriche Ruks</span><span class="runway-num">05</span></div>
+          <div class="runway-cat">Mode Urbaine · TikTok</div>
+        </div>
+      </a>
+
+      <a class="runway-card" href="/defile/shams" aria-label="Shams — voir la fiche">
+        <div class="runway-visual" style="background-image:url('/defile/photos/shams/look1.jpg'), linear-gradient(140deg,#3d2000,#78350f)"></div>
+        <div class="runway-meta">
+          <div class="runway-row"><span class="runway-name">Shams</span><span class="runway-num">06</span></div>
+          <div class="runway-cat">Mode Féminine · Instagram</div>
+        </div>
+      </a>
+
+      <a class="runway-card" href="/defile/parva-mundi" aria-label="Parva Mundi — voir la fiche">
+        <div class="runway-visual" style="background-image:url('/defile/photos/parvamundi/look1.jpg'), linear-gradient(140deg,#14260d,#1a4314)"></div>
+        <div class="runway-meta">
+          <div class="runway-row"><span class="runway-name">Parva Mundi</span><span class="runway-num">07</span></div>
+          <div class="runway-cat">Slow Fashion · Instagram</div>
+        </div>
+      </a>
+
+      <a class="runway-card" href="/defile/habille-toi" aria-label="Habille Toi — voir la fiche">
+        <div class="runway-visual" style="background-image:url('/defile/photos/habilletoi/look1.jpg'), linear-gradient(140deg,#2a1530,#4a1d5c)"></div>
+        <div class="runway-meta">
+          <div class="runway-row"><span class="runway-name">Habille Toi</span><span class="runway-num">08</span></div>
+          <div class="runway-cat">Prêt-à-Porter · Instagram</div>
+        </div>
+      </a>
+
+      <a class="runway-card" href="/defile/ndosslove-creation" aria-label="Ndosslove Création — voir la fiche">
+        <div class="runway-visual" style="background-image:url('/defile/photos/ndosslove/look1.jpg'), linear-gradient(140deg,#2d1b45,#4c1d95)"></div>
+        <div class="runway-meta">
+          <div class="runway-row"><span class="runway-name">Ndosslove Création</span><span class="runway-num">09</span></div>
+          <div class="runway-cat">Création Gabonaise · Instagram</div>
+        </div>
+      </a>
+
+      <a class="runway-card" href="/defile/dark-co" aria-label="Dark & Co — voir la fiche">
+        <div class="runway-visual" style="background-image:url('/defile/photos/dark-co/look1.jpg'), linear-gradient(140deg,#0a0a0a,#1f2a1f)"></div>
+        <div class="runway-meta">
+          <div class="runway-row"><span class="runway-name">Dark &amp; Co</span><span class="runway-num">10</span></div>
+          <div class="runway-cat">Streetwear · Instagram</div>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="runway-progress"><div class="runway-progress-fill" id="runway-fill"></div></div>
+  </div>
+</section>
+
+<!-- PROGRAMME -->
+<section id="programme">
+  <div class="section-inner">
+    <p class="section-label">Déroulé de la journée</p>
+    <h2 class="section-title">Programme<br>du 4 Juillet</h2>
+    <div class="prog-list">
+      <div class="prog-item">
+        <div class="prog-time">15:00</div>
+        <div class="prog-line"></div>
+        <div>
+          <div class="prog-name">Arrivée des invités</div>
+          <div class="prog-desc">Accueil à Nzeng Ayong. Scan QR à l'entrée. Ambiance assurée.</div>
+        </div>
+        <div class="prog-tag">Accueil</div>
+      </div>
+      <div class="prog-item">
+        <div class="prog-time">16:00</div>
+        <div class="prog-line"></div>
+        <div>
+          <div class="prog-name">Début du défilé</div>
+          <div class="prog-desc">Ouverture officielle. Passage des 10 marques : Finesse From Gabon, Fallaman.co, Oyin Studio, Atelier Hell BVA, Amriche Ruks, Shams, Parva Mundi, Habille Toi, Ndosslove Création, Dark & Co.</div>
+        </div>
+        <div class="prog-tag">Défilé</div>
+      </div>
+      <div class="prog-item">
+        <div class="prog-time">17:30</div>
+        <div class="prog-line"></div>
+        <div>
+          <div class="prog-name">Fin du défilé</div>
+          <div class="prog-desc">Clap de fin. Applaudissements pour les 9 créateurs.</div>
+        </div>
+        <div class="prog-tag">Défilé</div>
+      </div>
+      <div class="prog-item">
+        <div class="prog-time">17:45</div>
+        <div class="prog-line"></div>
+        <div>
+          <div class="prog-name">Prestations danseurs</div>
+          <div class="prog-desc">Show live avec les danseurs professionnels.</div>
+        </div>
+        <div class="prog-tag">Live</div>
+      </div>
+      <div class="prog-item">
+        <div class="prog-time">18:15</div>
+        <div class="prog-line"></div>
+        <div>
+          <div class="prog-name">Prestations artistes</div>
+          <div class="prog-desc">Performances musicales live. Ambiance garantie.</div>
+        </div>
+        <div class="prog-tag">Live</div>
+      </div>
+      <div class="prog-item">
+        <div class="prog-time">19:30</div>
+        <div class="prog-line"></div>
+        <div>
+          <div class="prog-name">Fin du show</div>
+          <div class="prog-desc">Tirage tombola en direct. Clôture officielle signée Bruux.</div>
+        </div>
+        <div class="prog-tag">Clôture</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTENAIRES -->
+<section id="partenaires">
+  <div class="section-inner">
+    <p class="section-label">Ils nous soutiennent</p>
+    <h2 class="section-title">Partenaires<br>officiels</h2>
+
+    <div class="partners-row">
+
+      <div class="partner-card">
+        <div class="partner-logo-mark">
+          <svg width="44" height="44" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+            <text x="22" y="29" font-family="'Playfair Display', serif" font-size="18" fill="#c9a84c" text-anchor="middle" font-style="italic">Az</text>
+          </svg>
+        </div>
+        <div class="partner-name">Az Burger</div>
+        <div class="partner-role">Partenaire restauration</div>
+      </div>
+
+      <div class="partner-card">
+        <div class="partner-logo-mark">
+          <svg width="44" height="44" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+            <text x="22" y="27" font-family="'DM Mono', monospace" font-size="11" fill="#c9a84c" text-anchor="middle" letter-spacing="1">IBV</text>
+            <line x1="8" y1="31" x2="36" y2="31" stroke="rgba(201,168,76,0.3)" stroke-width="1"/>
+            <text x="22" y="38" font-family="'DM Mono', monospace" font-size="7" fill="rgba(201,168,76,0.5)" text-anchor="middle" letter-spacing="1">QUAD</text>
+          </svg>
+        </div>
+        <div class="partner-name">IBV Quad</div>
+        <div class="partner-role">Partenaire activités</div>
+      </div>
+
+      <div class="partner-card">
+        <div class="partner-logo-mark">
+          <svg width="44" height="44" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="22,6 38,14 38,30 22,38 6,30 6,14" fill="none" stroke="rgba(201,168,76,0.35)" stroke-width="1.2"/>
+            <text x="22" y="27" font-family="'DM Mono', monospace" font-size="11" fill="#c9a84c" text-anchor="middle" letter-spacing="1">BZ</text>
+          </svg>
+        </div>
+        <div class="partner-name">Beezap</div>
+        <div class="partner-role">Partenaire paiement</div>
+      </div>
+
+      <div class="partner-card">
+        <div class="partner-logo-mark">
+          <svg width="44" height="44" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="10" width="32" height="24" rx="0" fill="none" stroke="rgba(201,168,76,0.3)" stroke-width="1.2"/>
+            <text x="22" y="26" font-family="'DM Mono', monospace" font-size="9" fill="#c9a84c" text-anchor="middle" letter-spacing="0.5">JTDa</text>
+          </svg>
+        </div>
+        <div class="partner-name">JTDaelectroniques</div>
+        <div class="partner-role">Partenaire tombola</div>
+      </div>
+
+    </div>
+
+    <!-- Tombola stats -->
+    <div class="tombola-block">
+      <div class="tombola-stat">
+        <div class="tombola-num">1 500</div>
+        <div class="tombola-label">FCFA par ticket tombola</div>
+      </div>
+      <div class="tombola-stat">
+        <div class="tombola-num">JTDa</div>
+        <div class="tombola-label">électroniques offre les lots</div>
+      </div>
+      <div class="tombola-stat">
+        <div class="tombola-num">Live</div>
+        <div class="tombola-label">Tirage en direct en fin de soirée</div>
+      </div>
+      <div style="grid-column: 1 / -1">
+        <div class="tombola-separate-note">⚠ Tickets tombola vendus séparément sur place · Non inclus dans les billets</div>
+      </div>
+    </div>
+
+    <!-- Partnership tiers -->
+    <div class="partner-tiers">
+      <div class="partner-tiers-label">Devenir partenaire</div>
+      <div class="tiers-grid">
+
+        <div class="tier-card tier-bronze">
+          <span class="tier-medal">Bronze</span>
+          <div class="tier-name">Bronze</div>
+          <div class="tier-price">50 000 FCFA</div>
+          <ul class="tier-perks">
+            <li>Logo sur l'affiche officielle</li>
+            <li>Mention sur les réseaux sociaux</li>
+            <li>2 invitations VIP</li>
+          </ul>
+        </div>
+
+        <div class="tier-card tier-silver">
+          <span class="tier-medal">Argent</span>
+          <div class="tier-name">Argent</div>
+          <div class="tier-price">Sur devis</div>
+          <ul class="tier-perks">
+            <li>Visibilité scène & affichage</li>
+            <li>Campagne réseaux sociaux</li>
+            <li>5 invitations VIP</li>
+          </ul>
+        </div>
+
+        <div class="tier-card tier-gold-p">
+          <span class="tier-medal">Or</span>
+          <div class="tier-name">Or</div>
+          <div class="tier-price">Sur devis</div>
+          <ul class="tier-perks">
+            <li>Partenariat principal — logo dominant</li>
+            <li>Activation live lors de l'événement</li>
+            <li>10 invitations Prestige</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- INFOS -->
+<section id="infos">
+  <div class="section-inner">
+    <p class="section-label">Tout savoir</p>
+    <h2 class="section-title">Infos<br>pratiques</h2>
+    <div class="infos-grid">
+      <div class="info-card">
+        <div class="info-key">Date</div>
+        <div class="info-val">4 Juillet 2026</div>
+        <div class="info-sub">Arrivée à partir de 15h00</div>
+      </div>
+      <div class="info-card">
+        <div class="info-key">Lieu</div>
+        <div class="info-val">Nzeng Ayong</div>
+        <div class="info-sub">Libreville, Gabon</div>
+      </div>
+      <div class="info-card">
+        <div class="info-key">Tickets</div>
+        <div class="info-val">5 000 · 30 000 · 40 000 FCFA</div>
+        <div class="info-sub">Standard · VIP · Prestige</div>
+      </div>
+      <div class="info-card">
+        <div class="info-key">Fin du show</div>
+        <div class="info-val">~19h30</div>
+        <div class="info-sub">Tombola tirée en direct à la clôture</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">BRUUX.</div>
+  <p class="footer-line">4 Juillet · Nzeng Ayong · Libreville, Gabon</p>
+  <div class="footer-tech">Digitalisé par <span>Division Tech Bruux</span></div>
+</footer>
+
+<script>
+// ──────────────────────────────────────────────
+//  TICKET VARIANTS
+// ──────────────────────────────────────────────
+function setVariant(v, btn) {
+  document.querySelectorAll('.variant-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const grid = document.getElementById('tickets-grid');
+  grid.className = 'tickets-grid';
+  if (v === 'b') grid.classList.add('v-b');
+  if (v === 'c') grid.classList.add('v-c');
+
+  // Toggle which sub-elements are visible per variant
+  document.querySelectorAll('.ticket-card').forEach(card => {
+    const info      = card.querySelector('.ticket-info');
+    const priceCol  = card.querySelector('.ticket-price-col');
+    const priceHdr  = card.querySelector('.ticket-price-header');
+    const body      = card.querySelector('.ticket-body');
+    const badge     = card.querySelector('.ticket-badge');
+    const name      = card.querySelector('.ticket-name');
+    const price     = card.querySelector('.ticket-price');
+    const perks     = card.querySelector('.ticket-perks');
+
+    if (v === 'a') {
+      if (info) info.style.display = '';
+      if (priceCol) priceCol.style.display = 'none';
+      if (priceHdr) priceHdr.style.display = 'none';
+      if (body) body.style.display = 'none';
+      if (badge) badge.style.display = '';
+      if (name) name.style.display = '';
+      if (price) price.style.display = '';
+      if (perks) perks.style.display = '';
+    } else if (v === 'b') {
+      if (info) info.style.display = '';
+      if (priceCol) priceCol.style.display = 'flex';
+      if (priceHdr) priceHdr.style.display = 'none';
+      if (body) body.style.display = 'none';
+      if (badge) badge.style.display = 'none';
+    } else if (v === 'c') {
+      if (info) info.style.display = 'none';
+      if (priceCol) priceCol.style.display = 'none';
+      if (priceHdr) priceHdr.style.display = 'block';
+      if (body) body.style.display = 'flex';
+    }
+  });
+}
+
+// ──────────────────────────────────────────────
+//  PAYMENT
+// ──────────────────────────────────────────────
+const PRICES = { standard: 5000, vip: 30000, prestige: 40000 };
+
+function selectPayment(method) {
+  document.getElementById('pm-airtel').classList.remove('pm-active');
+  document.getElementById('pm-moov').classList.remove('pm-active');
+  document.getElementById('pm-' + method).classList.add('pm-active');
+}
+
+function updatePayment() {
+  const ticket = document.getElementById('f-ticket').value;
+  const amount = PRICES[ticket] || null;
+  const label  = amount ? amount.toLocaleString('fr-FR') + ' FCFA' : '—';
+  const el = document.getElementById('pib-amount');
+  if (el) el.textContent = 'Montant : ' + label;
+}
+
+function showFormError(msg) {
+  const el = document.getElementById('form-error');
+  if (!el) return;
+  el.textContent = msg;
+  el.style.display = msg ? 'block' : 'none';
+}
+
+function formatFCFA(n) {
+  return (Number(n) || 0).toLocaleString('fr-FR') + ' FCFA';
+}
+
+// Enregistre la réservation (statut en_attente) puis affiche les instructions
+// de paiement : montant exact, numéros Mobile Money, et code à mettre en motif.
+async function generateQR() {
+  const nom    = document.getElementById('f-nom').value.trim();
+  const tel    = document.getElementById('f-tel').value.trim();
+  const ticket = document.getElementById('f-ticket').value;
+
+  if (!nom || !tel || !ticket) {
+    showFormError('Merci de remplir tous les champs.');
+    return;
+  }
+  showFormError('');
+
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  btn.textContent = 'Traitement…';
+
+  try {
+    const res = await fetch('/api/defile/inscription', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nom, telephone: tel, ticket_type: ticket })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.code) throw new Error(data.error || 'Erreur serveur');
+
+    document.getElementById('pay-amount').textContent = formatFCFA(data.montant);
+    document.getElementById('pay-airtel').textContent = data.airtel || '—';
+    document.getElementById('pay-moov').textContent   = data.moov || '—';
+    document.getElementById('pay-code').textContent   = data.code;
+    document.getElementById('thanks-code').textContent = data.code;
+
+    document.getElementById('form-panel').style.display = 'none';
+    document.getElementById('pay-panel').style.display = 'flex';
+    window.scrollTo({ top: document.getElementById('inscription').offsetTop - 40, behavior: 'smooth' });
+  } catch (err) {
+    showFormError('Une erreur est survenue. Réessaie ou contacte-nous sur WhatsApp.');
+    btn.disabled = false;
+    btn.textContent = 'Réserver ma place →';
+  }
+}
+
+// L'utilisateur déclare avoir payé → écran de remerciement.
+// La validation réelle est faite par l'admin (qui vérifie le virement).
+function confirmPaid() {
+  document.getElementById('pay-panel').style.display = 'none';
+  document.getElementById('thanks-panel').style.display = 'flex';
+  window.scrollTo({ top: document.getElementById('inscription').offsetTop - 40, behavior: 'smooth' });
+}
+
+// ──────────────────────────────────────────────
+//  HERO · mot cinétique (Direction C)
+// ──────────────────────────────────────────────
+(function () {
+  var el = document.getElementById('hero-word');
+  if (!el) return;
+  var words = ['Défilé de Marques', 'Finesse From Gabon', 'Fallaman.co', 'Oyin Studio', 'Atelier Hell BVA', 'Amriche Ruks', 'Shams', 'Parva Mundi', 'Habille Toi', 'Ndosslove Création', 'Dark & Co'];
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return; // accessibilité : mot figé "Défilé de Marques"
+  var i = 0;
+  setInterval(function () {
+    i = (i + 1) % words.length;
+    el.textContent = words[i];
+    el.classList.remove('kw-animate');
+    void el.offsetWidth; // force un reflow pour relancer l'animation
+    el.classList.add('kw-animate');
+  }, 1900);
+})();
+
+// ──────────────────────────────────────────────
+//  CATALOGUE · runway horizontal (Direction C)
+// ──────────────────────────────────────────────
+(function () {
+  var track = document.getElementById('runway-track');
+  if (!track) return;
+  var fill = document.getElementById('runway-fill');
+  var cur = document.getElementById('runway-current');
+  var cards = track.querySelectorAll('.runway-card');
+  function update() {
+    var max = track.scrollWidth - track.clientWidth;
+    var ratio = max > 0 ? track.scrollLeft / max : 0;
+    if (fill) fill.style.width = (Math.max(0.04, ratio) * 100) + '%';
+    var center = track.scrollLeft + track.clientWidth / 2;
+    var best = Infinity, idx = 0;
+    cards.forEach(function (c, n) {
+      var cc = c.offsetLeft + c.offsetWidth / 2;
+      var d = Math.abs(cc - center);
+      if (d < best) { best = d; idx = n; }
+    });
+    if (cur) cur.textContent = String(idx + 1).padStart(2, '0');
+  }
+  track.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+</script>
+
+</body>
+</html>

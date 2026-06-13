@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRUUX — Fiche marque · Défilé 4 Juillet</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:     #0f0d0c;
+    --cream:   #faf7f2;
+    --gold:    #c9a84c;
+    --gold-lt: #e8d49a;
+    --warm:    #e8e2d8;
+    --muted:   #7a7470;
+    --accent:  #1a1310;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--ink); color: var(--cream); font-family: 'DM Sans', sans-serif; font-weight: 300; overflow-x: hidden; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 2.5rem;
+    background: rgba(15,13,12,0.92); backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 1rem; letter-spacing: 0.35em; color: var(--gold); text-decoration: none; }
+  .nav-cta { background: var(--gold); color: var(--ink); border: none; padding: 0.5rem 1.4rem; font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.8rem; letter-spacing: 0.08em; cursor: pointer; transition: background .2s; text-decoration: none; }
+  .nav-cta:hover { background: var(--gold-lt); }
+
+  /* ── HERO PLEIN CADRE ── */
+  .fiche-hero {
+    position: relative; min-height: clamp(360px, 60vh, 560px);
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 6rem 2.5rem 2.5rem;
+    background-size: cover; background-position: center;
+    overflow: hidden;
+  }
+  .fiche-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,8,7,0.9) 0%, rgba(10,8,7,0.25) 55%, transparent 100%); z-index: 1; }
+  .fiche-hero > * { position: relative; z-index: 2; }
+  .fiche-back { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.18em; color: rgba(250,247,242,0.7); text-decoration: none; text-transform: uppercase; align-self: flex-start; transition: color .2s; }
+  .fiche-back:hover { color: var(--gold); }
+  .fiche-hero-bottom { display: flex; flex-direction: column; gap: 0.6rem; }
+  .fiche-hero-label { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.25em; color: var(--gold); text-transform: uppercase; }
+  .fiche-hero-name { font-family: 'Playfair Display', serif; font-weight: 400; font-style: italic; font-size: clamp(2.5rem, 7vw, 5.4rem); line-height: 1; text-shadow: 0 4px 24px rgba(0,0,0,0.5); }
+
+  /* ── CORPS 2 COLONNES ── */
+  .fiche-body { max-width: 1100px; margin: 0 auto; padding: 3.5rem 2.5rem 5rem; display: grid; grid-template-columns: 1fr 300px; gap: 2.5rem; align-items: start; }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.3em; color: var(--gold); text-transform: uppercase; margin-bottom: 1.2rem; }
+
+  /* Lookbook */
+  .lookbook-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: rgba(201,168,76,0.08); }
+  .look-tile { aspect-ratio: 3/4; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.2rem; }
+  .look-tile.tall { grid-row: span 2; aspect-ratio: auto; min-height: 100%; }
+  .look-tile::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,8,7,0.7) 0%, transparent 55%); z-index: 1; }
+  .look-tile > * { position: relative; z-index: 2; }
+  .look-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.2em; color: rgba(250,247,242,0.55); text-transform: uppercase; margin-bottom: 0.25rem; }
+  .look-title { font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.95rem; color: rgba(250,247,242,0.92); text-shadow: 0 2px 12px rgba(0,0,0,0.6); }
+
+  /* Aside L'univers */
+  .univers { border: 1px solid rgba(201,168,76,0.2); padding: 1.8rem 1.6rem; display: flex; flex-direction: column; gap: 1.3rem; position: sticky; top: 6rem; }
+  .univers-desc { font-size: 0.9rem; line-height: 1.75; color: rgba(250,247,242,0.6); }
+  .univers-meta { list-style: none; display: flex; flex-direction: column; gap: 0.9rem; }
+  .univers-meta li { display: flex; flex-direction: column; gap: 0.2rem; border-top: 1px solid rgba(201,168,76,0.1); padding-top: 0.8rem; }
+  .meta-key { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; color: rgba(250,247,242,0.4); text-transform: uppercase; }
+  .meta-val { font-size: 0.92rem; color: var(--cream); }
+  .meta-val.gold { color: var(--gold); font-family: 'DM Mono', monospace; }
+  .meta-link { color: var(--gold); text-decoration: none; font-family: 'DM Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; }
+  .meta-link:hover { text-decoration: underline; }
+  .univers-cta { background: var(--gold); color: var(--ink); text-align: center; padding: 0.9rem; font-weight: 500; font-size: 0.85rem; letter-spacing: 0.1em; text-decoration: none; transition: background .2s; }
+  .univers-cta:hover { background: var(--gold-lt); }
+
+  /* Not found */
+  .notfound { max-width: 600px; margin: 0 auto; padding: 10rem 2rem; text-align: center; display: flex; flex-direction: column; gap: 1.4rem; align-items: center; }
+  .notfound h1 { font-family: 'Playfair Display', serif; font-weight: 400; font-size: 2rem; }
+  .notfound p { color: rgba(250,247,242,0.55); }
+
+  footer { background: #060504; padding: 2.5rem 2rem; text-align: center; }
+  .footer-logo { font-family: 'DM Mono', monospace; font-size: 0.9rem; letter-spacing: 0.4em; color: var(--gold); margin-bottom: 0.8rem; }
+  .footer-line { font-size: 0.75rem; color: rgba(250,247,242,0.2); }
+
+  @media (max-width: 820px) {
+    .fiche-body { grid-template-columns: 1fr; }
+    .univers { position: static; }
+    nav { padding: 1rem 1.4rem; }
+    .fiche-hero { padding: 5rem 1.4rem 2rem; }
+    .fiche-body { padding: 2.5rem 1.4rem 4rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/defile" class="nav-logo">BRUUX.</a>
+  <a href="/defile#tickets" class="nav-cta">Prendre ma place</a>
+</nav>
+
+<main id="fiche-root"><!-- rempli par JS --></main>
+
+<footer>
+  <div class="footer-logo">BRUUX.</div>
+  <p class="footer-line">4 Juillet 2026 · Nzeng Ayong · Libreville, Gabon</p>
+</footer>
+
+<script>
+// ──────────────────────────────────────────────
+//  Données des 10 marques (source : handoff + page /defile + logos/photos clients)
+//  Visuels = vraies photos (/defile/photos/<folder>/look1..3.jpg), dégradé en repli.
+// ──────────────────────────────────────────────
+var BRANDS = {
+  'finesse-from-gabon': {
+    order: 1, name: 'Finesse From Gabon', category: 'Streetwear', folder: 'finessefromgabon',
+    social: { label: 'TikTok', url: 'https://www.tiktok.com/@finessefromgabon' },
+    showTime: '16h10', colors: [['#1a0533','#3b1060'],['#2d1b69','#1e1b4b'],['#0f0d0c','#2a1b45']],
+    looks: ['Drop Urbain', 'Pièce Signature', 'Look Scène'],
+    desc: "Le streetwear gabonais dans sa version la plus libre. Coupes actuelles, énergie de la rue de Libreville, pièces qui s'affirment."
+  },
+  'fallaman-co': {
+    order: 2, name: 'Fallaman.co', category: 'Prêt-à-Porter', folder: 'fallaman',
+    social: { label: 'Instagram', url: 'https://www.instagram.com/fallaman.co' },
+    showTime: '16h20', colors: [['#431407','#78350f'],['#92400e','#3d1a0a'],['#7c2d12','#451a03']],
+    looks: ['Collection Phare', 'Éditorial', 'Look Défilé'],
+    desc: "Du prêt-à-porter contemporain qui mise sur la justesse des coupes et une élégance accessible au quotidien."
+  },
+  'oyin-studio': {
+    order: 3, name: 'Oyin Studio', category: 'Artisanal', folder: 'oyinstudio',
+    social: { label: 'Instagram', url: 'https://www.instagram.com/oyinstudio' },
+    showTime: '16h30', colors: [['#1c2820','#2d4a3e'],['#14532d','#166534'],['#1a3a2a','#0f2a1e']],
+    looks: ['Look Atelier', 'Collection Terre', 'Pièce Artisanale'],
+    desc: "Des créations artisanales où chaque pièce raconte un savoir-faire. Matières travaillées à la main, détails soignés."
+  },
+  'atelier-hell-bva': {
+    order: 4, name: 'Atelier Hell BVA', category: 'Haute Couture', folder: 'atelierhell',
+    social: { label: 'Instagram', url: 'https://www.instagram.com/atelierhellbvart' },
+    showTime: '16h40', colors: [['#300a0a','#5c1a1a'],['#450a0a','#2a0a0a'],['#7f1d1d','#300a0a']],
+    looks: ['Œuvre Couture', 'Collection Art', 'Look Signature'],
+    desc: "La haute couture vue par Atelier Hell BVA : volumes sculptés, pièces uniques et sens du spectacle."
+  },
+  'amriche-ruks': {
+    order: 5, name: 'Amriche Ruks', category: 'Mode Urbaine', folder: 'amricheruks',
+    social: { label: 'TikTok', url: 'https://www.tiktok.com/@amricherukspam' },
+    showTime: '16h50', colors: [['#0c1445','#1e3a8a'],['#1d4ed8','#1e3a8a'],['#0c1445','#172554']],
+    looks: ['Drop Actuel', 'Look Fort', 'Style Urbain'],
+    desc: "Une mode urbaine assumée, pensée pour la scène et la ville. Silhouettes fortes, attitude directe."
+  },
+  'shams': {
+    order: 6, name: 'Shams', category: 'Mode Féminine', folder: 'shams',
+    social: { label: 'Instagram', url: 'https://www.instagram.com/chez_shams__' },
+    showTime: '17h00', colors: [['#3d2000','#78350f'],['#92400e','#451a03'],['#6b2d00','#2d1200']],
+    looks: ['Pièce Lumière', 'Éditorial Soleil', 'Look Collection'],
+    desc: "Une mode féminine lumineuse, entre douceur et caractère. Des pièces qui mettent la femme en avant."
+  },
+  'parva-mundi': {
+    order: 7, name: 'Parva Mundi', category: 'Slow Fashion', folder: 'parvamundi',
+    social: { label: 'Instagram', url: 'https://www.instagram.com/parvmun' },
+    showTime: '17h10', colors: [['#14260d','#1a4314'],['#166534','#14532d'],['#052e16','#1a3a12']],
+    looks: ['Look Organique', 'Collection Durable', 'Pièce Slow'],
+    desc: "Une approche slow fashion : moins, mais mieux. Des vêtements durables, pensés pour traverser le temps."
+  },
+  'habille-toi': {
+    order: 8, name: 'Habille Toi', category: 'Prêt-à-Porter', folder: 'habilletoi',
+    social: { label: 'Instagram', url: 'https://www.instagram.com/habille__toi' },
+    showTime: '17h20', colors: [['#2a1530','#4a1d5c'],['#831843','#500724'],['#3b0764','#1e0a36']],
+    looks: ['Look Élégant', 'Collection Chic', 'Pièce Couture'],
+    desc: "Du prêt-à-porter pour tous les jours, simple et soigné. L'essentiel, bien coupé."
+  },
+  'ndosslove-creation': {
+    order: 9, name: 'Ndosslove Création', category: 'Création Gabonaise', folder: 'ndosslove',
+    social: { label: 'Instagram', url: 'https://www.instagram.com/ndosslove.creation' },
+    showTime: '17h30', colors: [['#2d1b45','#4c1d95'],['#5b21b6','#3b0764'],['#1e0a36','#2e1065']],
+    looks: ['Signature Collection', 'Look Principal', 'Création Exclusive'],
+    desc: "Une création gabonaise au plus près du sur-mesure, où l'attention au détail fait toute la différence."
+  },
+  'dark-co': {
+    order: 10, name: 'Dark & Co', category: 'Streetwear', folder: 'dark-co',
+    social: { label: 'Instagram', url: '' },
+    showTime: '17h40', colors: [['#0a0a0a','#1f2a1f'],['#13211a','#0a0a0a'],['#1f2a1f','#0a0a0a']],
+    looks: ['Summer Drop', 'In Paris', 'Signature'],
+    desc: "Une marque gabonaise entre Libreville et Paris. Une esthétique sombre et nette, ancrée dans le territoire."
+  }
+};
+
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' })[c]; }); }
+function num(n) { return String(n).padStart(2, '0'); }
+
+function getSlug() {
+  var parts = window.location.pathname.split('/').filter(Boolean); // ["defile","incompris-241"]
+  var last = parts[parts.length - 1] || '';
+  return last.replace(/\.html$/, '');
+}
+
+function grad(pair, deg) { return 'linear-gradient(' + (deg || 150) + 'deg, ' + pair[0] + ', ' + pair[1] + ')'; }
+
+function renderLookbook(b) {
+  return b.looks.map(function (look, i) {
+    var pair = b.colors[i % b.colors.length];
+    var tall = i === 0 ? ' tall' : '';
+    var img = "url('/defile/photos/" + b.folder + "/look" + (i + 1) + ".jpg')";
+    return '' +
+      '<div class="look-tile' + tall + '" style="background-image:' + img + ', ' + grad(pair, 140 + i * 10) + '; background-size:cover; background-position:center;">' +
+        '<div class="look-label">Look ' + num(i + 1) + '</div>' +
+        '<div class="look-title">' + esc(look) + '</div>' +
+      '</div>';
+  }).join('');
+}
+
+function render() {
+  var slug = getSlug();
+  var b = BRANDS[slug];
+  var root = document.getElementById('fiche-root');
+
+  if (!b) {
+    document.title = 'BRUUX — Marque introuvable';
+    root.innerHTML =
+      '<div class="notfound">' +
+        '<h1>Marque introuvable</h1>' +
+        '<p>Cette marque n\'existe pas ou plus.</p>' +
+        '<a class="univers-cta" href="/defile#marques">← Retour aux 10 marques</a>' +
+      '</div>';
+    return;
+  }
+
+  document.title = 'BRUUX — ' + b.name + ' · Défilé 4 Juillet';
+
+  root.innerHTML =
+    '<section class="fiche-hero" style="background-image:' + "url('/defile/photos/" + b.folder + "/look1.jpg'), " + grad(b.colors[0], 160) + ';">' +
+      '<a class="fiche-back" href="/defile#marques">← Retour aux 10 marques</a>' +
+      '<div class="fiche-hero-bottom">' +
+        '<div class="fiche-hero-label">' + num(b.order) + ' — ' + esc(b.category) + ' · ' + esc(b.social.label) + '</div>' +
+        '<h1 class="fiche-hero-name">' + esc(b.name) + '</h1>' +
+      '</div>' +
+    '</section>' +
+
+    '<div class="fiche-body">' +
+      '<div class="lookbook">' +
+        '<p class="section-label">Lookbook</p>' +
+        '<div class="lookbook-grid">' + renderLookbook(b) + '</div>' +
+      '</div>' +
+
+      '<aside class="univers">' +
+        '<div>' +
+          '<p class="section-label" style="margin-bottom:0.8rem;">L\'univers</p>' +
+          '<p class="univers-desc">' + esc(b.desc) + '</p>' +
+        '</div>' +
+        '<ul class="univers-meta">' +
+          '<li><span class="meta-key">Typologie</span><span class="meta-val">' + esc(b.category) + '</span></li>' +
+          '<li><span class="meta-key">Passage</span><span class="meta-val gold">' + esc(b.showTime) + '</span></li>' +
+          '<li><span class="meta-key">Réseaux</span>' + (b.social.url ? '<a class="meta-link" href="' + esc(b.social.url) + '" target="_blank" rel="noopener">' + esc(b.social.label) + ' ↗</a>' : '<span class="meta-val">' + esc(b.social.label) + ' — à confirmer</span>') + '</li>' +
+        '</ul>' +
+        '<a class="univers-cta" href="/defile#tickets">Prendre ma place</a>' +
+      '</aside>' +
+    '</div>';
+}
+
+render();
+</script>
+</body>
+</html>

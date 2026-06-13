@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>BRUUX · Scan Admin</title>
+<!-- QR Scanner library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:    #0f0d0c;
+    --cream:  #faf7f2;
+    --gold:   #c9a84c;
+    --muted:  #7a7470;
+    --green:  #22c55e;
+    --red:    #ef4444;
+    --orange: #f59e0b;
+    --bg:     #111010;
+    --card:   #1a1918;
+    --border: rgba(250,247,242,0.08);
+  }
+
+  html, body {
+    height: 100%; background: var(--bg);
+    color: var(--cream); font-family: 'SF Pro Display', -apple-system, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── LOGIN ── */
+  #login-screen {
+    position: fixed; inset: 0; z-index: 200;
+    background: var(--bg);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 2rem; gap: 2rem;
+  }
+  .login-logo {
+    font-size: 0.75rem; letter-spacing: 0.4em;
+    color: var(--gold); text-transform: uppercase;
+    font-weight: 500;
+  }
+  .login-title {
+    font-size: 1.5rem; font-weight: 600;
+    text-align: center; line-height: 1.3;
+  }
+  .login-sub { font-size: 0.82rem; color: var(--muted); text-align: center; }
+  .login-form { width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 1rem; }
+  .login-input {
+    background: var(--card); border: 1px solid var(--border);
+    color: var(--cream); padding: 0.9rem 1.1rem;
+    font-size: 1rem; outline: none; width: 100%;
+    transition: border-color .2s; border-radius: 0;
+    -webkit-appearance: none;
+  }
+  .login-input:focus { border-color: var(--gold); }
+  .login-btn {
+    background: var(--gold); color: var(--ink);
+    border: none; padding: 1rem;
+    font-size: 0.9rem; font-weight: 600;
+    letter-spacing: 0.08em; cursor: pointer;
+    transition: opacity .2s; width: 100%;
+  }
+  .login-btn:hover { opacity: 0.88; }
+  .login-error {
+    font-size: 0.78rem; color: var(--red);
+    text-align: center; min-height: 1.2em;
+  }
+  .login-hint {
+    font-size: 0.68rem; color: var(--muted);
+    text-align: center; letter-spacing: 0.05em;
+  }
+
+  /* ── CONFIG SCREEN (accès avancé via bouton header) ── */
+  #config-screen {
+    position: fixed; inset: 0; z-index: 190;
+    background: var(--bg);
+    display: none; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 2rem; gap: 1.5rem; overflow-y: auto;
+  }
+  .config-form { width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 1rem; }
+  .config-label {
+    font-size: 0.65rem; letter-spacing: 0.2em;
+    color: var(--gold); text-transform: uppercase; margin-bottom: 0.3rem; display: block;
+  }
+  .config-input {
+    background: var(--card); border: 1px solid var(--border);
+    color: var(--cream); padding: 0.8rem 1rem;
+    font-size: 0.85rem; outline: none; width: 100%;
+    font-family: monospace; transition: border-color .2s;
+    -webkit-appearance: none; border-radius: 0;
+  }
+  .config-input:focus { border-color: var(--gold); }
+  .config-hint { font-size: 0.72rem; color: var(--muted); line-height: 1.5; }
+  .config-hint code { background: rgba(250,247,242,0.06); padding: 0.1rem 0.4rem; font-family: monospace; font-size: 0.7rem; }
+  .config-back {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--muted); padding: 0.75rem;
+    font-size: 0.82rem; cursor: pointer; width: 100%;
+    transition: all .2s; letter-spacing: 0.05em;
+  }
+  .config-back:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ── MAIN APP ── */
+  #app { display: none; flex-direction: column; min-height: 100vh; }
+
+  /* Header */
+  .app-header {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 1.2rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .header-left { display: flex; flex-direction: column; gap: 0.15rem; }
+  .header-logo { font-size: 0.72rem; letter-spacing: 0.35em; color: var(--gold); }
+  .header-title { font-size: 1rem; font-weight: 600; }
+  .header-right { display: flex; align-items: center; gap: 0.8rem; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse-dot 2s ease-in-out infinite; }
+  .status-dot.offline { background: var(--orange); animation: none; }
+  @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:.4} }
+  .status-text { font-size: 0.72rem; color: var(--muted); }
+  .settings-btn {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--muted); padding: 0.35rem 0.7rem;
+    font-size: 0.72rem; cursor: pointer; letter-spacing: 0.08em;
+    transition: all .2s;
+  }
+  .settings-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* Stats bar */
+  .stats-bar {
+    background: var(--card); border-bottom: 1px solid var(--border);
+    display: grid; grid-template-columns: repeat(4, 1fr);
+  }
+  .stat-cell { padding: 0.8rem 0.5rem; text-align: center; border-right: 1px solid var(--border); }
+  .stat-cell:last-child { border-right: none; }
+  .stat-n { font-size: 1.4rem; font-weight: 700; line-height: 1; }
+  .stat-l { font-size: 0.6rem; letter-spacing: 0.1em; color: var(--muted); margin-top: 0.2rem; text-transform: uppercase; }
+  .n-green { color: var(--green); }
+  .n-gold  { color: var(--gold); }
+  .n-red   { color: var(--red); }
+  .n-cream { color: var(--cream); }
+
+  /* Scanner area */
+  .scanner-section { padding: 1.2rem; }
+  .scanner-label { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 0.8rem; }
+  #scanner-box { position: relative; background: #000; overflow: hidden; border: 1px solid var(--border); min-height: 260px; }
+  #qr-reader { width: 100%; }
+  #qr-reader video { width: 100% !important; }
+  #qr-reader img { display: none !important; }
+
+  .scan-overlay { position: absolute; inset: 0; pointer-events: none; display: flex; align-items: center; justify-content: center; }
+  .scan-frame { width: 180px; height: 180px; position: relative; }
+  .scan-frame::before, .scan-frame::after,
+  .scan-frame span::before, .scan-frame span::after {
+    content: ''; position: absolute; width: 28px; height: 28px;
+    border-color: var(--gold); border-style: solid;
+  }
+  .scan-frame::before { top:0; left:0; border-width:3px 0 0 3px; }
+  .scan-frame::after  { top:0; right:0; border-width:3px 3px 0 0; }
+  .scan-frame span::before { bottom:0; left:0; border-width:0 0 3px 3px; }
+  .scan-frame span::after  { bottom:0; right:0; border-width:0 3px 3px 0; }
+  .scan-line {
+    position: absolute; left: 10%; right: 10%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    animation: scan-move 2s ease-in-out infinite;
+  }
+  @keyframes scan-move { 0%{top:15%;opacity:0} 10%{opacity:1} 90%{opacity:1} 100%{top:85%;opacity:0} }
+  .scanner-hint { font-size: 0.75rem; color: var(--muted); text-align: center; margin-top: 0.7rem; }
+
+  /* Scanner toggle */
+  .scanner-controls { display: flex; gap: 0.8rem; margin-bottom: 1rem; }
+  .ctrl-btn { flex: 1; padding: 0.75rem; border: 1px solid var(--border); background: var(--card); color: var(--cream); font-size: 0.82rem; font-weight: 500; cursor: pointer; transition: all .2s; letter-spacing: 0.05em; }
+  .ctrl-btn.active { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+  .ctrl-btn:hover:not(.active) { border-color: var(--gold); color: var(--gold); }
+
+  /* Result toast */
+  #result-toast { margin: 0 1.2rem 1rem; padding: 1.2rem 1.4rem; display: none; border-left: 4px solid; animation: slide-in .25s ease-out; }
+  @keyframes slide-in { from{transform:translateY(-8px);opacity:0} to{transform:translateY(0);opacity:1} }
+  #result-toast.success { background: rgba(34,197,94,0.1); border-color: var(--green); }
+  #result-toast.already { background: rgba(245,158,11,0.1); border-color: var(--orange); }
+  #result-toast.error   { background: rgba(239,68,68,0.1);  border-color: var(--red); }
+  .toast-status { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .toast-name   { font-size: 0.95rem; font-weight: 600; }
+  .toast-meta   { font-size: 0.78rem; color: var(--muted); margin-top: 0.3rem; }
+  .toast-tag { display: inline-block; font-size: 0.65rem; letter-spacing: 0.12em; padding: 0.2rem 0.6rem; text-transform: uppercase; margin-top: 0.5rem; }
+  .tag-green   { background: rgba(34,197,94,0.15); color: var(--green); }
+  .tag-red     { background: rgba(239,68,68,0.15); color: var(--red); }
+  .tag-gold    { background: rgba(201,168,76,0.15); color: var(--gold); }
+  .tag-orange  { background: rgba(245,158,11,0.15); color: var(--orange); }
+  .tag-prestige{ background: rgba(201,168,76,0.18); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
+
+  /* Manual search */
+  .manual-section { padding: 0 1.2rem 1rem; }
+  .manual-label { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 0.6rem; }
+  .manual-row { display: flex; gap: 0.6rem; }
+  .manual-input { flex: 1; background: var(--card); border: 1px solid var(--border); color: var(--cream); padding: 0.75rem 0.9rem; font-size: 0.9rem; outline: none; transition: border-color .2s; -webkit-appearance: none; border-radius: 0; }
+  .manual-input:focus { border-color: var(--gold); }
+  .manual-btn { background: var(--card); border: 1px solid var(--border); color: var(--cream); padding: 0.75rem 1.2rem; font-size: 0.82rem; cursor: pointer; white-space: nowrap; transition: all .2s; letter-spacing: 0.05em; }
+  .manual-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* Log list */
+  .log-section { padding: 0 1.2rem 2rem; }
+  .log-label { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 0.8rem; display: flex; align-items: center; justify-content: space-between; }
+  .log-clear { font-size: 0.65rem; color: var(--muted); cursor: pointer; letter-spacing: normal; }
+  .log-clear:hover { color: var(--red); }
+  #log-list { display: flex; flex-direction: column; gap: 1px; }
+  .log-item { background: var(--card); padding: 0.9rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .log-left { display: flex; flex-direction: column; gap: 0.2rem; }
+  .log-name { font-size: 0.88rem; font-weight: 500; }
+  .log-time { font-size: 0.7rem; color: var(--muted); font-family: monospace; }
+  .log-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.3rem; }
+  .log-type { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .log-icon { font-size: 1.1rem; }
+  .log-empty { text-align: center; font-size: 0.82rem; color: var(--muted); padding: 2rem 0; }
+
+  /* Pending validation */
+  .pending-section { padding: 1.2rem; border-bottom: 1px solid var(--border); }
+  .pending-label { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 0.8rem; display: flex; align-items: center; justify-content: space-between; }
+  .pending-refresh { font-size: 0.65rem; color: var(--muted); cursor: pointer; letter-spacing: normal; }
+  .pending-refresh:hover { color: var(--gold); }
+  #pending-list { display: flex; flex-direction: column; gap: 1px; }
+  .pending-item { background: var(--card); padding: 0.9rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .pending-info { display: flex; flex-direction: column; gap: 0.25rem; min-width: 0; }
+  .pending-name { font-size: 0.9rem; font-weight: 600; }
+  .pending-meta { font-size: 0.72rem; color: var(--muted); }
+  .pending-pay { font-family: monospace; font-size: 0.78rem; display: flex; gap: 0.6rem; flex-wrap: wrap; }
+  .pending-amount { color: var(--green); font-weight: 600; }
+  .pending-code { color: var(--gold); letter-spacing: 0.08em; }
+  .pending-time { font-family: monospace; font-size: 0.68rem; color: var(--muted); }
+  .pending-approve { background: var(--gold); color: var(--ink); border: none; padding: 0.6rem 1.1rem; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; cursor: pointer; white-space: nowrap; transition: opacity .2s; }
+  .pending-approve:hover { opacity: 0.88; }
+  .pending-approve:disabled { opacity: 0.5; cursor: default; }
+  .pending-empty { text-align: center; font-size: 0.82rem; color: var(--muted); padding: 1.4rem 0; }
+
+  /* Responsive */
+  @media (min-width: 500px) {
+    #scanner-box { max-width: 400px; margin: 0 auto; }
+    .stats-bar, .pending-section { max-width: 480px; margin: 0 auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN SCREEN ── -->
+<div id="login-screen">
+  <div class="login-logo">BRUUX · Division Tech</div>
+  <div>
+    <div class="login-title">Accès Administration<br>Scan & Contrôle</div>
+    <div class="login-sub" style="margin-top:.5rem">Réservé à l'équipe Bruux · 4 Juillet 2026</div>
+  </div>
+  <div class="login-form">
+    <input id="login-pass" class="login-input" type="password" placeholder="Mot de passe" autocomplete="current-password">
+    <button class="login-btn" onclick="doLogin()">Accéder →</button>
+    <div id="login-error" class="login-error"></div>
+  </div>
+  <div class="login-hint">Mot de passe fourni par la Division Tech Bruux</div>
+</div>
+
+<!-- ── MAIN APP ── -->
+<div id="app">
+
+  <!-- Header -->
+  <div class="app-header">
+    <div class="header-left">
+      <div class="header-logo">BRUUX · ADMIN</div>
+      <div class="header-title">Contrôle d'accès — 4 Juillet</div>
+    </div>
+    <div class="header-right">
+      <div id="conn-dot" class="status-dot offline"></div>
+      <div id="conn-text" class="status-text">Hors ligne</div>
+      <button class="settings-btn" onclick="doLogout()">Quitter</button>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-cell">
+      <div class="stat-n n-cream" id="stat-total">—</div>
+      <div class="stat-l">Total</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-n n-green" id="stat-in">0</div>
+      <div class="stat-l">Entrés</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-n n-gold" id="stat-remain">—</div>
+      <div class="stat-l">Restants</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-n n-red" id="stat-rejected">0</div>
+      <div class="stat-l">Refusés</div>
+    </div>
+  </div>
+
+  <!-- En attente de validation -->
+  <div class="pending-section">
+    <div class="pending-label">
+      <span>En attente de validation (<span id="pending-count">0</span>)</span>
+      <span class="pending-refresh" onclick="loadPending()">↻ Rafraîchir</span>
+    </div>
+    <div id="pending-list">
+      <div class="pending-empty">Aucune demande en attente</div>
+    </div>
+  </div>
+
+  <!-- Scanner -->
+  <div class="scanner-section">
+    <div class="scanner-label">Scanner QR</div>
+    <div class="scanner-controls">
+      <button class="ctrl-btn active" id="btn-start" onclick="startScanner()">▶ Démarrer caméra</button>
+      <button class="ctrl-btn" id="btn-stop" onclick="stopScanner()">■ Arrêter</button>
+    </div>
+    <div id="scanner-box">
+      <div id="qr-reader"></div>
+      <div class="scan-overlay" id="scan-overlay">
+        <div class="scan-frame">
+          <span></span>
+          <div class="scan-line"></div>
+        </div>
+      </div>
+    </div>
+    <div class="scanner-hint">Pointe la caméra vers le QR code de l'invité</div>
+  </div>
+
+  <!-- Result toast -->
+  <div id="result-toast">
+    <div class="toast-status" id="toast-status"></div>
+    <div class="toast-name" id="toast-name"></div>
+    <div class="toast-meta" id="toast-meta"></div>
+    <span class="toast-tag" id="toast-tag"></span>
+  </div>
+
+  <!-- Manual search -->
+  <div class="manual-section">
+    <div class="manual-label">Recherche manuelle</div>
+    <div class="manual-row">
+      <input id="manual-input" class="manual-input" type="text" placeholder="ID ou nom de l'invité…">
+      <button class="manual-btn" onclick="manualCheck()">Vérifier</button>
+    </div>
+  </div>
+
+  <!-- Scan log -->
+  <div class="log-section">
+    <div class="log-label">
+      <span>Derniers scans</span>
+      <span class="log-clear" onclick="clearLog()">Effacer</span>
+    </div>
+    <div id="log-list">
+      <div class="log-empty">Aucun scan pour l'instant</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ──────────────────────────────────────────────
+//  CONFIGURATION
+//  → Changer le mot de passe ici avant l'événement
+// ──────────────────────────────────────────────
+// ──────────────────────────────────────────────
+//  ÉTAT
+// ──────────────────────────────────────────────
+let html5QrCode = null;
+let scannerRunning = false;
+let scanCooldown = false;
+let stats = { total: 0, in: 0, rejected: 0 };
+let scanLog = [];
+let connected = false;
+
+// ──────────────────────────────────────────────
+//  LOGIN — mot de passe vérifié CÔTÉ SERVEUR.
+//  Aucune clé Supabase n'est manipulée dans le navigateur.
+// ──────────────────────────────────────────────
+async function doLogin() {
+  const pass = document.getElementById('login-pass').value;
+  const err  = document.getElementById('login-error');
+  try {
+    const res = await fetch('/api/defile/admin/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pass })
+    });
+    if (!res.ok) throw new Error('unauthorized');
+    document.getElementById('login-screen').style.display = 'none';
+    showApp();
+  } catch {
+    err.textContent = 'Mot de passe incorrect.';
+    document.getElementById('login-pass').value = '';
+    setTimeout(() => err.textContent = '', 2500);
+  }
+}
+document.getElementById('login-pass').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+async function doLogout() {
+  try { await fetch('/api/defile/admin/logout', { method: 'POST' }); } catch {}
+  location.reload();
+}
+
+// ──────────────────────────────────────────────
+//  APP INIT
+// ──────────────────────────────────────────────
+function showApp() {
+  document.getElementById('app').style.display = 'flex';
+  loadStats();
+  loadPending();
+}
+
+function updateConnStatus() {
+  const dot  = document.getElementById('conn-dot');
+  const text = document.getElementById('conn-text');
+  if (connected) {
+    dot.classList.remove('offline');
+    dot.style.background = 'var(--green)';
+    text.textContent = 'Connecté';
+  } else {
+    dot.classList.add('offline');
+    dot.style.background = 'var(--red)';
+    text.textContent = 'Hors ligne';
+  }
+}
+
+// ──────────────────────────────────────────────
+//  STATS — comptées côté serveur (clé service_role).
+// ──────────────────────────────────────────────
+async function loadStats() {
+  try {
+    const res = await fetch('/api/defile/admin/stats', { cache: 'no-store' });
+    if (!res.ok) { connected = false; updateConnStatus(); return; }
+    const data = await res.json();
+    stats.total = data.total || 0;
+    stats.in    = data.entered || 0;
+    connected = true;
+    updateConnStatus();
+    updateStatsUI();
+  } catch (e) {
+    connected = false;
+    updateConnStatus();
+  }
+}
+
+function updateStatsUI() {
+  document.getElementById('stat-total').textContent    = stats.total || '—';
+  document.getElementById('stat-in').textContent       = stats.in;
+  document.getElementById('stat-remain').textContent   = stats.total ? (stats.total - stats.in) : '—';
+  document.getElementById('stat-rejected').textContent = stats.rejected;
+}
+
+// ──────────────────────────────────────────────
+//  QR SCANNER
+// ──────────────────────────────────────────────
+function startScanner() {
+  if (scannerRunning) return;
+  document.getElementById('btn-start').classList.add('active');
+  document.getElementById('btn-stop').classList.remove('active');
+
+  html5QrCode = new Html5Qrcode("qr-reader");
+  const config = { fps: 10, qrbox: { width: 200, height: 200 } };
+
+  html5QrCode.start(
+    { facingMode: "environment" },
+    config,
+    onScanSuccess,
+    () => {}
+  ).then(() => {
+    scannerRunning = true;
+    document.getElementById('scan-overlay').style.display = 'flex';
+  }).catch(() => {
+    showToast('error', '❌ Caméra inaccessible', "Autorise l'accès à la caméra dans les paramètres.", '', '');
+  });
+}
+
+function stopScanner() {
+  if (!scannerRunning || !html5QrCode) return;
+  html5QrCode.stop().then(() => {
+    scannerRunning = false;
+    document.getElementById('btn-start').classList.remove('active');
+    document.getElementById('btn-stop').classList.add('active');
+    document.getElementById('scan-overlay').style.display = 'none';
+  });
+}
+
+async function onScanSuccess(decodedText) {
+  if (scanCooldown) return;
+  scanCooldown = true;
+  setTimeout(() => { scanCooldown = false; }, 2500);
+  await processCode(decodedText.trim());
+}
+
+// ──────────────────────────────────────────────
+//  VALIDATION LOGIQUE
+// ──────────────────────────────────────────────
+async function processCode(code) {
+  try {
+    const res = await fetch('/api/defile/admin/scan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code })
+    });
+
+    if (res.status === 401) {
+      showToast('error', '❌ Session expirée', 'Reconnecte-toi.', '', '');
+      setTimeout(() => location.reload(), 1500);
+      return;
+    }
+
+    const data = await res.json();
+    const invite = data.invite || {};
+
+    if (data.result === 'success') {
+      stats.in++;
+      updateStatsUI();
+      addLog(invite.nom, invite.ticket_type, 'success', '✅');
+      showToast('success', '✅ Accès accordé', invite.nom, `Ticket : ${ticketLabel(invite.ticket_type)}`, invite.ticket_type);
+      vibrate([80]);
+    } else if (data.result === 'already') {
+      const scanTime = invite.scanne_at ? new Date(invite.scanne_at).toLocaleTimeString('fr-FR') : '';
+      addLog(invite.nom, invite.ticket_type, 'already', '⚠️');
+      showToast('already', '⚠️ Déjà scanné', invite.nom, `Scanné à ${scanTime}`, invite.ticket_type);
+      vibrate([100, 50, 100, 50, 100]);
+    } else if (data.result === 'not_paid') {
+      stats.rejected++;
+      updateStatsUI();
+      addLog(invite.nom || 'NON PAYÉ', invite.ticket_type, 'error', '❌');
+      showToast('error', '❌ Billet non payé', invite.nom || code, 'Paiement non confirmé', '');
+      vibrate([200, 100, 200]);
+    } else {
+      stats.rejected++;
+      updateStatsUI();
+      addLog('INCONNU', code, 'error', '❌');
+      showToast('error', '❌ Inconnu', `Aucun invité trouvé : ${code}`, 'QR non reconnu', '');
+      vibrate([200, 100, 200]);
+    }
+  } catch (e) {
+    showToast('error', '❌ Erreur', 'Problème de connexion.', e.message, '');
+  }
+}
+
+function ticketLabel(type) {
+  if (!type) return '—';
+  const t = type.toLowerCase();
+  if (t === 'prestige') return 'Prestige · 40 000 FCFA';
+  if (t === 'vip')      return 'VIP · 30 000 FCFA';
+  if (t === 'standard') return 'Standard · 5 000 FCFA';
+  // Legacy (ancien système)
+  if (t === 'gold')  return 'Premium · 20 000 FCFA';
+  if (t === 'red')   return 'VIP · 7 000 FCFA';
+  if (t === 'green') return 'Standard · 5 000 FCFA';
+  return type;
+}
+
+async function manualCheck() {
+  const val = document.getElementById('manual-input').value.trim();
+  if (!val) return;
+  await processCode(val);
+  document.getElementById('manual-input').value = '';
+}
+document.getElementById('manual-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') manualCheck();
+});
+
+// ──────────────────────────────────────────────
+//  TOAST
+// ──────────────────────────────────────────────
+let toastTimer = null;
+function showToast(type, status, name, meta, ticketType) {
+  const toast = document.getElementById('result-toast');
+  toast.className = '';
+  toast.classList.add(type);
+  toast.style.display = 'block';
+
+  document.getElementById('toast-status').textContent = status;
+  document.getElementById('toast-name').textContent   = name;
+  document.getElementById('toast-meta').textContent   = meta;
+
+  const tag = document.getElementById('toast-tag');
+  const tl  = ticketLabel(ticketType);
+  if (ticketType) {
+    tag.textContent = tl;
+    const t = (ticketType || '').toLowerCase();
+    if (t === 'prestige') tag.className = 'toast-tag tag-prestige';
+    else if (t === 'vip' || t === 'red') tag.className = 'toast-tag tag-red';
+    else tag.className = 'toast-tag tag-green';
+    tag.style.display = 'inline-block';
+  } else {
+    tag.style.display = 'none';
+  }
+
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { toast.style.display = 'none'; }, 4000);
+}
+
+// ──────────────────────────────────────────────
+//  LOG
+// ──────────────────────────────────────────────
+function addLog(name, type, status, icon) {
+  const now = new Date().toLocaleTimeString('fr-FR');
+  scanLog.unshift({ name, type, status, icon, time: now });
+  if (scanLog.length > 50) scanLog.pop();
+  renderLog();
+}
+
+function renderLog() {
+  const el = document.getElementById('log-list');
+  if (scanLog.length === 0) {
+    el.innerHTML = '<div class="log-empty">Aucun scan pour l\'instant</div>';
+    return;
+  }
+  el.innerHTML = scanLog.map(l => `
+    <div class="log-item">
+      <div class="log-left">
+        <div class="log-name">${l.name}</div>
+        <div class="log-time">${l.time}</div>
+      </div>
+      <div class="log-right">
+        <div class="log-type" style="color:${l.status==='success'?'var(--green)':l.status==='already'?'var(--orange)':'var(--red)'}">${ticketLabel(l.type)}</div>
+        <div class="log-icon">${l.icon}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function clearLog() {
+  scanLog = [];
+  renderLog();
+}
+
+// ──────────────────────────────────────────────
+//  VIBRATION
+// ──────────────────────────────────────────────
+function vibrate(pattern) {
+  if (navigator.vibrate) navigator.vibrate(pattern);
+}
+
+// ──────────────────────────────────────────────
+//  EN ATTENTE DE VALIDATION
+// ──────────────────────────────────────────────
+async function loadPending() {
+  try {
+    const res = await fetch('/api/defile/admin/pending', { cache: 'no-store' });
+    if (!res.ok) return;
+    const data = await res.json();
+    renderPending(data.invites || []);
+  } catch (e) { /* réessai au prochain tick */ }
+}
+
+function renderPending(list) {
+  document.getElementById('pending-count').textContent = list.length;
+  const el = document.getElementById('pending-list');
+  if (list.length === 0) {
+    el.innerHTML = '<div class="pending-empty">Aucune demande en attente</div>';
+    return;
+  }
+  el.innerHTML = list.map(inv => {
+    const heure = inv.created_at ? new Date(inv.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) : '';
+    const montant = (Number(inv.montant) || 0).toLocaleString('fr-FR') + ' FCFA';
+    return `
+    <div class="pending-item" data-id="${inv.id}">
+      <div class="pending-info">
+        <div class="pending-name">${inv.nom}</div>
+        <div class="pending-meta">${ticketLabel(inv.ticket_type)} · ${inv.telephone || ''}</div>
+        <div class="pending-pay">
+          <span class="pending-amount">${montant}</span>
+          <span class="pending-code">${inv.id}</span>
+        </div>
+        <div class="pending-time">Inscrit à ${heure}</div>
+      </div>
+      <button class="pending-approve" onclick="approve('${inv.id}', this)">Approuver</button>
+    </div>`;
+  }).join('');
+}
+
+async function approve(id, btn) {
+  btn.disabled = true;
+  btn.textContent = '…';
+  try {
+    const res = await fetch('/api/defile/admin/approuver', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ invite_id: id })
+    });
+    const data = await res.json();
+
+    if (res.status === 401) {
+      showToast('error', '❌ Session expirée', 'Reconnecte-toi.', '', '');
+      setTimeout(() => location.reload(), 1500);
+      return;
+    }
+
+    if (res.ok && data.result === 'approved') {
+      const inv = data.invite || {};
+      showToast('success', '✅ Validé', inv.nom || '', 'QR envoyé sur WhatsApp', inv.ticket_type);
+      vibrate([80]);
+      loadStats();
+      loadPending();
+    } else if (data.result === 'qr_failed') {
+      btn.disabled = false;
+      btn.textContent = 'Réessayer';
+      showToast('error', '❌ QR non envoyé', 'Échec WhatsApp', 'Vérifie le numéro puis réessaie', '');
+    } else {
+      btn.disabled = false;
+      btn.textContent = 'Approuver';
+      showToast('error', '❌ Erreur', data.error || 'Action impossible', '', '');
+    }
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = 'Approuver';
+    showToast('error', '❌ Erreur', 'Problème de connexion.', e.message, '');
+  }
+}
+
+// Refresh stats + demandes en attente toutes les 30s si connecté
+setInterval(() => { if (connected) { loadStats(); loadPending(); } }, 30000);
+</script>
+</body>
+</html>
