@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BRUUX — Défilé de Marques · 4 Juillet</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&family=Anton&family=Archivo+Black&family=Metal+Mania&family=Eater&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap');
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1089,27 +1089,12 @@ function confirmPaid() {
   var el = document.getElementById('hero-word');
   if (!el) return;
   var words = ['Défilé de Marques', 'Incompris 241', 'Fallaman.co', 'Oyin Studio', 'Atelier Hell BVA', 'Amriche Ruks', 'Shams', 'Parva Mundi', 'Habille Toi', 'Ndosslove Création'];
-  // Police inspirée du logo de chaque marque. Vide = serif Playfair par défaut
-  // (logos qui sont des symboles, ou sans typo identifiable / proche du défaut).
-  var fonts = [
-    '',                            // Défilé de Marques (défaut)
-    "'Anton', sans-serif",         // Incompris 241 — logo FINESSE (sans gras condensé)
-    '',                            // Fallaman.co — logo = symbole
-    '',                            // Oyin Studio — logo = symbole
-    "'Metal Mania', system-ui",    // Atelier Hell BVA — logo gothique/metal
-    '',                            // Amriche Ruks — monogramme calligraphique
-    '',                            // Shams — logo = emblème
-    "'Eater', system-ui",          // Parva Mundi — logo black metal
-    '',                            // Habille Toi — serif proche du défaut
-    "'Archivo Black', sans-serif"  // Ndosslove Création — logo sans gras
-  ];
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce) return; // accessibilité : mot figé "Défilé de Marques"
   var i = 0;
   setInterval(function () {
     i = (i + 1) % words.length;
     el.textContent = words[i];
-    el.style.fontFamily = fonts[i] || ''; // '' = revient à la police par défaut du hero
     el.classList.remove('kw-animate');
     void el.offsetWidth; // force un reflow pour relancer l'animation
     el.classList.add('kw-animate');
