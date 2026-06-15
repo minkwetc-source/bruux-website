@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Calendar as CalIcon, Clock, MapPin } from "lucide-react";
 import { cn, formatDate } from "@/lib/utils";
@@ -56,10 +57,21 @@ export function EventCard({
         )}
       >
         <div className={cn("relative aspect-[16/9] w-full overflow-hidden bg-gradient-to-br", accent)}>
-          <div
-            aria-hidden
-            className="absolute inset-0 bg-[radial-gradient(circle_at_40%_50%,rgba(196,163,90,0.22),transparent_65%)] transition-opacity duration-500 group-hover:opacity-70"
-          />
+          {event.image_url && (
+            <Image
+              src={event.image_url}
+              alt={event.title}
+              fill
+              sizes="(max-width: 768px) 100vw, 800px"
+              className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            />
+          )}
+          {!event.image_url && (
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-[radial-gradient(circle_at_40%_50%,rgba(196,163,90,0.22),transparent_65%)] transition-opacity duration-500 group-hover:opacity-70"
+            />
+          )}
           <div
             aria-hidden
             className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-bg-surface via-bg-surface/40 to-transparent"
@@ -138,10 +150,21 @@ export function EventCard({
       )}
     >
       <div className={cn("relative aspect-[4/3] w-full overflow-hidden bg-gradient-to-br", accent)}>
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(196,163,90,0.1),transparent_65%)]"
-        />
+        {event.image_url && (
+          <Image
+            src={event.image_url}
+            alt={event.title}
+            fill
+            sizes="(max-width: 768px) 50vw, 400px"
+            className="object-cover opacity-80 transition-transform duration-500 group-hover:scale-[1.03]"
+          />
+        )}
+        {!event.image_url && (
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(196,163,90,0.1),transparent_65%)]"
+          />
+        )}
         <span className="absolute right-3 top-3 border border-border-medium bg-bg-primary/60 px-3 py-1 font-ui text-[10px] font-semibold uppercase tracking-label text-text-secondary backdrop-blur-sm">
           Terminé
         </span>

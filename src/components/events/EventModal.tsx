@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Calendar as CalIcon, Clock, MapPin, X, ArrowUpRight } from "lucide-react";
@@ -84,10 +85,21 @@ function ModalBody({ event, onClose }: { event: EventRow; onClose: () => void })
       </button>
 
       <div className="relative aspect-[16/9] w-full overflow-hidden bg-gradient-to-br from-[#1f1f1f] via-[#141414] to-[#0a0a0a]">
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-[radial-gradient(circle_at_40%_40%,rgba(196,163,90,0.24),transparent_65%)]"
-        />
+        {event.image_url && (
+          <Image
+            src={event.image_url}
+            alt={event.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 672px"
+            className="object-cover"
+          />
+        )}
+        {!event.image_url && (
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-[radial-gradient(circle_at_40%_40%,rgba(196,163,90,0.24),transparent_65%)]"
+          />
+        )}
         <div
           aria-hidden
           className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-bg-surface to-transparent"
@@ -153,7 +165,7 @@ function ModalBody({ event, onClose }: { event: EventRow; onClose: () => void })
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-accent px-6 py-3 font-body text-xs font-semibold uppercase tracking-button text-bg-primary transition-colors hover:bg-accent-hover"
               >
-                Réserver sur WhatsApp
+                {/wa\.me|whatsapp/i.test(event.whatsapp_link) ? "Réserver sur WhatsApp" : "Réserver"}
                 <ArrowUpRight size={14} />
               </Link>
             )}
