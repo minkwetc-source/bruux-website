@@ -170,6 +170,12 @@
   }
   @keyframes scan-move { 0%{top:15%;opacity:0} 10%{opacity:1} 90%{opacity:1} 100%{top:85%;opacity:0} }
   .scanner-hint { font-size: 0.75rem; color: var(--muted); text-align: center; margin-top: 0.7rem; }
+  .cam-help { display: none; margin-top: 0.9rem; padding: 0.9rem 1rem; border: 1px solid var(--gold); background: rgba(201,168,76,0.08); font-size: 0.8rem; line-height: 1.5; color: var(--cream); }
+  .cam-help.show { display: block; }
+  .cam-help b { color: var(--gold); }
+  .cam-help ol { margin: 0.4rem 0 0; padding-left: 1.1rem; }
+  .cam-help li { margin-bottom: 0.2rem; }
+  .cam-help button { margin-top: 0.8rem; background: var(--gold); color: var(--ink); border: none; padding: 0.55rem 1.1rem; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
 
   /* Scanner toggle */
   .scanner-controls { display: flex; gap: 0.8rem; margin-bottom: 1rem; }
@@ -335,6 +341,7 @@
       </div>
     </div>
     <div class="scanner-hint">Pointe la caméra vers le QR code de l'invité</div>
+    <div id="cam-help" class="cam-help"></div>
   </div>
 
   <!-- Result toast -->
@@ -479,25 +486,67 @@ function updateStatsUI() {
 // ──────────────────────────────────────────────
 //  QR SCANNER
 // ──────────────────────────────────────────────
-function startScanner() {
+async function startScanner() {
   if (scannerRunning) return;
+  hideCamHelp();
+
+  // 1. Demande explicite de la permission : déclenche la pop-up native du
+  //    navigateur (« Autoriser la caméra ? ») tant qu'elle n'a pas été
+  //    refusée définitivement.
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+    stream.getTracks().forEach(t => t.stop()); // html5-qrcode rouvrira la caméra
+  } catch (err) {
+    handleCameraError(err);
+    return;
+  }
+
+  // 2. Démarre le lecteur de QR.
   document.getElementById('btn-start').classList.add('active');
   document.getElementById('btn-stop').classList.remove('active');
-
   html5QrCode = new Html5Qrcode("qr-reader");
   const config = { fps: 10, qrbox: { width: 200, height: 200 } };
-
-  html5QrCode.start(
-    { facingMode: "environment" },
-    config,
-    onScanSuccess,
-    () => {}
-  ).then(() => {
+  try {
+    await html5QrCode.start({ facingMode: "environment" }, config, onScanSuccess, () => {});
     scannerRunning = true;
     document.getElementById('scan-overlay').style.display = 'flex';
-  }).catch(() => {
-    showToast('error', '❌ Caméra inaccessible', "Autorise l'accès à la caméra dans les paramètres.", '', '');
-  });
+  } catch (err) {
+    handleCameraError(err);
+  }
+}
+
+function hideCamHelp() {
+  const el = document.getElementById('cam-help');
+  if (el) el.classList.remove('show');
+}
+
+function showCamHelp(html) {
+  const el = document.getElementById('cam-help');
+  if (!el) return;
+  el.innerHTML = html + '<button onclick="startScanner()">Autoriser la caméra / Réessayer</button>';
+  el.classList.add('show');
+  document.getElementById('btn-start').classList.remove('active');
+}
+
+function handleCameraError(err) {
+  const name = (err && err.name) ? err.name : '';
+  if (name === 'NotAllowedError' || name === 'SecurityError' || name === 'PermissionDeniedError') {
+    showCamHelp(
+      "<b>Accès caméra bloqué.</b> Pour le réautoriser :" +
+      "<ol>" +
+      "<li>Touche l'icône à gauche de l'adresse (cadenas / réglages du site).</li>" +
+      "<li>Ouvre « Autorisations » puis « Caméra ».</li>" +
+      "<li>Choisis « Autoriser », puis reviens ici et Réessaie.</li>" +
+      "</ol>" +
+      "Astuce : si tu es dans le navigateur intégré de WhatsApp/Instagram, ouvre plutôt ce lien dans Chrome. Sinon utilise la Recherche manuelle ci-dessous."
+    );
+  } else if (name === 'NotFoundError' || name === 'OverconstrainedError' || name === 'DevicesNotFoundError') {
+    showCamHelp("<b>Aucune caméra détectée</b> sur cet appareil (ex : ordinateur sans webcam). Scanne depuis un téléphone, ou utilise la Recherche manuelle ci-dessous.");
+  } else if (name === 'NotReadableError' || name === 'TrackStartError') {
+    showCamHelp("<b>Caméra occupée</b> par une autre application. Ferme-la (ou les autres onglets qui l'utilisent) puis Réessaie.");
+  } else {
+    showCamHelp("<b>Caméra inaccessible.</b> Vérifie les autorisations du navigateur, ou utilise la Recherche manuelle ci-dessous.");
+  }
 }
 
 function stopScanner() {
