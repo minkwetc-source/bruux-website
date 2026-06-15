@@ -66,10 +66,10 @@ function NextEventContent({ event }: { event: EventRow }) {
           className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,rgba(196,163,90,0.08),transparent_70%)]"
         />
 
-        <div className="container-bruux relative z-10 grid grid-cols-1 gap-12 py-20 md:grid-cols-2 md:gap-16 md:py-0">
+        <div className="container-bruux relative z-10 grid grid-cols-1 items-center gap-12 py-20 md:grid-cols-2 md:gap-16 md:py-0">
           {/* Affiche officielle */}
           <ScrollReveal animation="slide-right" duration={1.2}>
-            <div className="relative aspect-[4/5] w-full overflow-hidden border border-accent-border md:aspect-[3/4]">
+            <div className="relative aspect-video w-full overflow-hidden border border-accent-border">
               <Image
                 src={imageSrc}
                 alt={`Affiche officielle ${event.title}${
