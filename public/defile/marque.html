@@ -110,7 +110,7 @@
 
 <script>
 // ──────────────────────────────────────────────
-//  Données des 10 marques (source : handoff + page /defile + logos/photos clients)
+//  Données des 8 marques (source : handoff + page /defile + logos/photos clients)
 //  Visuels = vraies photos (/defile/photos/<folder>/look1..3.jpg), dégradé en repli.
 // ──────────────────────────────────────────────
 var BRANDS = {
@@ -121,68 +121,54 @@ var BRANDS = {
     looks: ['Drop Urbain', 'Pièce Signature', 'Look Scène'],
     desc: "Le streetwear gabonais dans sa version la plus libre. Coupes actuelles, énergie de la rue de Libreville, pièces qui s'affirment."
   },
-  'fallaman-co': {
-    order: 2, name: 'Fallaman.co', category: 'Prêt-à-Porter', folder: 'fallaman',
-    social: { label: 'Instagram', url: 'https://www.instagram.com/fallaman.co' },
-    showTime: '16h20', colors: [['#431407','#78350f'],['#92400e','#3d1a0a'],['#7c2d12','#451a03']],
-    looks: ['Collection Phare', 'Éditorial', 'Look Défilé'],
-    desc: "Du prêt-à-porter contemporain qui mise sur la justesse des coupes et une élégance accessible au quotidien."
-  },
-  'oyin-studio': {
-    order: 3, name: 'Oyin Studio', category: 'Artisanal', folder: 'oyinstudio',
-    social: { label: 'Instagram', url: 'https://www.instagram.com/oyinstudio' },
-    showTime: '16h30', colors: [['#1c2820','#2d4a3e'],['#14532d','#166534'],['#1a3a2a','#0f2a1e']],
-    looks: ['Look Atelier', 'Collection Terre', 'Pièce Artisanale'],
-    desc: "Des créations artisanales où chaque pièce raconte un savoir-faire. Matières travaillées à la main, détails soignés."
-  },
   'atelier-hell-bva': {
-    order: 4, name: 'Atelier Hell BVA', category: 'Haute Couture', folder: 'atelierhell',
+    order: 2, name: 'Atelier Hell BVA', category: 'Haute Couture', folder: 'atelierhell',
     social: { label: 'Instagram', url: 'https://www.instagram.com/atelierhellbvart' },
-    showTime: '16h40', colors: [['#300a0a','#5c1a1a'],['#450a0a','#2a0a0a'],['#7f1d1d','#300a0a']],
+    showTime: '16h20', colors: [['#300a0a','#5c1a1a'],['#450a0a','#2a0a0a'],['#7f1d1d','#300a0a']],
     looks: ['Œuvre Couture', 'Collection Art', 'Look Signature'],
     desc: "La haute couture vue par Atelier Hell BVA : volumes sculptés, pièces uniques et sens du spectacle."
   },
   'amriche-ruks': {
-    order: 5, name: 'Amriche Ruks', category: 'Mode Urbaine', folder: 'amricheruks',
+    order: 3, name: 'Amriche Ruks', category: 'Mode Urbaine', folder: 'amricheruks',
     social: { label: 'TikTok', url: 'https://www.tiktok.com/@amricherukspam' },
-    showTime: '16h50', colors: [['#0c1445','#1e3a8a'],['#1d4ed8','#1e3a8a'],['#0c1445','#172554']],
+    showTime: '16h30', colors: [['#0c1445','#1e3a8a'],['#1d4ed8','#1e3a8a'],['#0c1445','#172554']],
     looks: ['Drop Actuel', 'Look Fort', 'Style Urbain'],
     desc: "Une mode urbaine assumée, pensée pour la scène et la ville. Silhouettes fortes, attitude directe."
   },
   'shams': {
-    order: 6, name: 'Shams', category: 'Mode Féminine', folder: 'shams',
+    order: 4, name: 'Shams', category: 'Mode Féminine', folder: 'shams',
     social: { label: 'Instagram', url: 'https://www.instagram.com/chez_shams__' },
-    showTime: '17h00', colors: [['#3d2000','#78350f'],['#92400e','#451a03'],['#6b2d00','#2d1200']],
+    showTime: '16h40', colors: [['#3d2000','#78350f'],['#92400e','#451a03'],['#6b2d00','#2d1200']],
     looks: ['Pièce Lumière', 'Éditorial Soleil', 'Look Collection'],
     desc: "Une mode féminine lumineuse, entre douceur et caractère. Des pièces qui mettent la femme en avant."
   },
   'parva-mundi': {
-    order: 7, name: 'Parva Mundi', category: 'Slow Fashion', folder: 'parvamundi',
+    order: 5, name: 'Parva Mundi', category: 'Slow Fashion', folder: 'parvamundi',
     social: { label: 'Instagram', url: 'https://www.instagram.com/parvmun' },
-    showTime: '17h10', colors: [['#14260d','#1a4314'],['#166534','#14532d'],['#052e16','#1a3a12']],
+    showTime: '16h50', colors: [['#14260d','#1a4314'],['#166534','#14532d'],['#052e16','#1a3a12']],
     looks: ['Look Organique', 'Collection Durable', 'Pièce Slow'],
     desc: "Une approche slow fashion : moins, mais mieux. Des vêtements durables, pensés pour traverser le temps."
   },
   'habille-toi': {
-    order: 8, name: 'Habille Toi', category: 'Prêt-à-Porter', folder: 'habilletoi',
+    order: 6, name: 'Habille Toi', category: 'Prêt-à-Porter', folder: 'habilletoi',
     social: { label: 'Instagram', url: 'https://www.instagram.com/habille__toi' },
-    showTime: '17h20', colors: [['#2a1530','#4a1d5c'],['#831843','#500724'],['#3b0764','#1e0a36']],
+    showTime: '17h00', colors: [['#2a1530','#4a1d5c'],['#831843','#500724'],['#3b0764','#1e0a36']],
     looks: ['Look Élégant', 'Collection Chic', 'Pièce Couture'],
     desc: "Du prêt-à-porter pour tous les jours, simple et soigné. L'essentiel, bien coupé."
   },
   'ndosslove-creation': {
-    order: 9, name: 'Ndosslove Création', category: 'Création Gabonaise', folder: 'ndosslove',
+    order: 7, name: 'Ndosslove Création', category: 'Création Gabonaise', folder: 'ndosslove',
     social: { label: 'Instagram', url: 'https://www.instagram.com/ndosslove.creation' },
-    showTime: '17h30', colors: [['#2d1b45','#4c1d95'],['#5b21b6','#3b0764'],['#1e0a36','#2e1065']],
+    showTime: '17h10', colors: [['#2d1b45','#4c1d95'],['#5b21b6','#3b0764'],['#1e0a36','#2e1065']],
     looks: ['Signature Collection', 'Look Principal', 'Création Exclusive'],
     desc: "Une création gabonaise au plus près du sur-mesure, où l'attention au détail fait toute la différence."
   },
-  'dark-co': {
-    order: 10, name: 'Dark & Co', category: 'Streetwear', folder: 'dark-co',
-    social: { label: 'Instagram', url: '' },
-    showTime: '17h40', colors: [['#0a0a0a','#1f2a1f'],['#13211a','#0a0a0a'],['#1f2a1f','#0a0a0a']],
-    looks: ['Summer Drop', 'In Paris', 'Signature'],
-    desc: "Une marque gabonaise entre Libreville et Paris. Une esthétique sombre et nette, ancrée dans le territoire."
+  'cfa-kanda': {
+    order: 8, name: 'CFA Kanda', category: 'Streetwear', folder: 'cfakanda',
+    social: { label: 'Instagram', url: 'https://www.instagram.com/cfa__kanda/' },
+    showTime: '17h20', colors: [['#0a0a0a','#1f1f1f'],['#171717','#0a0a0a'],['#262626','#0a0a0a']],
+    looks: ['Drop Gothique', 'Crew Streetwear', 'Tee Signature'],
+    desc: "Du streetwear gabonais à l'esthétique gothique : logos blackletter, tees graphiques et énergie de crew. CFA Kanda habille la jeune scène urbaine de Libreville."
   }
 };
 
@@ -221,7 +207,7 @@ function render() {
       '<div class="notfound">' +
         '<h1>Marque introuvable</h1>' +
         '<p>Cette marque n\'existe pas ou plus.</p>' +
-        '<a class="univers-cta" href="/defile#marques">← Retour aux 10 marques</a>' +
+        '<a class="univers-cta" href="/defile#marques">← Retour aux 8 marques</a>' +
       '</div>';
     return;
   }
@@ -230,7 +216,7 @@ function render() {
 
   root.innerHTML =
     '<section class="fiche-hero" style="background-image:' + "url('/defile/photos/" + b.folder + "/look1.jpg'), " + grad(b.colors[0], 160) + ';">' +
-      '<a class="fiche-back" href="/defile#marques">← Retour aux 10 marques</a>' +
+      '<a class="fiche-back" href="/defile#marques">← Retour aux 8 marques</a>' +
       '<div class="fiche-hero-bottom">' +
         '<div class="fiche-hero-label">' + num(b.order) + ' — ' + esc(b.category) + ' · ' + esc(b.social.label) + '</div>' +
         '<h1 class="fiche-hero-name">' + esc(b.name) + '</h1>' +
