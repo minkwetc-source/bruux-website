@@ -331,6 +331,9 @@
       <button class="ctrl-btn active" id="btn-start" onclick="startScanner()">▶ Démarrer caméra</button>
       <button class="ctrl-btn" id="btn-stop" onclick="stopScanner()">■ Arrêter</button>
     </div>
+    <button class="ctrl-btn" type="button" id="btn-photo" onclick="document.getElementById('photo-input').click()" style="width:100%; margin-bottom:1rem;">Scanner depuis une photo</button>
+    <input type="file" accept="image/*" id="photo-input" style="display:none" onchange="scanFromPhoto(this)">
+    <div id="qr-reader-file" style="display:none"></div>
     <div id="scanner-box">
       <div id="qr-reader"></div>
       <div class="scan-overlay" id="scan-overlay">
@@ -564,6 +567,28 @@ async function onScanSuccess(decodedText) {
   scanCooldown = true;
   setTimeout(() => { scanCooldown = false; }, 2500);
   await processCode(decodedText.trim());
+}
+
+// Scan d'un QR depuis une photo (appareil photo natif ou galerie) — contourne
+// le blocage de la caméra live du navigateur.
+async function scanFromPhoto(input) {
+  const file = input.files && input.files[0];
+  if (!file) return;
+  hideCamHelp();
+  const btn = document.getElementById('btn-photo');
+  const prev = btn.textContent;
+  btn.textContent = 'Lecture…';
+  try {
+    const fileScanner = new Html5Qrcode("qr-reader-file", false);
+    const decodedText = await fileScanner.scanFile(file, false);
+    await fileScanner.clear().catch(() => {});
+    await processCode(String(decodedText).trim());
+  } catch (e) {
+    showToast('error', '❌ QR illisible', 'Reprends une photo nette et bien cadrée du QR.', '', '');
+  } finally {
+    btn.textContent = prev;
+    input.value = '';
+  }
 }
 
 // ──────────────────────────────────────────────
