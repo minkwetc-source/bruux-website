@@ -44,7 +44,8 @@
     border-bottom: 1px solid rgba(201,168,76,0.15);
   }
   .nav-logo { display: flex; align-items: center; }
-  .nav-logo img { height: 50px; width: auto; display: block; }
+  /* Logo BRUUX noir-sur-blanc rendu en blanc sur fond sombre : invert + screen efface le fond blanc du JPEG. */
+  .nav-logo img { height: 66px; width: auto; display: block; margin: -14px 0; filter: invert(1); mix-blend-mode: screen; }
   .nav-links { display: flex; gap: 2rem; }
   .nav-links a { color: var(--cream); opacity: 0.6; text-decoration: none; font-size: 0.8rem; letter-spacing: 0.1em; transition: opacity .2s; }
   .nav-links a:hover { opacity: 1; }
@@ -277,7 +278,7 @@
   /* ── FOOTER ── */
   footer { background: #060504; padding: 2.5rem 2rem; text-align: center; }
   .footer-logo { margin-bottom: 0.8rem; display: flex; justify-content: center; }
-  .footer-logo img { height: 46px; width: auto; }
+  .footer-logo img { height: 42px; width: auto; filter: invert(1); mix-blend-mode: screen; }
   .footer-line { font-size: 0.75rem; color: rgba(250,247,242,0.2); }
   .footer-tech { margin-top: 1.2rem; font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.18em; color: rgba(250,247,242,0.15); }
   .footer-tech span { color: rgba(201,168,76,0.4); }
@@ -363,7 +364,7 @@
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo"><img src="/bruux-logo.svg" alt="BRUUX"></div>
+  <div class="nav-logo"><img src="/defile/bruux-logo.jpg" alt="BRUUX" width="46" height="46"></div>
   <div class="nav-links">
     <a href="#tickets">Tickets</a>
     <a href="#marques">Marques</a>
@@ -945,7 +946,7 @@
 </section>
 
 <footer>
-  <div class="footer-logo"><img src="/bruux-logo.svg" alt="BRUUX"></div>
+  <div class="footer-logo"><img src="/defile/bruux-logo.jpg" alt="BRUUX"></div>
   <p class="footer-line">4 Juillet · Nzeng Ayong · Libreville, Gabon</p>
   <div class="footer-tech">Digitalisé par <span>Division Tech Bruux</span></div>
 </footer>

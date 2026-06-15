@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
@@ -83,8 +84,14 @@ export function Navbar() {
             className="flex items-center"
             aria-label="BRUUX — Accueil"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/bruux-logo.svg" alt="BRUUX" className="h-12 w-auto" />
+            <Image
+              src="/defile/bruux-logo.jpg"
+              alt="BRUUX"
+              width={536}
+              height={547}
+              priority
+              className="h-10 w-auto invert mix-blend-screen"
+            />
           </Link>
 
           <ul className="hidden items-center gap-10 lg:flex">
