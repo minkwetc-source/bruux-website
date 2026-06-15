@@ -353,7 +353,7 @@
       <div class="ticket-modal-name" id="ticket-name"></div>
       <img id="ticket-qr" class="ticket-modal-qr" alt="QR code du billet">
       <a id="ticket-wa" class="ticket-modal-wa" target="_blank" rel="noopener">📲 Envoyer sur WhatsApp</a>
-      <div class="ticket-modal-hint">Le message contient le lien du QR : l'invité l'ouvre et le présente à l'entrée. Tu peux aussi télécharger l'image et l'envoyer toi-même.</div>
+      <div class="ticket-modal-hint">Le message contient un lien pour télécharger le QR. L'invité le télécharge et le présente à l'entrée, tu le scannes.</div>
       <a id="ticket-dl" class="ticket-modal-dl" download>⬇ Télécharger le QR (image)</a>
     </div>
   </div>
@@ -746,7 +746,7 @@ function showTicket(data) {
   const wa = document.getElementById('ticket-wa');
   wa.href = data.waUrl || '#';
   const dl = document.getElementById('ticket-dl');
-  dl.href = data.qrUrl || '#';
+  dl.href = data.qrDownloadUrl || data.qrUrl || '#';
   dl.setAttribute('download', (inv.id || 'billet') + '.png');
   document.getElementById('ticket-modal').classList.add('show');
 }

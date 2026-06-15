@@ -16,16 +16,20 @@ export const dynamic = "force-dynamic";
  * message — qui contient l'URL publique (non devinable) du QR à présenter à
  * l'entrée.
  */
-function buildMessage(nom: string, ticketType: string, qrUrl: string): string {
+function buildMessage(
+  nom: string,
+  ticketType: string,
+  qrDownloadUrl: string,
+): string {
   return [
-    "🎟 BRUUX · Défilé 4 Juillet",
+    "BRUUX — Défilé 4 Juillet",
     "",
-    `Bonjour ${nom} !`,
-    `Ton billet ${ticketLabel(ticketType)} est confirmé ✅`,
-    "Voici ton QR code, à présenter à l'entrée :",
-    qrUrl,
+    `Bonjour ${nom},`,
+    `Ton billet ${ticketLabel(ticketType)} est confirmé.`,
+    "Télécharge ton QR code ici et présente-le à l'entrée :",
+    qrDownloadUrl,
     "",
-    "📍 Nzeng Ayong · 4 Juillet · 15h00",
+    "Nzeng Ayong — 4 Juillet — 15h00",
   ].join("\n");
 }
 
@@ -70,9 +74,10 @@ export async function POST(request: Request) {
   }
 
   const qrUrl = `${getBaseUrl(request)}/api/defile/qr/${encodeURIComponent(invite.id)}`;
+  const qrDownloadUrl = `${qrUrl}?download=1`;
   const waUrl = whatsappLink(
     invite.telephone,
-    buildMessage(invite.nom, invite.ticket_type, qrUrl),
+    buildMessage(invite.nom, invite.ticket_type, qrDownloadUrl),
   );
   const payload = {
     invite: {
@@ -82,6 +87,7 @@ export async function POST(request: Request) {
       telephone: invite.telephone,
     },
     qrUrl,
+    qrDownloadUrl,
     waUrl,
   };
 

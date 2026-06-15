@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
  * WhatsApp après validation du paiement par l'admin.
  */
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: { id: string } },
 ) {
   const id = params.id;
@@ -38,10 +38,14 @@ export async function GET(
     color: { dark: "#0f0d0c", light: "#ffffff" },
   });
 
-  return new Response(new Uint8Array(png), {
-    headers: {
-      "Content-Type": "image/png",
-      "Cache-Control": "public, max-age=86400, immutable",
-    },
-  });
+  const headers: Record<string, string> = {
+    "Content-Type": "image/png",
+    "Cache-Control": "public, max-age=86400, immutable",
+  };
+  // ?download=1 → force le téléchargement du fichier (lien envoyé à l'invité).
+  if (new URL(request.url).searchParams.has("download")) {
+    headers["Content-Disposition"] = `attachment; filename="billet-${id}.png"`;
+  }
+
+  return new Response(new Uint8Array(png), { headers });
 }
