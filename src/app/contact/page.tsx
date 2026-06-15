@@ -13,28 +13,40 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Contact | BRUUX.",
     description: "Booker, collaborer, rejoindre BRUUX. Libreville, Gabon.",
+    images: [
+      {
+        url: "/images/portraits/portrait-duo.jpg",
+        alt: "Contacter BRUUX — collaborations, événements, presse à Libreville",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact | BRUUX.",
+    description: "Booker, collaborer, rejoindre BRUUX. Libreville, Gabon.",
+    images: ["/images/portraits/portrait-duo.jpg"],
   },
 };
 
 const SOCIALS = [
   {
-    href: "https://wa.me/24177777777",
+    href: "https://wa.me/24105500807",
     label: "WhatsApp",
-    handle: "+241 77 77 77 77",
+    handle: "+241 05 50 08 07",
     Icon: WhatsAppIcon,
     accent: "hover:border-[#25D366] hover:text-[#25D366]",
   },
   {
-    href: "https://instagram.com/bruuxofficial",
+    href: "https://instagram.com/brux.evnt",
     label: "Instagram",
-    handle: "@bruuxofficial",
+    handle: "@brux.evnt",
     Icon: Instagram,
     accent: "hover:border-accent hover:text-accent",
   },
   {
-    href: "https://tiktok.com/@bruuxofficial",
+    href: "https://tiktok.com/@brux.evnt",
     label: "TikTok",
-    handle: "@bruuxofficial",
+    handle: "@brux.evnt",
     Icon: TikTokIcon,
     accent: "hover:border-white hover:text-white",
   },

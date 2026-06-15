@@ -18,6 +18,19 @@ export const metadata: Metadata = {
     title: "Événements BRUUX | Night Class, Pool Party & soirées à Libreville",
     description:
       "Le calendrier officiel des événements BRUUX. Réserver, voir les détails, rejoindre la communauté.",
+    images: [
+      {
+        url: "/images/events/event-nightclass.jpg",
+        alt: "Événements BRUUX — Night Class & Pool Party à Libreville",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Événements BRUUX | Night Class, Pool Party & soirées à Libreville",
+    description:
+      "Le calendrier officiel des événements BRUUX. Réserver, voir les détails, rejoindre la communauté.",
+    images: ["/images/events/event-nightclass.jpg"],
   },
 };
 

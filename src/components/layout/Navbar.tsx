@@ -6,22 +6,33 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { gsap } from "@/hooks/useGSAP";
+import { useSupabaseSession } from "@/hooks/useSupabaseSession";
 import { cn } from "@/lib/utils";
 
-const LINKS = [
+// Liens publics, puis le lien Contact (rendu à part en bouton sur desktop).
+// Le lien Admin n'est inséré que pour les sessions authentifiées (voir LINKS).
+const BASE_LINKS = [
   { href: "/", label: "Accueil" },
   { href: "/evenements", label: "Événements" },
   { href: "/blog", label: "Blog" },
   { href: "/galerie", label: "Galerie" },
   { href: "/famille", label: "La Famille" },
-  { href: "/admin/dashboard", label: "Admin" },
-  { href: "/contact", label: "Contact" },
 ];
+const ADMIN_LINK = { href: "/admin/dashboard", label: "Admin" };
+const CONTACT_LINK = { href: "/contact", label: "Contact" };
 
 export function Navbar() {
   const pathname = usePathname();
+  const session = useSupabaseSession();
   const [open, setOpen] = useState(false);
   const bgRef = useRef<HTMLDivElement>(null);
+
+  // Contact reste en dernière position (rendu en bouton via slice(0, -1)).
+  const LINKS = [
+    ...BASE_LINKS,
+    ...(session ? [ADMIN_LINK] : []),
+    CONTACT_LINK,
+  ];
 
   // GSAP-driven background fade au scroll (>100px → #0A0A0A/95 + blur).
   useEffect(() => {

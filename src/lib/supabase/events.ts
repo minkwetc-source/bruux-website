@@ -143,7 +143,22 @@ export async function getAllEvents(): Promise<EventRow[]> {
 }
 
 export async function getNextEvent(): Promise<EventRow | null> {
-  const [next] = await getUpcomingEvents();
+  // Prochain événement réellement à venir : statut upcoming ET date future.
+  // (status seul ne suffit pas — un event passé peut rester 'upcoming' en base.)
+  const nowIso = new Date().toISOString();
+  const data = await queryEvents((q) =>
+    q
+      .select("*")
+      .eq("status", "upcoming")
+      .gte("date", nowIso)
+      .order("date", { ascending: true })
+      .limit(1),
+  );
+  if (data && data.length > 0) return data[0] ?? null;
+
+  const [next] = FALLBACK_EVENTS.filter(
+    (e) => e.status === "upcoming" && e.date >= nowIso,
+  ).sort((a, b) => +new Date(a.date) - +new Date(b.date));
   return next ?? null;
 }
 

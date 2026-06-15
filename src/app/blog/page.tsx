@@ -17,6 +17,19 @@ export const metadata: Metadata = {
     title: "Blog & Brux House | BRUUX.",
     description:
       "Le blog de BRUUX — vlogs, courts-métrages, backstage, lifestyle.",
+    images: [
+      {
+        url: "/images/bruxhouse/brux-family.jpg",
+        alt: "Blog & Brux House — le laboratoire de l'identité BRUUX",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog & Brux House | BRUUX.",
+    description:
+      "Le blog de BRUUX — vlogs, courts-métrages, backstage, lifestyle.",
+    images: ["/images/bruxhouse/brux-family.jpg"],
   },
 };
 

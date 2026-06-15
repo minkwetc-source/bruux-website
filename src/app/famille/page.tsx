@@ -18,6 +18,19 @@ export const metadata: Metadata = {
     title: "#BRUXFAMILLY | BRUUX.",
     description:
       "Les visages BRUUX — direction, mannequins, influenceurs, équipe.",
+    images: [
+      {
+        url: "/images/bruxhouse/brux-family.jpg",
+        alt: "#BRUXFAMILLY — les visages du collectif créatif gabonais BRUUX",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "#BRUXFAMILLY | BRUUX.",
+    description:
+      "Les visages BRUUX — direction, mannequins, influenceurs, équipe.",
+    images: ["/images/bruxhouse/brux-family.jpg"],
   },
 };
 

@@ -17,6 +17,19 @@ export const metadata: Metadata = {
     title: "Galerie | BRUUX.",
     description:
       "Sessions photo, événements, Brux House et portraits — l'univers visuel BRUUX.",
+    images: [
+      {
+        url: "/images/sessions/session-01.jpg",
+        alt: "Galerie BRUUX — sessions photo signature du collectif gabonais",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Galerie | BRUUX.",
+    description:
+      "Sessions photo, événements, Brux House et portraits — l'univers visuel BRUUX.",
+    images: ["/images/sessions/session-01.jpg"],
   },
 };
 

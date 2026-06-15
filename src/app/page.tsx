@@ -5,6 +5,7 @@ import { Universes } from "@/components/home/Universes";
 import { NextEvent } from "@/components/home/NextEvent";
 import { GalleryQuick } from "@/components/home/GalleryQuick";
 import { Footer } from "@/components/layout/Footer";
+import { getNextEvent } from "@/lib/supabase/events";
 
 export const metadata: Metadata = {
   title: {
@@ -19,16 +20,35 @@ export const metadata: Metadata = {
     description:
       "Plateforme dédiée à la création d'expériences, de contenus et d'événements à Libreville. Créativité. Événement. Famille.",
     url: "/",
+    images: [
+      {
+        url: "/images/events/night-class-affiche.jpg",
+        width: 1200,
+        height: 630,
+        alt: "BRUUX — Collectif Créatif Gabonais",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BRUUX. | Collectif Créatif Gabonais",
+    description:
+      "Entertainment company gabonaise. Événements, contenus, mannequinat.",
+    images: ["/images/events/night-class-affiche.jpg"],
   },
 };
 
-export default function HomePage() {
+export const revalidate = 60; // garde le prochain événement à jour
+
+export default async function HomePage() {
+  const nextEvent = await getNextEvent();
+
   return (
     <main>
       <Hero />
       <About />
       <Universes />
-      <NextEvent />
+      <NextEvent event={nextEvent} />
       <GalleryQuick />
       <Footer />
     </main>

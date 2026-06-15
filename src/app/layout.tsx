@@ -36,7 +36,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://bruux.com"),
+  metadataBase: new URL("https://bruuux.com"),
   title: {
     default: "BRUUX. | Collectif Créatif Gabonais",
     template: "%s | BRUUX.",
@@ -67,17 +67,26 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "fr_FR",
-    url: "https://bruux.com",
+    url: "https://bruuux.com",
     siteName: "BRUUX.",
     title: "BRUUX. | Collectif Créatif Gabonais",
     description:
       "Plateforme dédiée à la création d'expériences, de contenus et d'événements à Libreville. Créativité. Événement. Famille.",
+    images: [
+      {
+        url: "/images/events/night-class-affiche.jpg",
+        width: 1200,
+        height: 630,
+        alt: "BRUUX — Collectif Créatif Gabonais",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "BRUUX. | Collectif Créatif Gabonais",
     description:
       "Entertainment company gabonaise. Événements, contenus, mannequinat.",
+    images: ["/images/events/night-class-affiche.jpg"],
   },
   robots: {
     index: true,
