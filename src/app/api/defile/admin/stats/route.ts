@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/defile/service-client";
 import { isAdminAuthed } from "@/lib/defile/auth";
+import { CAPACITY } from "@/lib/defile/tickets";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -31,5 +32,6 @@ export async function GET() {
   return NextResponse.json({
     total: total ?? 0,
     entered: entered ?? 0,
+    capacity: CAPACITY,
   });
 }

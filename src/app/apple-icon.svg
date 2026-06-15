@@ -1,6 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
   <rect width="180" height="180" fill="#0A0A0A"/>
-  <circle cx="90" cy="90" r="80" fill="none" stroke="rgba(196,163,90,0.15)" stroke-width="1"/>
-  <text x="90" y="118" text-anchor="middle" font-family="Impact, 'Arial Black', sans-serif" font-size="110" font-weight="700" fill="#FFFFFF" letter-spacing="-2">B</text>
-  <circle cx="138" cy="135" r="9" fill="#C4A35A"/>
+  <circle cx="90" cy="82" r="52" fill="none" stroke="#FAF7F2" stroke-width="9"/>
+  <rect x="66" y="20" width="48" height="18" fill="#0A0A0A"/>
+  <text x="90" y="96" text-anchor="middle" font-family="'Arial Black','Arial',sans-serif" font-size="38" font-weight="900" fill="#FAF7F2">BRUUX</text>
+  <circle cx="90" cy="156" r="9" fill="#FAF7F2"/>
 </svg>

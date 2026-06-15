@@ -13,6 +13,9 @@ export const PRICES: Record<TicketType, number> = {
 
 export const TICKET_TYPES: TicketType[] = ["standard", "vip", "prestige"];
 
+/** Capacité totale du défilé : 300 places. Au-delà, les inscriptions ferment. */
+export const CAPACITY = 300;
+
 export function isTicketType(value: unknown): value is TicketType {
   return (
     typeof value === "string" && (TICKET_TYPES as string[]).includes(value)

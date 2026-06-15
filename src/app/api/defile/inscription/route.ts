@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/defile/service-client";
-import { PRICES, isTicketType } from "@/lib/defile/tickets";
+import { PRICES, isTicketType, CAPACITY } from "@/lib/defile/tickets";
 import {
   generateInviteCode,
   randomAmountSuffix,
@@ -51,6 +51,20 @@ export async function POST(request: Request) {
   }
 
   const supabase = createServiceClient();
+
+  // Capacité : 300 places. Une fois 300 billets confirmés (payés/scannés),
+  // on ferme les inscriptions.
+  const { count: confirmed } = await supabase
+    .from("invites")
+    .select("id", { count: "exact", head: true })
+    .in("statut", ["paye", "scanne"]);
+  if ((confirmed ?? 0) >= CAPACITY) {
+    return NextResponse.json(
+      { error: "Complet — les 300 places du défilé sont déjà prises." },
+      { status: 409 },
+    );
+  }
+
   const basePrice = PRICES[ticket_type];
 
   // Montants déjà utilisés par des demandes en attente (pour viser un montant unique).

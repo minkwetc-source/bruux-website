@@ -1,21 +1,39 @@
 import { NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/defile/service-client";
 import { isAdminAuthed } from "@/lib/defile/auth";
-import { sendImage, billetMessage } from "@/lib/defile/wasender";
 import { getBaseUrl } from "@/lib/defile/base-url";
+import { ticketLabel } from "@/lib/defile/tickets";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /**
  * POST /api/defile/admin/approuver  { invite_id }
- * L'admin a vérifié le paiement (montant exact / code motif dans son historique
- * Airtel ou Moov). On génère le QR et on l'envoie sur WhatsApp via WaSender,
- * puis on passe l'invité en `paye`.
  *
- * Le statut ne devient `paye` QUE si l'envoi WhatsApp réussit : en cas d'échec,
- * l'invité reste `en_attente` et réapparaît dans la liste pour réessayer.
+ * Envoi MANUEL du billet (pas d'abonnement WaSender). L'admin a vérifié le
+ * paiement : on marque l'invité `paye` et on renvoie le QR + un lien WhatsApp
+ * pré-rempli. L'admin clique pour ouvrir WhatsApp et envoyer lui-même le
+ * message — qui contient l'URL publique (non devinable) du QR à présenter à
+ * l'entrée.
  */
+function buildMessage(nom: string, ticketType: string, qrUrl: string): string {
+  return [
+    "🎟 BRUUX · Défilé 4 Juillet",
+    "",
+    `Bonjour ${nom} !`,
+    `Ton billet ${ticketLabel(ticketType)} est confirmé ✅`,
+    "Voici ton QR code, à présenter à l'entrée :",
+    qrUrl,
+    "",
+    "📍 Nzeng Ayong · 4 Juillet · 15h00",
+  ].join("\n");
+}
+
+function whatsappLink(phone: string, text: string): string {
+  const digits = String(phone ?? "").replace(/\D/g, "");
+  return `https://wa.me/${digits}?text=${encodeURIComponent(text)}`;
+}
+
 export async function POST(request: Request) {
   if (!isAdminAuthed()) {
     return NextResponse.json({ error: "Non autorisé." }, { status: 401 });
@@ -51,37 +69,32 @@ export async function POST(request: Request) {
     );
   }
 
+  const qrUrl = `${getBaseUrl(request)}/api/defile/qr/${encodeURIComponent(invite.id)}`;
+  const waUrl = whatsappLink(
+    invite.telephone,
+    buildMessage(invite.nom, invite.ticket_type, qrUrl),
+  );
+  const payload = {
+    invite: {
+      id: invite.id,
+      nom: invite.nom,
+      ticket_type: invite.ticket_type,
+      telephone: invite.telephone,
+    },
+    qrUrl,
+    waUrl,
+  };
+
+  // Déjà payé : on renvoie quand même le QR pour pouvoir le renvoyer.
   if (invite.statut === "paye") {
-    return NextResponse.json({
-      result: "already",
-      invite: { nom: invite.nom, ticket_type: invite.ticket_type },
-    });
+    return NextResponse.json({ result: "already", ...payload });
   }
 
-  // statut === 'en_attente' : on envoie le QR via WhatsApp.
-  try {
-    const qrUrl = `${getBaseUrl(request)}/api/defile/qr/${encodeURIComponent(invite.id)}`;
-    await sendImage({
-      phone: invite.telephone,
-      imageUrl: qrUrl,
-      caption: billetMessage(invite.nom, invite.ticket_type),
-    });
-  } catch (err) {
-    const message = err instanceof Error ? err.message : "Envoi WhatsApp échoué.";
-    // On NE change PAS le statut : l'invité reste en attente pour réessayer.
-    return NextResponse.json(
-      { result: "qr_failed", error: message },
-      { status: 502 },
-    );
-  }
-
+  // en_attente → on confirme le paiement.
   await supabase
     .from("invites")
-    .update({ statut: "paye", qr_sent: true })
+    .update({ statut: "paye", qr_sent: false })
     .eq("id", invite.id);
 
-  return NextResponse.json({
-    result: "approved",
-    invite: { nom: invite.nom, ticket_type: invite.ticket_type },
-  });
+  return NextResponse.json({ result: "approved", ...payload });
 }

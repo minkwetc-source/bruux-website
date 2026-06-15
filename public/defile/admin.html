@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>BRUUX · Scan Admin</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <!-- QR Scanner library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
 <style>
@@ -234,6 +235,17 @@
   .pending-approve:hover { opacity: 0.88; }
   .pending-approve:disabled { opacity: 0.5; cursor: default; }
   .pending-empty { text-align: center; font-size: 0.82rem; color: var(--muted); padding: 1.4rem 0; }
+  /* Modal billet — envoi manuel du QR (pas de WaSender) */
+  .ticket-modal-ov { position: fixed; inset: 0; z-index: 400; background: rgba(8,6,5,0.94); display: none; align-items: center; justify-content: center; padding: 1.5rem; backdrop-filter: blur(8px); }
+  .ticket-modal-ov.show { display: flex; }
+  .ticket-modal { background: var(--card); border: 1px solid var(--border); padding: 1.6rem; max-width: 340px; width: 100%; text-align: center; position: relative; }
+  .ticket-modal-close { position: absolute; top: 0.5rem; right: 0.8rem; background: none; border: none; color: var(--muted); font-size: 1.2rem; cursor: pointer; }
+  .ticket-modal-h { color: var(--green); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .ticket-modal-name { font-size: 1.1rem; font-weight: 600; margin: 0.3rem 0 1rem; }
+  .ticket-modal-qr { width: 210px; height: 210px; background: #fff; padding: 8px; display: inline-block; }
+  .ticket-modal-wa { display: block; margin: 1.1rem 0 0.5rem; background: #25D366; color: #06301a; padding: 0.75rem; font-weight: 700; font-size: 0.85rem; text-decoration: none; letter-spacing: 0.03em; }
+  .ticket-modal-hint { font-size: 0.68rem; color: var(--muted); line-height: 1.45; margin-bottom: 0.6rem; }
+  .ticket-modal-dl { font-size: 0.76rem; color: var(--gold); text-decoration: none; }
 
   /* Responsive */
   @media (min-width: 500px) {
@@ -331,6 +343,19 @@
     <div class="toast-name" id="toast-name"></div>
     <div class="toast-meta" id="toast-meta"></div>
     <span class="toast-tag" id="toast-tag"></span>
+  </div>
+
+  <!-- Modal billet (envoi manuel du QR) -->
+  <div id="ticket-modal" class="ticket-modal-ov">
+    <div class="ticket-modal">
+      <button class="ticket-modal-close" onclick="closeTicket()" aria-label="Fermer">✕</button>
+      <div class="ticket-modal-h" id="ticket-h">Billet validé</div>
+      <div class="ticket-modal-name" id="ticket-name"></div>
+      <img id="ticket-qr" class="ticket-modal-qr" alt="QR code du billet">
+      <a id="ticket-wa" class="ticket-modal-wa" target="_blank" rel="noopener">📲 Envoyer sur WhatsApp</a>
+      <div class="ticket-modal-hint">Le message contient le lien du QR : l'invité l'ouvre et le présente à l'entrée. Tu peux aussi télécharger l'image et l'envoyer toi-même.</div>
+      <a id="ticket-dl" class="ticket-modal-dl" download>⬇ Télécharger le QR (image)</a>
+    </div>
   </div>
 
   <!-- Manual search -->
@@ -434,6 +459,7 @@ async function loadStats() {
     const data = await res.json();
     stats.total = data.total || 0;
     stats.in    = data.entered || 0;
+    stats.capacity = data.capacity || 300;
     connected = true;
     updateConnStatus();
     updateStatsUI();
@@ -444,7 +470,7 @@ async function loadStats() {
 }
 
 function updateStatsUI() {
-  document.getElementById('stat-total').textContent    = stats.total || '—';
+  document.getElementById('stat-total').textContent    = (stats.total || 0) + '/' + (stats.capacity || 300);
   document.getElementById('stat-in').textContent       = stats.in;
   document.getElementById('stat-remain').textContent   = stats.total ? (stats.total - stats.in) : '—';
   document.getElementById('stat-rejected').textContent = stats.rejected;
@@ -691,16 +717,13 @@ async function approve(id, btn) {
       return;
     }
 
-    if (res.ok && data.result === 'approved') {
+    if (res.ok && (data.result === 'approved' || data.result === 'already')) {
       const inv = data.invite || {};
-      showToast('success', '✅ Validé', inv.nom || '', 'QR envoyé sur WhatsApp', inv.ticket_type);
+      showToast('success', data.result === 'already' ? 'ℹ Déjà payé' : '✅ Validé', inv.nom || '', 'Envoie le billet à l\'invité', inv.ticket_type);
       vibrate([80]);
+      showTicket(data);
       loadStats();
       loadPending();
-    } else if (data.result === 'qr_failed') {
-      btn.disabled = false;
-      btn.textContent = 'Réessayer';
-      showToast('error', '❌ QR non envoyé', 'Échec WhatsApp', 'Vérifie le numéro puis réessaie', '');
     } else {
       btn.disabled = false;
       btn.textContent = 'Approuver';
@@ -711,6 +734,24 @@ async function approve(id, btn) {
     btn.textContent = 'Approuver';
     showToast('error', '❌ Erreur', 'Problème de connexion.', e.message, '');
   }
+}
+
+// ──────────────────────────────────────────────
+//  BILLET — envoi manuel du QR
+// ──────────────────────────────────────────────
+function showTicket(data) {
+  const inv = data.invite || {};
+  document.getElementById('ticket-name').textContent = inv.nom || '';
+  document.getElementById('ticket-qr').src = data.qrUrl || '';
+  const wa = document.getElementById('ticket-wa');
+  wa.href = data.waUrl || '#';
+  const dl = document.getElementById('ticket-dl');
+  dl.href = data.qrUrl || '#';
+  dl.setAttribute('download', (inv.id || 'billet') + '.png');
+  document.getElementById('ticket-modal').classList.add('show');
+}
+function closeTicket() {
+  document.getElementById('ticket-modal').classList.remove('show');
 }
 
 // Refresh stats + demandes en attente toutes les 30s si connecté
