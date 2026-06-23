@@ -643,8 +643,8 @@ async function processCode(code) {
 function ticketLabel(type) {
   if (!type) return '—';
   const t = type.toLowerCase();
-  if (t === 'prestige') return 'Prestige · 40 000 FCFA';
-  if (t === 'vip')      return 'VIP · 30 000 FCFA';
+  if (t === 'prestige') return 'Prestige · 20 000 FCFA';
+  if (t === 'vip')      return 'VIP · 15 000 FCFA';
   if (t === 'standard') return 'Standard · 5 000 FCFA';
   // Legacy (ancien système)
   if (t === 'gold')  return 'Premium · 20 000 FCFA';

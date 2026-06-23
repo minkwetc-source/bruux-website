@@ -112,65 +112,58 @@
 
 <script>
 // ──────────────────────────────────────────────
-//  Données des 8 marques (source : handoff + page /defile + logos/photos clients)
+//  Données des 7 marques (source : handoff + page /defile + logos/photos clients)
 //  Visuels = vraies photos (/defile/photos/<folder>/look1..3.jpg), dégradé en repli.
 // ──────────────────────────────────────────────
 var BRANDS = {
-  'finesse-from-gabon': {
-    order: 1, name: 'Finesse From Gabon', category: 'Streetwear', folder: 'finessefromgabon',
-    social: { label: 'TikTok', url: 'https://www.tiktok.com/@finessefromgabon' },
-    showTime: '16h10', colors: [['#1a0533','#3b1060'],['#2d1b69','#1e1b4b'],['#0f0d0c','#2a1b45']],
-    looks: ['Drop Urbain', 'Pièce Signature', 'Look Scène'],
-    desc: "Le streetwear de Finesse puise dans la culture africaine — le détail comme signature, l'identité comme point de départ. « Before fashion, there was identity. From Gabon, to the world. »"
-  },
   'atelier-hell-bva': {
-    order: 2, name: 'Atelier Hell BVA', category: 'Streetwear', folder: 'atelierhell',
+    order: 1, name: 'Atelier Hell BVA', category: 'Streetwear', folder: 'atelierhell',
     social: { label: 'Instagram', url: 'https://www.instagram.com/atelierhellbvart' },
-    showTime: '16h20', colors: [['#300a0a','#5c1a1a'],['#450a0a','#2a0a0a'],['#7f1d1d','#300a0a']],
+    showTime: '16h10', colors: [['#300a0a','#5c1a1a'],['#450a0a','#2a0a0a'],['#7f1d1d','#300a0a']],
     looks: ['New Drop', 'Tee Graphique', 'Série Limitée'],
     desc: "Atelier Hell BVA fonctionne en drops : tee-shirts graphiques en séries limitées (CERBEV, HELLBV), une pièce qui part vite et une communauté qui suit chaque sortie."
   },
-  'amriche-ruks': {
-    order: 3, name: 'Amriche Ruks', category: 'Mode Urbaine', folder: 'amricheruks',
-    social: { label: 'TikTok', url: 'https://www.tiktok.com/@amricherukspam' },
-    showTime: '16h30', colors: [['#0c1445','#1e3a8a'],['#1d4ed8','#1e3a8a'],['#0c1445','#172554']],
-    looks: ['Set Gold Couture', 'Hoodie 500 GSM', 'Look Tournage'],
-    desc: "La « Gold Couture » version Amriche : hoodies et joggers lourds (500 GSM), des sets ultra-limités en pré-commande, déjà vus sur les tournages de clips. Du streetwear premium pensé comme des éditions."
-  },
   'shams': {
-    order: 4, name: 'Shams', category: 'Streetwear', folder: 'shams',
+    order: 2, name: 'Shams', category: 'Street-Mystic', folder: 'shams',
     social: { label: 'Instagram', url: 'https://www.instagram.com/chez_shams__' },
-    showTime: '16h40', colors: [['#3d2000','#78350f'],['#92400e','#451a03'],['#6b2d00','#2d1200']],
+    showTime: '16h20', colors: [['#3d2000','#78350f'],['#92400e','#451a03'],['#6b2d00','#2d1200']],
     looks: ['Drop Rue', 'Look Streetwear', 'Pièce Forte'],
-    desc: "Shams, c'est la rue de Libreville mise en pièces : un streetwear direct, sans détour, pour celles et ceux qui s'assument. Du quotidien au devant de la scène."
+    desc: "Shams. Une invitation à briller. Là où le streetwear rencontre la spiritualité. Une esthétique brute, chargée de sens, pensée pour s'affirmer avec fraîcheur et incarner une idéologie de progrès perpétuel."
   },
   'parva-mundi': {
-    order: 5, name: 'Parva Mundi', category: 'Mode Urbaine', folder: 'parvamundi',
+    order: 3, name: 'Parva Mundi', category: 'Mode Urbaine', folder: 'parvamundi',
     social: { label: 'Instagram', url: 'https://www.instagram.com/parvmun' },
-    showTime: '16h50', colors: [['#14260d','#1a4314'],['#166534','#14532d'],['#052e16','#1a3a12']],
+    showTime: '16h30', colors: [['#14260d','#1a4314'],['#166534','#14532d'],['#052e16','#1a3a12']],
     looks: ['Look Urbain', 'Pièce Statement', 'Style Affirmé'],
     desc: "Parva Mundi assume une fusion audacieuse entre mode et urbanité — une marque qui parle d'individualité et d'affirmation de soi. « Assert your individuality in style. »"
   },
   'habille-toi': {
-    order: 6, name: 'Habille Toi', category: 'Prêt-à-Porter', folder: 'habilletoi',
+    order: 4, name: 'Habille Toi', category: 'Prêt-à-Porter', folder: 'habilletoi',
     social: { label: 'Instagram', url: 'https://www.instagram.com/habille__toi' },
-    showTime: '17h00', colors: [['#2a1530','#4a1d5c'],['#831843','#500724'],['#3b0764','#1e0a36']],
+    showTime: '16h40', colors: [['#2a1530','#4a1d5c'],['#831843','#500724'],['#3b0764','#1e0a36']],
     looks: ['Nouvelle Collection', 'Look Quotidien', 'Pièce Signature'],
     desc: "« Simples, Authentiques, Différents. » Le prêt-à-porter du quotidien à la gabonaise — du vêtement à la casquette, pour exprimer ton style. Basée à Libreville, Cité Kalikak."
   },
   'ndosslove-creation': {
-    order: 7, name: 'Ndosslove Création', category: 'Création Gabonaise', folder: 'ndosslove',
+    order: 5, name: 'Ndosslove Création', category: 'Création Gabonaise', folder: 'ndosslove',
     social: { label: 'Instagram', url: 'https://www.instagram.com/ndosslove.creation' },
-    showTime: '17h10', colors: [['#2d1b45','#4c1d95'],['#5b21b6','#3b0764'],['#1e0a36','#2e1065']],
+    showTime: '16h50', colors: [['#2d1b45','#4c1d95'],['#5b21b6','#3b0764'],['#1e0a36','#2e1065']],
     looks: ['Signature Collection', 'Look Principal', 'Création Exclusive'],
     desc: "« Plus qu'une marque, une identité, un mouvement. » Une mode gabonaise habitée, où chaque pièce porte une intention."
   },
   'cfa-kanda': {
-    order: 8, name: 'CFA Kanda', category: 'Streetwear', folder: 'cfakanda',
+    order: 6, name: 'CFA Kanda', category: 'Streetwear', folder: 'cfakanda',
     social: { label: 'Instagram', url: 'https://www.instagram.com/cfa__kanda/' },
-    showTime: '17h20', colors: [['#0a0a0a','#1f1f1f'],['#171717','#0a0a0a'],['#262626','#0a0a0a']],
+    showTime: '17h00', colors: [['#0a0a0a','#1f1f1f'],['#171717','#0a0a0a'],['#262626','#0a0a0a']],
     looks: ['Drop Gothique', 'Crew Streetwear', 'Tee Signature'],
     desc: "CFA Kanda, c'est un crew autant qu'une marque : un streetwear à l'esthétique gothique, lettrages blackletter et tees qui claquent. L'énergie brute de la jeune scène de Libreville."
+  },
+  'indecis': {
+    order: 7, name: 'Indécis', category: 'Mode Urbaine', folder: 'indecis',
+    social: { label: 'À venir', url: '' },
+    showTime: '17h10', colors: [['#1f1430','#3a2a55'],['#2a1b45','#1e1b4b'],['#241836','#3b2d5c']],
+    looks: ['Look Signature', 'Pièce Forte', 'Style Affirmé'],
+    desc: "Indécis fait du doute une signature : une mode qui refuse de trancher entre les styles et assume les contrastes. Le vêtement comme terrain d'hésitation revendiquée, pour celles et ceux qui ne veulent pas se ranger dans une seule case."
   }
 };
 
@@ -209,7 +202,7 @@ function render() {
       '<div class="notfound">' +
         '<h1>Marque introuvable</h1>' +
         '<p>Cette marque n\'existe pas ou plus.</p>' +
-        '<a class="univers-cta" href="/defile#marques">← Retour aux 8 marques</a>' +
+        '<a class="univers-cta" href="/defile#marques">← Retour aux 7 marques</a>' +
       '</div>';
     return;
   }
@@ -218,7 +211,7 @@ function render() {
 
   root.innerHTML =
     '<section class="fiche-hero" style="background-image:' + "url('/defile/photos/" + b.folder + "/look1.jpg'), " + grad(b.colors[0], 160) + ';">' +
-      '<a class="fiche-back" href="/defile#marques">← Retour aux 8 marques</a>' +
+      '<a class="fiche-back" href="/defile#marques">← Retour aux 7 marques</a>' +
       '<div class="fiche-hero-bottom">' +
         '<div class="fiche-hero-label">' + num(b.order) + ' — ' + esc(b.category) + ' · ' + esc(b.social.label) + '</div>' +
         '<h1 class="fiche-hero-name">' + esc(b.name) + '</h1>' +

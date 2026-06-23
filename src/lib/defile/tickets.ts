@@ -7,8 +7,8 @@ import type { TicketType } from "@/lib/supabase/types";
  */
 export const PRICES: Record<TicketType, number> = {
   standard: 5000,
-  vip: 30000,
-  prestige: 40000,
+  vip: 15000,
+  prestige: 20000,
 };
 
 export const TICKET_TYPES: TicketType[] = ["standard", "vip", "prestige"];
@@ -26,9 +26,9 @@ export function isTicketType(value: unknown): value is TicketType {
 export function ticketLabel(type: string | null | undefined): string {
   switch ((type ?? "").toLowerCase()) {
     case "prestige":
-      return "Prestige · 40 000 FCFA";
+      return "Prestige · 20 000 FCFA";
     case "vip":
-      return "VIP · 30 000 FCFA";
+      return "VIP · 15 000 FCFA";
     case "standard":
       return "Standard · 5 000 FCFA";
     default:
