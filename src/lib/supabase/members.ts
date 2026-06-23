@@ -228,7 +228,7 @@ export const FALLBACK_MEMBERS: MemberRow[] = [
   {
     id: "fallback-head-5",
     name: "Oliviera Cruz",
-    role: "Resp. Division Tech",
+    role: "Resp. Division Digital",
     section: "division-artistique",
     photo_url: null,
     instagram: null,
